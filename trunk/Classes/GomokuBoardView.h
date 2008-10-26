@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GomokuModel.h"
 
 @interface GomokuBoardView : UIView {
-
+	GomokuModel* gomokuModel;
 }
 
 @end

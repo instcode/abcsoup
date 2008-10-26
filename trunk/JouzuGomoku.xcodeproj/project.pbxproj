@@ -17,6 +17,7 @@
 		255DB3720EAF966B00061B2B /* GomokuBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB3710EAF966B00061B2B /* GomokuBoardViewController.m */; };
 		255DB3950EAF9A0F00061B2B /* GomokuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB3940EAF9A0F00061B2B /* GomokuModel.m */; };
 		255DB39B0EAF9AB600061B2B /* GomokuInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB39A0EAF9AB600061B2B /* GomokuInfoViewController.m */; };
+		25ABD3660EB42BB7006FF5C3 /* Gomoku.m in Sources */ = {isa = PBXBuildFile; fileRef = 25ABD3640EB42BB7006FF5C3 /* Gomoku.m */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		2899E5220DE3E06400AC0155 /* JouzuGomokuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* JouzuGomokuViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
@@ -41,6 +42,8 @@
 		255DB3990EAF9AB600061B2B /* GomokuInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuInfoViewController.h; sourceTree = "<group>"; };
 		255DB39A0EAF9AB600061B2B /* GomokuInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuInfoViewController.m; sourceTree = "<group>"; };
 		255DB3A80EAF9B3300061B2B /* GomokuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuModel.h; sourceTree = "<group>"; };
+		25ABD3640EB42BB7006FF5C3 /* Gomoku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gomoku.m; sourceTree = "<group>"; };
+		25ABD3650EB42BB7006FF5C3 /* Gomoku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gomoku.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* JouzuGomokuViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JouzuGomokuViewController.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 		255DB3930EAF99F300061B2B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				25ABD3640EB42BB7006FF5C3 /* Gomoku.m */,
+				25ABD3650EB42BB7006FF5C3 /* Gomoku.h */,
 				255DB3940EAF9A0F00061B2B /* GomokuModel.m */,
 				255DB3A80EAF9B3300061B2B /* GomokuModel.h */,
 				250AA5240EB0D14F00B636C8 /* Move.h */,
@@ -224,6 +229,7 @@
 				255DB3950EAF9A0F00061B2B /* GomokuModel.m in Sources */,
 				255DB39B0EAF9AB600061B2B /* GomokuInfoViewController.m in Sources */,
 				250AA5260EB0D14F00B636C8 /* Move.c in Sources */,
+				25ABD3660EB42BB7006FF5C3 /* Gomoku.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 //
 
 #import "GomokuBoardView.h"
-
+#import "Gomoku.h"
 
 @implementation GomokuBoardView
 
@@ -15,6 +15,8 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Initialization code
+		// is not called :-? Why?
+		gomokuModel = [Gomoku getGomokuModel];
     }
     return self;
 }
@@ -26,7 +28,15 @@
 	CGPoint location = CGPointMake(100, 200);
 	UIFont* font = [UIFont systemFontOfSize:24];
 	[[UIColor blackColor] set]; // set pen color
-	[strHelloWorld drawAtPoint:location withFont:font];
+	//[strHelloWorld drawAtPoint:location withFont:font];
+	
+	// Draw number of cells
+	gomokuModel = [Gomoku getGomokuModel];
+
+	int boardSize = [gomokuModel boardSize];
+	
+	NSString* strBoardSize = [NSString stringWithFormat:@"%d", boardSize];
+	[strBoardSize drawAtPoint:location withFont:font];
 }
 
 
