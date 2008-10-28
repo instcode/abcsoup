@@ -119,9 +119,16 @@
 	// set value to model
 	//[gomokuModel setBoardValue:MAN row:r column:c];
 	// human move
-	[gomokuModel humanMove:r column:c];
-	// computer move
-	[gomokuModel computerMove];
+	if ([gomokuModel getBoardValue: r column: c] == EMPTY) {
+		[gomokuModel humanMove:r column:c];
+		// computer move
+		[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
+	}
+}
+
+- (void)startThinking {
+	[ gomokuModel computerMove ];
+	[self setNeedsDisplay];
 }
 
 // ----- observer ----- //

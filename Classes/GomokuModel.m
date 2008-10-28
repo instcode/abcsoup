@@ -138,7 +138,7 @@ void PrintIdea(int Index);
 	Board[i] = value;	
 	
 	// ask for view update
-	[self notifyGomoku];
+	//[self notifyGomoku];
 }
 
 - (int)humanMove:(int)row column:(int)col {
@@ -147,7 +147,7 @@ void PrintIdea(int Index);
 	GameOver = MakeManMove(Move);
 	side = 1 - side;
 	
-	[self notifyGomoku];
+	//[self notifyGomoku];
 	return 0;
 }
 
@@ -163,7 +163,6 @@ void PrintIdea(int Index);
 	GameOver = MakeComMove(Move);
 	side = 1 - side;
 	
-	[self notifyGomoku];
 	return 0;
 }
 
