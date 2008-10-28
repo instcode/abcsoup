@@ -77,6 +77,7 @@
 	// get piece layer
 	// ask to draw
 	int i, j, x, y;
+	isPainting = 1;
 	for (i = 0, y = 0; i < boardSize; i++, y += cellSize) { // row
 		for (j = 0, x = 0; j < boardSize; j++, x += cellSize) { // col
 			// from bottom to top in Quartz 2D coordinate, but draw in view, it is automatically converted back to top-left. So that is top-left as normal.
@@ -98,6 +99,7 @@
 			}
 		}
 	}
+	isPainting = 0;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -129,7 +131,11 @@
 }
 
 - (void)startThinking {
-	[ gomokuModel computerMove ];
+	while (isPainting) {
+		[NSThread sleepForTimeInterval:5];		
+	}
+	
+	[gomokuModel computerMove];
 	//[self setNeedsDisplay];
 }
 
@@ -137,6 +143,8 @@
 - (void)onGomokuNotify:(id<GomokuObservable>)observable {
 	// ask for a full redraw
 	[self setNeedsDisplay];
+	// redraw immediately
+	
 }
 
 - (void)dealloc {

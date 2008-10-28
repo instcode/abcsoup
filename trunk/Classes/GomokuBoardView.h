@@ -20,6 +20,7 @@
 	int boardSize;
 	int cellSize;
 	int isFirstTime;
+	int isPainting;
 }
 
 // observer
