@@ -4,12 +4,9 @@
 #import "GomokuModel.h"
 #include <stdlib.h>
 #include <time.h>
-#include <ncurses.h>
+//#include <ncurses.h>
 
-#define MAN 0
-#define COM 1
-#define EMPTY 2
-#define EDGE 3
+
 
 #define MAXDEPTH 30
 #define INFI 10000
@@ -106,22 +103,85 @@ void PrintIdea(int Index);
 	// set default values
 	[self setBoardSize:DEFAULT_BOARD_SIZE];
 	[self setSearchDepth:DEFAULT_SEARCH_DEPTH];
+	//observers = [NSMutableSet setWithCapacity:10]; // why use this do not work??? be empty after a while?
+	observers = [[NSMutableSet alloc] init];
 	
-	// restart 
-	Restart(3, searchDepth);
+	[self restart];
 	
 	return self;
 }
-- (int)indexOf:(int)row: column:(int)col {
-	return (row+1)*(boardSize+2) + col+1;
+
+- (void)restart {
+	// restart 
+	Restart(3, searchDepth);
+	
+	// make com move
+	//int Move = (BoardSize-RowSize)/2;
+	int Move = [self indexOf:boardSize/2 column:boardSize/2];
+	MakeComMove(Move);
+	Side = MAN;
+	
+	// update view
+	[self notifyGomoku];
 }
-- (int)getBoardValue:(int)row: column:(int)col {
-	int i = [self indexOf:row: column:col];
+
+- (int)indexOf:(int)row column:(int)col {
+	return (row+1)*(boardSize+2) + col+1;
+	//return (col+1)*(boardSize+2) + row+1; // Khoa made x as row, y as col. I assume y as row, x as col.
+}
+- (int)getBoardValue:(int)row column:(int)col {
+	int i = [self indexOf:row column:col];
 	return Board[i];
 }
-- (void)setBoardValue:(int)value: atrow:(int)row: atcolumn:(int)col {
-	int i = [self indexOf:row: atcolumn:col];
-	Board[i] = value;
+- (void)setBoardValue:(int)value row:(int)r column:(int)c {
+	int i = [self indexOf:r column:c];
+	Board[i] = value;	
+	
+	// ask for view update
+	[self notifyGomoku];
+}
+
+- (int)humanMove:(int)row column:(int)col {
+	//[self setBoardValue:MAN	row:row column:col];
+	int Move = [self indexOf:row column:col];
+	GameOver = MakeManMove(Move);
+	side = 1 - side;
+	
+	[self notifyGomoku];
+	return 0;
+}
+
+- (int)computerMove {
+	int R = ComSearch(0, -INFI, INFI);
+	int Move = BestMove[0];
+	
+	int row = Move / (boardSize+2) - 1;
+	int col = Move % (boardSize+2) - 1;
+	
+	//[self setBoardValue:COM row:row column:col];
+	
+	GameOver = MakeComMove(Move);
+	side = 1 - side;
+	
+	[self notifyGomoku];
+	return 0;
+}
+
+- (int)isGameOver {
+	return GameOver;
+}
+
+// ----- observable ----- //
+- (void)attachGomoku:(id<GomokuObserver>)observer {
+	[observers addObject:observer];
+}
+
+- (void)notifyGomoku {
+	for (id<GomokuObserver> ob in observers) {
+		[ob onGomokuNotify:self];
+		//[ob onGomokuNotify:(id<GomokuObservable>)self];
+		//[ob onGomokuNotify:<#(id GomokuObservable)observable#>
+	}
 }
 
 @end
@@ -626,16 +686,16 @@ char *St[3] ={
 	gotoxy(2,23);
 	cprintf(St[Index]);
 }
-
+/*
 int main1(){
-	initscr();				/* Start curses mode			*/
+	initscr();				// Start curses mode			
 	if(has_colors() == FALSE)
 	{	
 		endwin();
 		printf("Your terminal does not support color\n");
 		exit(1);
 	}
-	start_color();			/* Start color					*/
+	start_color();			// Start color					
 	init_pair(0, COLOR_WHITE, COLOR_BLACK);
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -678,9 +738,10 @@ int main1(){
 
 	getch();
 	//textmode(C80);
-	endwin();			/* End curses mode		  */
+	endwin();			// End curses mode		  
 	return 0;
 }
+
 
 int beginPlay(){
 	int Move, R = 0, Roi = 0, Winner = 3;
@@ -718,6 +779,7 @@ int beginPlay(){
 	
 	getch();
 	//textmode(C80);
-	endwin();			/* End curses mode		  */
+	endwin();			// End curses mode		  
 	return 0;
-}
+}*/
+
