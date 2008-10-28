@@ -7,8 +7,10 @@
  *
  */
 
+#import "GomokuObservable.h"
 /*
  * [2008-10-23] Wrap TrumCaro.c into an Objective-C class.
+ * [2008-10-27] Implement Observable.
  */
 
 /* 
@@ -18,13 +20,21 @@
 #define DEFAULT_BOARD_SIZE 10
 #define DEFAULT_SEARCH_DEPTH 6
 
-@interface GomokuModel : NSObject
+#define MAN 0
+#define COM 1
+#define EMPTY 2
+#define EDGE 3 // chuoi' wa' di :-w
+
+@interface GomokuModel : NSObject <GomokuObservable>
 {	
 	int boardSize;
 	int humanPiece;
 	int computerPiece;
 	int side;			// current turn
 	int searchDepth;
+	
+	// a set of observers
+	NSMutableSet* observers;
 }
 
 // =========================== GomokuModel methods ================================ //
@@ -35,9 +45,18 @@
 @property (assign) int searchDepth;
 
 - (GomokuModel*)init; // constructor
-- (int)getBoardValue:(int)row: column:(int)col; // row: y, col: x
-- (void)setBoardValue:(int)value: atrow:(int)row: atcolumn:(int)col;
-- (int)indexOf:(int)row: column:(int)col;
+- (void)restart;
+- (int)getBoardValue:(int)row column:(int)col; // row: y, col: x
+- (void)setBoardValue:(int)value row:(int)r column:(int)c;
+- (int)indexOf:(int)row column:(int)col;
+- (int)humanMove:(int)row column:(int)col;
+- (int)computerMove;
+- (int)isGameOver;
+
+// observable
+- (void)attachGomoku:(id<GomokuObserver>)observer;
+- (void)notifyGomoku;
+
 @end
 
 // =========================== TrumCaro.c functions =============================== //

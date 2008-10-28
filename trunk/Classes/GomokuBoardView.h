@@ -8,9 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "GomokuModel.h"
+#import "CellLayer.h"
+#import "GomokuObserver.h"
 
-@interface GomokuBoardView : UIView {
+@interface GomokuBoardView : UIView <GomokuObserver> {
 	GomokuModel* gomokuModel;
+	CellLayer* rectLayer;	// empty rect
+	CellLayer* blackLayer;	// rect with black piece
+	CellLayer* whiteLayer;	// rect with white piece
+	
+	int boardSize;
+	int cellSize;
+	int isFirstTime;
 }
 
+// observer
+- (void)onGomokuNotify:(id<GomokuObservable>)observable;
 @end
