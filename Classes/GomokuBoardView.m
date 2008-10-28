@@ -123,6 +123,7 @@
 	// human move
 	if ([gomokuModel getBoardValue: r column: c] == EMPTY) {
 		[gomokuModel humanMove:r column:c];
+		isPainting = 1; // prevent computer from modifying board during redrawing view.
 		//[self setNeedsDisplay];
 		
 		// computer move
@@ -132,7 +133,7 @@
 
 - (void)startThinking {
 	while (isPainting) {
-		[NSThread sleepForTimeInterval:5];		
+		[NSThread sleepForTimeInterval:0.001];		
 	}
 	
 	[gomokuModel computerMove];
