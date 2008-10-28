@@ -10,6 +10,8 @@
 
 float blackColor[] = {0.0, 0.0, 0.0, 1.0};
 float whiteColor[] = {1, 1, 1, 1};
+float blackShadowColor[] = {0.3, 0.3, 0.3, 1.0};
+float whiteShadowColor[] = {0.1, 0.1, 0.1, 1.0};
 
 @implementation RenderPiece
 
@@ -17,8 +19,10 @@ float whiteColor[] = {1, 1, 1, 1};
 	piece = _piece;
 	if (piece == 0) {
 		fillColor = blackColor;		
+		shadowColor = blackShadowColor;
 	} else {
 		fillColor = whiteColor;
+		shadowColor = whiteShadowColor;
 	}
 }
 
@@ -29,7 +33,7 @@ float whiteColor[] = {1, 1, 1, 1};
 - (void)render:(CGContextRef)context {
 	[super render:context];
 	
-	float shadowColor[] = {0.3, 0.3, 0.3, 1.0};
+	
 	CGColorRef shadowColorRef = CGColorCreate(CGColorSpaceCreateDeviceRGB(), shadowColor);
 	CGColorRef fillColorRef = CGColorCreate(CGColorSpaceCreateDeviceRGB(), fillColor);
 	CGSize offset = CGSizeMake(1, 1);

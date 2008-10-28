@@ -12,10 +12,20 @@
 @implementation RenderCell
 @synthesize cellSize;
 
+float fillColor[] = {0.99, 0.99, 0.99, 1.0};
 - (void)render:(CGContextRef)context {
 	CGContextSaveGState(context);
 	// draw a rect
-	CGRect rect = CGRectMake(0, 0, cellSize, cellSize);
+	/*
+	CGRect fillRect = CGRectMake(0, 0, cellSize, cellSize);		
+	CGColorRef fillColorRef = CGColorCreate(CGColorSpaceCreateDeviceRGB(), fillColor);
+	CGContextBeginPath(context);
+	CGContextAddRect(context, fillRect);	
+	CGContextSetFillColorWithColor(context, fillColorRef);
+	CGContextFillPath(context);
+	*/
+	
+	CGRect rect = CGRectMake(0, 0, cellSize+1, cellSize+1);
 	CGContextSetRGBStrokeColor(context, 0.5, 0.5, 0.5, 1.0);
 	CGContextBeginPath(context);
 	CGContextAddRect(context, rect);

@@ -13,6 +13,7 @@
 @interface RenderPiece : RenderCell {
 	int piece; //0: black 1: white
 	float* fillColor;
+	float* shadowColor;
 }
 @property (assign) int piece;
 
