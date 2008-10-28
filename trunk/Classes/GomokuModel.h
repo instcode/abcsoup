@@ -11,6 +11,7 @@
 /*
  * [2008-10-23] Wrap TrumCaro.c into an Objective-C class.
  * [2008-10-27] Implement Observable.
+ * [2008-10-28] Remove setBoardValue method.
  */
 
 /* 
@@ -47,7 +48,7 @@
 - (GomokuModel*)init; // constructor
 - (void)restart;
 - (int)getBoardValue:(int)row column:(int)col; // row: y, col: x
-- (void)setBoardValue:(int)value row:(int)r column:(int)c;
+//- (void)setBoardValue:(int)value row:(int)r column:(int)c; // obsolete
 - (int)indexOf:(int)row column:(int)col;
 - (int)humanMove:(int)row column:(int)col;
 - (int)computerMove;

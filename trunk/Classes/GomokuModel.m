@@ -133,21 +133,22 @@ void PrintIdea(int Index);
 	int i = [self indexOf:row column:col];
 	return Board[i];
 }
+
+/*
 - (void)setBoardValue:(int)value row:(int)r column:(int)c {
 	int i = [self indexOf:r column:c];
 	Board[i] = value;	
 	
 	// ask for view update
 	//[self notifyGomoku];
-}
+}*/
 
 - (int)humanMove:(int)row column:(int)col {
-	//[self setBoardValue:MAN	row:row column:col];
 	int Move = [self indexOf:row column:col];
 	GameOver = MakeManMove(Move);
 	side = 1 - side;
 	
-	//[self notifyGomoku];
+	[self notifyGomoku];
 	return 0;
 }
 
@@ -158,11 +159,9 @@ void PrintIdea(int Index);
 	int row = Move / (boardSize+2) - 1;
 	int col = Move % (boardSize+2) - 1;
 	
-	//[self setBoardValue:COM row:row column:col];
-	
 	GameOver = MakeComMove(Move);
 	side = 1 - side;
-	
+	[self notifyGomoku];
 	return 0;
 }
 
