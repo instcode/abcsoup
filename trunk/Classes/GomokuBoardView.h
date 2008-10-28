@@ -24,4 +24,5 @@
 
 // observer
 - (void)onGomokuNotify:(id<GomokuObservable>)observable;
+- (void)startThinking;
 @end
