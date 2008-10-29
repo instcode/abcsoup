@@ -23,22 +23,15 @@
 // This view is loaded from Nib file. Therefore, initWithFrame is not called automatically. Use awakeFromNib instead.
 //- (id)initWithFrame:(CGRect)frame {
 - (void)awakeFromNib {
-    //if (self = [super initWithFrame:frame]) {
-        // Initialization code
+	// Initialization code
 	
 	gomokuModel = [Gomoku getGomokuModel];
-	[gomokuModel attachGomoku:self]; // register for observing model changes
-	
-	isFirstTime = 1;
-	
-		    //}
-    //return self;
+	[gomokuModel attachGomoku:self]; // register for observing model changes	
 }
 
 
 - (void)drawRect:(CGRect)rect {
-    // Drawing code
-	if (isFirstTime) {
+	if (boardSize == 0) {
 		CGContextRef ctxCurrent = UIGraphicsGetCurrentContext();
 		CGRect screenBound = [[UIScreen mainScreen] applicationFrame];
 		
@@ -61,14 +54,9 @@
 		[renderWhiteDelegate setCellSize:cellSize];	
 		[renderWhiteDelegate setPiece:1];
 		whiteLayer = [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderWhiteDelegate cell:cellSize];
+	}	
+    // Drawing code
 		
-		
-		// flip the first time flag
-		isFirstTime = 0;
-	}
-
-	
-	
 	////NSString* strBoardSize = [NSString stringWithFormat:@"%d", boardSize];
 	//[strBoardSize drawAtPoint:location withFont:font];
 	
@@ -77,7 +65,6 @@
 	// get piece layer
 	// ask to draw
 	int i, j, x, y;
-	isPainting = 1;
 	for (i = 0, y = 0; i < boardSize; i++, y += cellSize) { // row
 		for (j = 0, x = 0; j < boardSize; j++, x += cellSize) { // col
 			// from bottom to top in Quartz 2D coordinate, but draw in view, it is automatically converted back to top-left. So that is top-left as normal.
@@ -99,7 +86,7 @@
 			}
 		}
 	}
-	isPainting = 0;
+	[ self notifyPaintingFinished ];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -108,7 +95,10 @@
 		[gomokuModel restart];
 		return;
 	}
-	
+	// Prohibit user's input while computer's thinking
+	if ([ gomokuModel side ] == COM) {
+		return;
+	}
 	// only single-touch at the moment (anyObject)
 	UITouch *touch = [touches anyObject];
 	
@@ -118,26 +108,24 @@
 	// map to grid
 	int r = touchPoint.y / cellSize;
 	int c = touchPoint.x / cellSize;
-	// set value to model
-	//[gomokuModel setBoardValue:MAN row:r column:c];
+
 	// human move
 	if ([gomokuModel getBoardValue: r column: c] == EMPTY) {
 		[gomokuModel humanMove:r column:c];
-		isPainting = 1; // prevent computer from modifying board during redrawing view.
-		//[self setNeedsDisplay];
-		
-		// computer move
-		[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
 	}
 }
 
 - (void)startThinking {
-	while (isPainting) {
-		[NSThread sleepForTimeInterval:0.001];		
-	}
-	
 	[gomokuModel computerMove];
-	//[self setNeedsDisplay];
+}
+
+- (void)notifyPaintingFinished {
+	/*
+	 Note: Long running code must be placed in another thread for not blocking rendering thread.
+	 */
+	if ([ gomokuModel side ] == COM) {
+		[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
+	}
 }
 
 // ----- observer ----- //

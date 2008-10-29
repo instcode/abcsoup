@@ -25,5 +25,6 @@
 
 // observer
 - (void)onGomokuNotify:(id<GomokuObservable>)observable;
+- (void)notifyPaintingFinished;
 - (void)startThinking;
 @end
