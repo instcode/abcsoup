@@ -21,9 +21,11 @@
 		25C13E740EB5C3F4001DF77E /* RenderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C13E730EB5C3F4001DF77E /* RenderCell.m */; };
 		25C140730EB5EAB1001DF77E /* RenderPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C140720EB5EAB1001DF77E /* RenderPiece.m */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		2899E5220DE3E06400AC0155 /* JouzuGomokuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* JouzuGomokuViewController.xib */; };
+		2899E5220DE3E06400AC0155 /* BoardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* BoardView.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* JouzuGomokuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* JouzuGomokuViewController.m */; };
+		8A7444150ECB569C00756229 /* GomokuGeneralView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7444140ECB569C00756229 /* GomokuGeneralView.m */; };
+		8A74441D0ECB569C00756229 /* GomokuTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A74441C0ECB569C00756229 /* GomokuTabController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,12 +56,16 @@
 		25C141950EB5FE91001DF77E /* GomokuObservable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuObservable.h; sourceTree = "<group>"; };
 		25C141960EB5FE9C001DF77E /* GomokuObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuObserver.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2899E5210DE3E06400AC0155 /* JouzuGomokuViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JouzuGomokuViewController.xib; sourceTree = "<group>"; };
+		2899E5210DE3E06400AC0155 /* BoardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardView.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28D7ACF60DDB3853001CB0EB /* JouzuGomokuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JouzuGomokuViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* JouzuGomokuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JouzuGomokuViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* JouzuGomoku_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JouzuGomoku_Prefix.pch; sourceTree = "<group>"; };
+		8A7444130ECB569C00756229 /* GomokuGeneralView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuGeneralView.h; sourceTree = "<group>"; };
+		8A7444140ECB569C00756229 /* GomokuGeneralView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuGeneralView.m; sourceTree = "<group>"; };
+		8A74441B0ECB569C00756229 /* GomokuTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuTabController.h; sourceTree = "<group>"; };
+		8A74441C0ECB569C00756229 /* GomokuTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuTabController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,6 +93,10 @@
 				1D3623250D0F684500981E51 /* JouzuGomokuAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* JouzuGomokuViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* JouzuGomokuViewController.m */,
+				8A7444130ECB569C00756229 /* GomokuGeneralView.h */,
+				8A7444140ECB569C00756229 /* GomokuGeneralView.m */,
+				8A74441B0ECB569C00756229 /* GomokuTabController.h */,
+				8A74441C0ECB569C00756229 /* GomokuTabController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -165,7 +175,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2899E5210DE3E06400AC0155 /* JouzuGomokuViewController.xib */,
+				2899E5210DE3E06400AC0155 /* BoardView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
@@ -225,7 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				2899E5220DE3E06400AC0155 /* JouzuGomokuViewController.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* BoardView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +258,8 @@
 				25C13E5F0EB5BCFE001DF77E /* CellLayer.m in Sources */,
 				25C13E740EB5C3F4001DF77E /* RenderCell.m in Sources */,
 				25C140730EB5EAB1001DF77E /* RenderPiece.m in Sources */,
+				8A7444150ECB569C00756229 /* GomokuGeneralView.m in Sources */,
+				8A74441D0ECB569C00756229 /* GomokuTabController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

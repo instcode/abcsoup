@@ -12,19 +12,21 @@
 @implementation JouzuGomokuAppDelegate
 
 @synthesize window;
-@synthesize viewController;
+///@synthesize viewController;
+@synthesize tabController;
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
     // Override point for customization after app launch    
-    [window addSubview:viewController.view];
+    //[window addSubview:viewController.view];
+	[window addSubview:tabController.view];
     [window makeKeyAndVisible];
 }
 
 
 - (void)dealloc {
-    [viewController release];
+    //[viewController release];
     [window release];
     [super dealloc];
 }
