@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class JouzuGomokuViewController;
+//@class JouzuGomokuViewController;
 
 @interface JouzuGomokuAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
-    JouzuGomokuViewController *viewController;
+    //JouzuGomokuViewController *viewController;
+	UITabBarController* tabController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet JouzuGomokuViewController *viewController;
+//@property (nonatomic, retain) IBOutlet JouzuGomokuViewController *viewController;
+@property (nonatomic, retain) IBOutlet UITabBarController* tabController;
 
 @end
 
