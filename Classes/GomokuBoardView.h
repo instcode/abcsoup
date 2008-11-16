@@ -11,6 +11,7 @@
 #import "CellLayer.h"
 #import "RenderCell.h"
 #import "RenderPiece.h"
+#import "RenderCursor.h"
 #import "GomokuObserver.h"
 
 // [2008-10-31] Derive from UIScrollView instead of UIView and implement UIScrollViewDelegate
@@ -20,13 +21,17 @@
 	CellLayer* rectLayer;	// empty rect
 	CellLayer* blackLayer;	// rect with black piece
 	CellLayer* whiteLayer;	// rect with white piece
-	RenderCell*	 renderCellDelegate;
-	RenderPiece* renderBlackDelegate;
-	RenderPiece* renderWhiteDelegate;
+	CellLayer* cursorLayer; // rect with special highlight color
+	RenderCell*		renderCellDelegate;
+	RenderPiece*	renderBlackDelegate;
+	RenderPiece*	renderWhiteDelegate;
+	RenderCursor*	renderCursorDelegate;
 	
 	int boardSize;
 	float cellSize;
 	bool firstTimePainting;
+	
+	int cursorX, cursorY; // highlight cursor
 }
 
 // observer

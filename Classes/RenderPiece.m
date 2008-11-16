@@ -31,7 +31,7 @@ float whiteShadowColor[] = {0.1, 0.1, 0.1, 1.0};
 }
 
 - (void)render:(CGContextRef)context {
-	[super render:context];
+	//[super render:context];
 	
 	
 	CGColorRef shadowColorRef = CGColorCreate(CGColorSpaceCreateDeviceRGB(), shadowColor);

@@ -12,6 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		250AA5260EB0D14F00B636C8 /* Move.c in Sources */ = {isa = PBXBuildFile; fileRef = 250AA5250EB0D14F00B636C8 /* Move.c */; };
+		254392650ED031A4006A4235 /* RenderCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 254392640ED031A4006A4235 /* RenderCursor.m */; };
 		25454B430ED02C01001B51B1 /* GomokuBoardScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25454B420ED02C01001B51B1 /* GomokuBoardScrollView.m */; };
 		255DB36C0EAF95E200061B2B /* GomokuBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36B0EAF95E200061B2B /* GomokuBoardView.m */; };
 		255DB36F0EAF965500061B2B /* GomokuInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36E0EAF965500061B2B /* GomokuInfoView.m */; };
@@ -35,6 +36,8 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		250AA5240EB0D14F00B636C8 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
 		250AA5250EB0D14F00B636C8 /* Move.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Move.c; sourceTree = "<group>"; };
+		254392630ED031A4006A4235 /* RenderCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderCursor.h; sourceTree = "<group>"; };
+		254392640ED031A4006A4235 /* RenderCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderCursor.m; sourceTree = "<group>"; };
 		25454B410ED02C01001B51B1 /* GomokuBoardScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuBoardScrollView.h; sourceTree = "<group>"; };
 		25454B420ED02C01001B51B1 /* GomokuBoardScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuBoardScrollView.m; sourceTree = "<group>"; };
 		255DB36A0EAF95E200061B2B /* GomokuBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuBoardView.h; sourceTree = "<group>"; };
@@ -116,6 +119,8 @@
 				25C13E730EB5C3F4001DF77E /* RenderCell.m */,
 				25C140710EB5EAB1001DF77E /* RenderPiece.h */,
 				25C140720EB5EAB1001DF77E /* RenderPiece.m */,
+				254392630ED031A4006A4235 /* RenderCursor.h */,
+				254392640ED031A4006A4235 /* RenderCursor.m */,
 			);
 			name = BoardView;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				25C140730EB5EAB1001DF77E /* RenderPiece.m in Sources */,
 				8A74441D0ECB569C00756229 /* GomokuTabController.m in Sources */,
 				25454B430ED02C01001B51B1 /* GomokuBoardScrollView.m in Sources */,
+				254392650ED031A4006A4235 /* RenderCursor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

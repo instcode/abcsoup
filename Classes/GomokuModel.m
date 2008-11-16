@@ -162,7 +162,7 @@ void PrintIdea(int Index);
 	GameOver = MakeComMove(Move);
 	side = 1 - side;
 	[self notifyGomoku];
-	return 0;
+	return row*boardSize+col; // return how computer moved
 }
 
 - (int)isGameOver {
