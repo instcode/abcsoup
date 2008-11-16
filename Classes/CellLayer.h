@@ -16,7 +16,8 @@
 	CGContextRef ctxParent;
 }
   // init layer object, set the delegate, render to the layer, and wait there
-- (id)initWithContext:(CGContextRef)context withDelegate:(id<RenderDelegate>)delegate cell:(int)nCellSize;
+- (id)initWithContext:(CGContextRef)context withDelegate:(id<RenderDelegate>)delegate;
+
   // expose the internal layer to a particular location
 - (void)renderAtPoint:(CGPoint)point;
 @end

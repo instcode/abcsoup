@@ -10,9 +10,9 @@
 #import "RenderDelegate.h"
 
 @interface RenderCell : NSObject <RenderDelegate> { // implement render delegate protocol
-	int cellSize;
+	float cellSize;
 }
-@property (assign) int cellSize;
+@property (assign) float cellSize;
 
 - (void)render:(CGContextRef)context;
 - (void)render:(CGContextRef)context: withAffine:(CGAffineTransform)affine;

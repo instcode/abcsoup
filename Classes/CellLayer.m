@@ -11,18 +11,18 @@
 
 @implementation CellLayer
 
-- (id)initWithContext:(CGContextRef)context withDelegate:(id<RenderDelegate>)delegate cell:(int)nCellSize {
+- (id)initWithContext:(CGContextRef)context withDelegate:(id<RenderDelegate>)delegate {
 	// id<RenderDelegate> is a pointer!
 	self = [super init];
 	if (self != nil) {
-		ctxParent = context;
-	
+		ctxParent = context;		
 		
-		
-		//int cellSize = delegate.cellSize;
+		float nCellSize = [delegate getCellSize];
 		CGSize cellSize = CGSizeMake(nCellSize+1, nCellSize+1); // max layer size that has not been cropped
+
 		// create layer
 		layer = CGLayerCreateWithContext(ctxParent, cellSize, NULL);
+		
 		// get context
 		CGContextRef ctxLayer = CGLayerGetContext(layer);
 		// render to layer
@@ -35,6 +35,10 @@
 - (void)renderAtPoint:(CGPoint)point {
 	// expose the layer
 	CGContextDrawLayerAtPoint(ctxParent, point, layer);
+}
+
+- (void)dealloc {
+	[super dealloc];
 }
 
 @end
