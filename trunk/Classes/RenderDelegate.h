@@ -9,6 +9,7 @@
 
 @protocol RenderDelegate<NSObject>
 
+- (float)getCellSize;
 - (void)render:(CGContextRef)context;
 - (void)render:(CGContextRef)context: withAffine:(CGAffineTransform)affine;
 

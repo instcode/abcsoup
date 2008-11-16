@@ -13,6 +13,11 @@
 @synthesize cellSize;
 
 float fillColor[] = {0.99, 0.99, 0.99, 1.0};
+
+- (float)getCellSize {
+	return cellSize;
+}
+
 - (void)render:(CGContextRef)context {
 	CGContextSaveGState(context);
 	// draw a rect

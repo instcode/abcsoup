@@ -7,7 +7,6 @@
 //
 
 #import "JouzuGomokuAppDelegate.h"
-#import "JouzuGomokuViewController.h"
 
 @implementation JouzuGomokuAppDelegate
 
