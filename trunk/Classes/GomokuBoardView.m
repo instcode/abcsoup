@@ -55,10 +55,17 @@
 	[renderWhiteDelegate setCellSize:cellSize];	
 	[renderWhiteDelegate setPiece:1];
 	
+	// for cursor layer
+	renderCursorDelegate = [[RenderCursor alloc] init] ;		
+	[renderCursorDelegate setCellSize:cellSize];		
+	
+	// no cursor at start
+	cursorX = cursorY = -1;
+	
 	// ask for layer first time rendering
 	[self notifyFirstTimePainting];	
-	
-	return self;
+		
+	//return self;
 }
 
 /* we can implement this and move the first time painting code out by adding more controllers */
@@ -77,10 +84,10 @@
 		// the first time, get context and create layers (the delegates are prepared in init function.
 		CGContextRef ctxCurrent = UIGraphicsGetCurrentContext();		
 		
-		rectLayer = [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderCellDelegate];
-		blackLayer = [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderBlackDelegate];
-		whiteLayer = [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderWhiteDelegate];
-		
+		rectLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderCellDelegate];
+		blackLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderBlackDelegate];
+		whiteLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderWhiteDelegate];
+		cursorLayer = [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderCursorDelegate];
 	
 		// no first time painting any more
 		[self cancelFirstTimePainting];
@@ -90,29 +97,35 @@
 	//[self setTransform:CGAffineTransformIdentity]; // disable scale from scroll view
 	CGAffineTransform curMat = self.transform;
 	curMat.a = 1; curMat.b = 0; curMat.c = 0; curMat.d = 1; 
-	[self setTransform:curMat];
+	//[self setTransform:curMat];
 	
 	int i, j; 
 	float x, y;
 	
 	for (i = 0, y = 0; i < boardSize; i++, y += cellSize) { // row
 		for (j = 0, x = 0; j < boardSize; j++, x += cellSize) { // col
-			// from bottom to top in Quartz 2D coordinate, but draw in view, it is automatically converted back to top-left. So that is top-left as normal.
-			//[whiteLayer renderAtPoint:CGPointMake(y, x)];continue;
-			//[blackLayer renderAtPoint:CGPointMake(y, x)];continue;
-			switch ([gomokuModel getBoardValue:i column:j]) {
-			case EMPTY:
+			if (i == cursorY && j == cursorX) {
+				[cursorLayer renderAtPoint:CGPointMake(x, y)];
+			} else {
+				// from bottom to top in Quartz 2D coordinate, but draw in view, it is automatically converted back to top-left. So that is top-left as normal.
+				//[whiteLayer renderAtPoint:CGPointMake(y, x)];continue;
+				//[blackLayer renderAtPoint:CGPointMake(y, x)];continue;
 				[rectLayer renderAtPoint:CGPointMake(x, y)];
-				break;
-			case MAN:
-				[whiteLayer renderAtPoint:CGPointMake(x, y)];
-				break;
-			case COM:
-				[blackLayer renderAtPoint:CGPointMake(x, y)];
-				break;
-			default:
-				//[whiteLayer renderAtPoint:CGPointMake(x, y)];	
-				break;
+				
+			}
+			switch ([gomokuModel getBoardValue:i column:j]) {
+				case EMPTY:
+					//[rectLayer renderAtPoint:CGPointMake(x, y)];
+					break;
+				case MAN:
+					[whiteLayer renderAtPoint:CGPointMake(x, y)];
+					break;
+				case COM:
+					[blackLayer renderAtPoint:CGPointMake(x, y)];
+					break;
+				default:
+					//[whiteLayer renderAtPoint:CGPointMake(x, y)];	
+					break;
 			}
 		}
 	}
@@ -120,8 +133,44 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	//if ([self isTracking] || [self isDragging]) return;
+	// only single-touch at the moment (anyObject)
+	UITouch *touch = [touches anyObject];
 	
+	// get touch point
+	CGPoint touchPoint = [touch locationInView:self];
+	
+	// map to grid
+	int r = touchPoint.y / cellSize;
+	int c = touchPoint.x / cellSize;
+
+	// put cursor
+	cursorX = c;
+	cursorY = r;
+	
+	// redraw
+	[self setNeedsDisplay];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	// only single-touch at the moment (anyObject)
+	UITouch *touch = [touches anyObject];
+	
+	// get touch point
+	CGPoint touchPoint = [touch locationInView:self];
+	
+	// map to grid
+	int r = touchPoint.y / cellSize;
+	int c = touchPoint.x / cellSize;
+	
+	// put cursor
+	cursorX = c;
+	cursorY = r;
+	
+	// redraw
+	[self setNeedsDisplay];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	// isGameOver?
 	if ([gomokuModel isGameOver]) {
 		[gomokuModel restart];
@@ -136,20 +185,28 @@
 	
 	// get touch point
 	CGPoint touchPoint = [touch locationInView:self];
-
+	
 	// map to grid
 	int r = touchPoint.y / cellSize;
 	int c = touchPoint.x / cellSize;
-
+	
 	// human move
 	if ([gomokuModel getBoardValue: r column: c] == EMPTY) {
 		[gomokuModel humanMove:r column:c];
 	}
+	
+	// remove cursor
+	//cursorX = cursorY = -1;
 }
 
 
+
 - (void)startThinking {
-	[gomokuModel computerMove];
+	int move = [gomokuModel computerMove];
+	
+	// set board cursor
+	cursorX = move % boardSize;
+	cursorY = move / boardSize;
 }
 
 - (bool)isFirstTimePainting {
