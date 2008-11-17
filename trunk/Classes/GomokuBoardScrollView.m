@@ -12,22 +12,19 @@
 @implementation GomokuBoardScrollView
 
 - (void) awakeFromNib {
-	
-	
-	
 	// attach scroll view delegate
 	self.delegate = self;	
 	self.alwaysBounceVertical	= true;
 	self.alwaysBounceHorizontal = true;	
 	self.clipsToBounds = true;
-	
-	// set content size for scroll view here
-	[self setContentSize:CGSizeMake(640, 960)];
-	[self setContentOffset:CGPointMake(0, 0)];
-	
+		
 	// reference to boardView
 	boardView = (GomokuBoardView*)[self viewWithTag:1]; // boardView is tag with number 1
-	
+	// set content size for scroll view here
+	//CGSize fullSize = [boardView getFullBoardSize];	
+	//[self setContentSize:fullSize];	
+	//[self setContentOffset:CGPointMake(0, 0)];
+		
 	// set zooming scale
 	self.maximumZoomScale = 5;
 	self.minimumZoomScale = 1;

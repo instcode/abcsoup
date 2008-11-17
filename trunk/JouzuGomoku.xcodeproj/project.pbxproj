@@ -14,6 +14,7 @@
 		250AA5260EB0D14F00B636C8 /* Move.c in Sources */ = {isa = PBXBuildFile; fileRef = 250AA5250EB0D14F00B636C8 /* Move.c */; };
 		254392650ED031A4006A4235 /* RenderCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 254392640ED031A4006A4235 /* RenderCursor.m */; };
 		25454B430ED02C01001B51B1 /* GomokuBoardScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25454B420ED02C01001B51B1 /* GomokuBoardScrollView.m */; };
+		25471D230ED192BE0004DE59 /* BlueDragon_Suu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 25471D220ED192BE0004DE59 /* BlueDragon_Suu.jpg */; };
 		255DB36C0EAF95E200061B2B /* GomokuBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36B0EAF95E200061B2B /* GomokuBoardView.m */; };
 		255DB36F0EAF965500061B2B /* GomokuInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36E0EAF965500061B2B /* GomokuInfoView.m */; };
 		255DB3950EAF9A0F00061B2B /* GomokuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB3940EAF9A0F00061B2B /* GomokuModel.m */; };
@@ -40,6 +41,8 @@
 		254392640ED031A4006A4235 /* RenderCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderCursor.m; sourceTree = "<group>"; };
 		25454B410ED02C01001B51B1 /* GomokuBoardScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuBoardScrollView.h; sourceTree = "<group>"; };
 		25454B420ED02C01001B51B1 /* GomokuBoardScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuBoardScrollView.m; sourceTree = "<group>"; };
+		25471CCE0ED18F3F0004DE59 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		25471D220ED192BE0004DE59 /* BlueDragon_Suu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = BlueDragon_Suu.jpg; path = ../../../../../../ENTERTAINMENT/Pictures/Avatar/BlueDragon_Suu.jpg; sourceTree = SOURCE_ROOT; };
 		255DB36A0EAF95E200061B2B /* GomokuBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuBoardView.h; sourceTree = "<group>"; };
 		255DB36B0EAF95E200061B2B /* GomokuBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuBoardView.m; sourceTree = "<group>"; };
 		255DB36D0EAF965500061B2B /* GomokuInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuInfoView.h; sourceTree = "<group>"; };
@@ -147,6 +150,7 @@
 				250AA5250EB0D14F00B636C8 /* Move.c */,
 				25C141950EB5FE91001DF77E /* GomokuObservable.h */,
 				25C141960EB5FE9C001DF77E /* GomokuObserver.h */,
+				25471CCE0ED18F3F0004DE59 /* Constant.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -175,6 +179,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				25471D220ED192BE0004DE59 /* BlueDragon_Suu.jpg */,
 				2899E5210DE3E06400AC0155 /* BoardView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -236,6 +241,7 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* BoardView.xib in Resources */,
+				25471D230ED192BE0004DE59 /* BlueDragon_Suu.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
