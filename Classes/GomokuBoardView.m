@@ -12,6 +12,7 @@
 
 #import "GomokuBoardView.h"
 #import "Gomoku.h"
+#import "Constant.h"
 #import "CellLayer.h"
 
 #include <math.h> # add -lm
@@ -20,8 +21,24 @@
 
 - (float)cellSizeFromScale:(float)scale {
 	CGRect screenBound = [[UIScreen mainScreen] applicationFrame];
-	return fmin(screenBound.size.width, screenBound.size.height) * scale / boardSize;	
+	return fmin(screenBound.size.width, screenBound.size.height) * scale / VIEW_BOARD_SIZE;	
 }
+- (CGSize)getFullBoardSize {
+	return CGSizeMake(cellSize*boardSize+1, cellSize*boardSize+1);
+}
+- (CGPoint)getScrollOffset {
+	CGSize fullSize = [self getFullBoardSize];
+	//CGRect screenBound = [[UIScreen mainScreen] applicationFrame];
+	CGRect parentBound = [[self superview] bounds];
+	
+	return CGPointMake(abs(fullSize.width - parentBound.size.width) / 2, abs(fullSize.height - parentBound.size.height) / 2);
+	//return CGPointMake((fullSize.width) / 2, (fullSize.height) / 2);
+}
+
+-(void)hideCursor {
+	cursor = CGPointMake(-1, -1);	
+}
+
 // This view is loaded from Nib file. Therefore, initWithFrame is not called automatically. Use awakeFromNib instead.
 //- (id)initWithFrame:(CGRect)frame {
 - (void)awakeFromNib {
@@ -33,12 +50,21 @@
 	[gomokuModel attachGomoku:self]; // register for observing model changes	
 	
 		
-	// -- board size, cell size settings --
-	
+	// -- board size, cell size settings --	
 	boardSize = [gomokuModel boardSize];
 	//cellSize = (int)(fmin(screenBound.size.width, screenBound.size.height) / boardSize);
 	cellSize = [self cellSizeFromScale:1];
-	[self setBounds:CGRectMake(0, 0, boardSize*cellSize+1, boardSize*cellSize+1)];
+	CGSize fullSize = [self getFullBoardSize];
+	[self setFrame:CGRectMake(0, 0, fullSize.width, fullSize.height)]; // affect center!
+	//! set bound is not correct because we need to set the position of boardview as regards to its superview (scrollview).
+	//! set bound is for internal only.
+	
+	// set scrollview's content size
+	UIView* superview = [self superview];
+	[superview setContentSize:fullSize];
+	[superview setContentOffset:[self getScrollOffset]];
+	
+	//[self setBounds:[[UIScreen mainScreen] applicationFrame]];
 	
 	// -- prepare delegates for render layers --
 	// for cell
@@ -60,7 +86,7 @@
 	[renderCursorDelegate setCellSize:cellSize];		
 	
 	// no cursor at start
-	cursorX = cursorY = -1;
+	[self hideCursor];
 	
 	// ask for layer first time rendering
 	[self notifyFirstTimePainting];	
@@ -104,7 +130,7 @@
 	
 	for (i = 0, y = 0; i < boardSize; i++, y += cellSize) { // row
 		for (j = 0, x = 0; j < boardSize; j++, x += cellSize) { // col
-			if (i == cursorY && j == cursorX) {
+			if (i == cursor.y && j == cursor.x) {
 				[cursorLayer renderAtPoint:CGPointMake(x, y)];
 			} else {
 				// from bottom to top in Quartz 2D coordinate, but draw in view, it is automatically converted back to top-left. So that is top-left as normal.
@@ -144,13 +170,11 @@
 	int c = touchPoint.x / cellSize;
 
 	// put cursor
-	cursorX = c;
-	cursorY = r;
-	
+	cursor = CGPointMake(c, r);	
 	// redraw
 	[self setNeedsDisplay];
 }
-
+/*
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	// only single-touch at the moment (anyObject)
 	UITouch *touch = [touches anyObject];
@@ -169,6 +193,7 @@
 	// redraw
 	[self setNeedsDisplay];
 }
+*/
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	// isGameOver?
@@ -205,8 +230,7 @@
 	int move = [gomokuModel computerMove];
 	
 	// set board cursor
-	cursorX = move % boardSize;
-	cursorY = move / boardSize;
+	cursor = CGPointMake(move % boardSize, move / boardSize);
 }
 
 - (bool)isFirstTimePainting {

@@ -18,8 +18,7 @@
  * Convention: 0: O, 1: X. This header file's define macro is for GomokuModel only.
  */
 
-#define DEFAULT_BOARD_SIZE 10
-#define DEFAULT_SEARCH_DEPTH 6
+#import "Constant.h"
 
 #define MAN 0
 #define COM 1

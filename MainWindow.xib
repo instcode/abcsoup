@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="22"/>
+			<integer value="15"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -26,62 +26,66 @@
 			<object class="IBUITabBarController" id="10856698">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="262204246">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="344930506">
-						<string key="IBUITitle">Game</string>
+				<object class="IBUITableViewController" key="IBUISelectedViewController" id="502787888">
+					<object class="IBUITableView" key="IBUIView" id="643991357">
+						<reference key="NSNextResponder"/>
+						<int key="NSvFlags">274</int>
+						<string key="NSFrame">{{0, -25}, {320, 460}}</string>
+						<reference key="NSSuperview"/>
+						<object class="NSColor" key="IBUIBackgroundColor" id="773558257">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MSAxIDEAA</bytes>
+						</object>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<int key="IBUISeparatorStyle">1</int>
+						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
+						<float key="IBUIRowHeight">4.400000e+01</float>
+						<float key="IBUISectionHeaderHeight">2.700000e+01</float>
+						<float key="IBUISectionFooterHeight">2.700000e+01</float>
+					</object>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="463112406">
+						<string key="IBUITitle">Option</string>
 						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="10856698"/>
 					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="370999338">
-						<nil key="NSNextResponder"/>
-						<int key="NSvFlags">256</int>
-						<string key="NSFrameSize">{0, 0}</string>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
-					</object>
-					<object class="NSMutableArray" key="IBUIViewControllers">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUIViewController" id="418464486">
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="629883290">
-								<reference key="IBUINavigationBar"/>
-								<string key="IBUITitle">Gomoku</string>
-							</object>
-							<reference key="IBUIParentViewController" ref="262204246"/>
-							<string key="IBUINibName">BoardView</string>
-						</object>
-					</object>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<reference ref="262204246"/>
-					<object class="IBUITableViewController" id="502787888">
-						<object class="IBUITableView" key="IBUIView" id="643991357">
-							<nil key="NSNextResponder"/>
-							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{0, -25}, {320, 460}}</string>
-							<object class="NSColor" key="IBUIBackgroundColor" id="773558257">
-								<int key="NSColorSpace">1</int>
-								<bytes key="NSRGB">MSAxIDEAA</bytes>
+					<object class="IBUINavigationController" id="262204246">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="344930506">
+							<string key="IBUITitle">Game</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">BlueDragon_Suu.jpg</string>
 							</object>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-							<int key="IBUISeparatorStyle">1</int>
-							<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
-							<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-							<float key="IBUIRowHeight">4.400000e+01</float>
-							<float key="IBUISectionHeaderHeight">2.700000e+01</float>
-							<float key="IBUISectionFooterHeight">2.700000e+01</float>
-						</object>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="463112406">
-							<string key="IBUITitle">Option</string>
 							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="10856698"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="370999338">
+							<nil key="NSNextResponder"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrameSize">{0, 0}</string>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						</object>
+						<object class="NSMutableArray" key="IBUIViewControllers">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIViewController" id="418464486">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="629883290">
+									<string key="IBUITitle">Gomoku</string>
+								</object>
+								<reference key="IBUIParentViewController" ref="262204246"/>
+								<string key="IBUINibName">BoardView</string>
+							</object>
+						</object>
 					</object>
+					<reference ref="502787888"/>
 					<object class="IBUIViewController" id="159035800">
 						<object class="IBUIView" key="IBUIView" id="140109141">
 							<nil key="NSNextResponder"/>

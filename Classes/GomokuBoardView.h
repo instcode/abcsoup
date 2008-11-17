@@ -31,7 +31,7 @@
 	float cellSize;
 	bool firstTimePainting;
 	
-	int cursorX, cursorY; // highlight cursor
+	CGPoint cursor; // highlight cursor
 }
 
 // observer
@@ -39,6 +39,9 @@
 - (void)onZoomScaleChanged:(float)scale;
 
 - (float)cellSizeFromScale:(float)scale; // compute cellSize from an input scale
+- (CGSize)getFullBoardSize;	// return the full size = cellSize*boardSize in points
+- (void)hideCursor;
+
 - (bool)isFirstTimePainting;
 - (void)notifyFirstTimePainting;
 - (void)cancelFirstTimePainting;
