@@ -259,6 +259,9 @@
 }
 
 - (void)onZoomScaleChanged:(float)scale {
+	return;
+	
+	
 	// calculate new cell size
 	cellSize = (int)[self cellSizeFromScale:scale];
 	// set new bound
