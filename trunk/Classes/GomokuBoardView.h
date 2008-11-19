@@ -40,6 +40,7 @@
 
 - (float)cellSizeFromScale:(float)scale; // compute cellSize from an input scale
 - (CGSize)getFullBoardSize;	// return the full size = cellSize*boardSize in points
+- (CGPoint)getScrollOffset; // get center position of the full board view
 - (void)hideCursor;
 
 - (bool)isFirstTimePainting;

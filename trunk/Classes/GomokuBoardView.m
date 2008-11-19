@@ -61,8 +61,11 @@
 	
 	// set scrollview's content size
 	UIView* superview = [self superview];
+	
+	CGPoint offset = [self getScrollOffset]; // must be placed before setFrame so that offset is calculated on the old bounds so that the board is centered.
+	[superview setFrame:[self frame]];
 	[superview setContentSize:fullSize];
-	[superview setContentOffset:[self getScrollOffset]];
+	[superview setContentOffset:offset];
 	
 	//[self setBounds:[[UIScreen mainScreen] applicationFrame]];
 	
