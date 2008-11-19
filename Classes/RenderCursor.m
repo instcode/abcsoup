@@ -11,7 +11,7 @@
 
 @implementation RenderCursor
 
-float cursorFillColor[] = {0.92, 0.92, 0.92, 1.0};
+float cursorFillColor[] = {0.12, 0.72, 0.72, 1.0};
 
 // override
 - (void)render:(CGContextRef)context {

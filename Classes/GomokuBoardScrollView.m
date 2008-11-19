@@ -17,9 +17,19 @@
 	self.alwaysBounceVertical	= true;
 	self.alwaysBounceHorizontal = true;	
 	self.clipsToBounds = true;
-		
+	self.autoresizesSubviews = false; // do not auto resize so that boardView is placed properly in scrollview
+	
 	// reference to boardView
 	boardView = (GomokuBoardView*)[self viewWithTag:1]; // boardView is tag with number 1
+	/*
+	// set scrollview's content size
+	CGRect boardFrame = [boardView frame];
+	[self setContentSize:boardFrame.size];
+	
+	[self setFrame:boardFrame];
+	[self setContentOffset:[boardView getScrollOffset]];
+	*/
+	
 	// set content size for scroll view here
 	//CGSize fullSize = [boardView getFullBoardSize];	
 	//[self setContentSize:fullSize];	
@@ -27,7 +37,7 @@
 		
 	// set zooming scale
 	self.minimumZoomScale = 1;
-	self.maximumZoomScale = 5;
+	self.maximumZoomScale = 2;
 	
 	/*
 	//[boardView release];
@@ -91,6 +101,13 @@
 	//[view onZoomScaleChanged:scale];
 	//[self setNeedsDisplay];
 	// no more zoom
+	
+	return;
+	
+	
+	CGRect myFrame = [self frame];
+	CGRect frame = [boardView frame];
+	[self setContentSize:frame.size];
 	return;
 	
 	/*
