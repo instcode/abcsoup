@@ -32,6 +32,7 @@
 	int computerPiece;
 	int side;			// current turn
 	int searchDepth;
+	bool isComputerThinking;
 	
 	// a set of observers
 	NSMutableSet* observers;
@@ -43,6 +44,7 @@
 @property (assign) int computerPiece;
 @property (readonly) int side;
 @property (assign) int searchDepth;
+@property (readonly) bool isComputerThinking;
 
 - (GomokuModel*)init; // constructor
 - (void)restart;
