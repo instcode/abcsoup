@@ -103,7 +103,11 @@
 
 - (void)drawRect:(CGRect)rect {
 	//[super drawRect:rect];
-	
+	if ([ gomokuModel isComputerThinking ]) {
+		// No need to redraw because painting during computer's thinking
+		// will display the entire board incorrectly
+		return;
+	}
 	// why not use isFirstTime flag here. The boardSize == 0's semantic is not explicitly clear that this is the first time of rendering, i.e., in case I want somewhere in the program that boardSize=0, that this line fails. And now I want to move the get board size statement out of this block to off-load the drawRect function, what can I do? I have to add the isFirstTime flag again!!!
 	//if (boardSize == 0) { 
 	if ([self isFirstTimePainting]) {
@@ -247,7 +251,7 @@
 	/*
 	 Note: Long running code must be placed in another thread for not blocking rendering thread.
 	 */
-	if ([ gomokuModel side ] == COM) {
+	if ([ gomokuModel side ] == COM && ![ gomokuModel isComputerThinking ]) {
 		[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
 	}
 }

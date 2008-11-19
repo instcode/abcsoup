@@ -44,7 +44,7 @@ int BestMove[MAXDEPTH];
 int *pGenEnd[MAXDEPTH];
 int *pMoveEnd;
 
-int GenDat[MAXDEPTH][500];
+int GenDat[MAXDEPTH][BoardSize];
 
 int GameOver;
 int Board[BoardSize];
@@ -83,6 +83,7 @@ void PrintIdea(int Index);
 @dynamic	computerPiece;
 @synthesize side;
 @synthesize searchDepth;
+@synthesize isComputerThinking;
 
 - (void)setHumanPiece:(int)piece {
 	humanPiece		= piece;
@@ -114,7 +115,7 @@ void PrintIdea(int Index);
 - (void)restart {
 	// restart 
 	Restart(3, searchDepth);
-	
+	isComputerThinking = false;
 	// make com move
 	//int Move = (BoardSize-RowSize)/2;
 	int Move = [self indexOf:boardSize/2 column:boardSize/2];
@@ -153,6 +154,7 @@ void PrintIdea(int Index);
 }
 
 - (int)computerMove {
+	isComputerThinking = true;
 	int R = ComSearch(0, -INFI, INFI);
 	int Move = BestMove[0];
 	
@@ -162,6 +164,7 @@ void PrintIdea(int Index);
 	GameOver = MakeComMove(Move);
 	side = 1 - side;
 	[self notifyGomoku];
+	isComputerThinking = false;
 	return row*boardSize+col; // return how computer moved
 }
 
