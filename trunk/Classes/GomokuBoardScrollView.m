@@ -26,8 +26,9 @@
 	//[self setContentOffset:CGPointMake(0, 0)];
 		
 	// set zooming scale
-	self.maximumZoomScale = 5;
 	self.minimumZoomScale = 1;
+	self.maximumZoomScale = 5;
+	
 	/*
 	//[boardView release];
 	
@@ -75,7 +76,7 @@
 // scroll event
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	// ask for a redraw, a bit waste. Only need to move the buffer only?
-	[self setNeedsDisplay];
+	//[self setNeedsDisplay];
 }
 
 // -- handles zooming --
@@ -91,6 +92,8 @@
 	//[self setNeedsDisplay];
 	// no more zoom
 	return;
+	
+	/*
 	[self setMaximumZoomScale:1];
 	[self _setZoomed:YES];
 
@@ -103,7 +106,7 @@
 	[self setMaximumZoomScale:10];
 	
 	//[boardView onZoomScaleChanged:scale];
-	
+	*/
 }
 
 - (void)dealloc {
