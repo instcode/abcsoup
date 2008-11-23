@@ -104,6 +104,22 @@
 }
 */
 
+- (void) visitAndRenderCell:(int)_x:(int)_y:(int)val {
+	float x = _x * cellSize;
+	float y = _y * cellSize;
+	
+	switch (val) {
+		case MAN:
+			[whiteLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		case COM:
+			[blackLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		default:
+			break;
+	}
+}
+
 - (void)drawRect:(CGRect)rect {
 	//[super drawRect:rect];
 	if ([ gomokuModel isComputerThinking ]) {
@@ -137,31 +153,16 @@
 	
 	for (i = 0, y = 0; i < boardSize; i++, y += cellSize) { // row
 		for (j = 0, x = 0; j < boardSize; j++, x += cellSize) { // col
-			if (i == cursor.y && j == cursor.x) {
-				[cursorLayer renderAtPoint:CGPointMake(x, y)];
-			} else {
-				// from bottom to top in Quartz 2D coordinate, but draw in view, it is automatically converted back to top-left. So that is top-left as normal.
-				//[whiteLayer renderAtPoint:CGPointMake(y, x)];continue;
-				//[blackLayer renderAtPoint:CGPointMake(y, x)];continue;
 				[rectLayer renderAtPoint:CGPointMake(x, y)];
-				
-			}
-			switch ([gomokuModel getBoardValue:i column:j]) {
-				case EMPTY:
-					//[rectLayer renderAtPoint:CGPointMake(x, y)];
-					break;
-				case MAN:
-					[whiteLayer renderAtPoint:CGPointMake(x, y)];
-					break;
-				case COM:
-					[blackLayer renderAtPoint:CGPointMake(x, y)];
-					break;
-				default:
-					//[whiteLayer renderAtPoint:CGPointMake(x, y)];	
-					break;
-			}
 		}
 	}
+	
+	// render cursor
+	[cursorLayer renderAtPoint:CGPointMake(cursor.x*cellSize, cursor.y*cellSize)];
+	
+	// visit history for rendering of pieces
+	[gomokuModel historyVisit:self withSelector:@selector(visitAndRenderCell:::)];
+	
 	[ self notifyPaintingFinished ];
 }
 

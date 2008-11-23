@@ -100,6 +100,7 @@ void PrintIdea(int Index);
 	return computerPiece;
 }
 
+// init with a board size and a search depth
 - (GomokuModel*)init {
 	// set default values
 	[self setBoardSize:DEFAULT_BOARD_SIZE];
@@ -116,12 +117,20 @@ void PrintIdea(int Index);
 	// restart 
 	Restart(3, searchDepth);
 	isComputerThinking = false;
-	// make com move
-	//int Move = (BoardSize-RowSize)/2;
+	
+	// allocate history moves
+	history = (int*)malloc(boardSize*boardSize*sizeof(int));
+	numMoves = 0;
+	
+	// make COM move first
 	int Move = [self indexOf:boardSize/2 column:boardSize/2];
 	MakeComMove(Move);
 	Side = MAN;
-	
+	side = MAN;
+	// <special> //
+	// here computerMove is not called, we must do a manual insert to history array.
+	[self historyPush:Move];	
+		
 	// update view
 	[self notifyGomoku];
 }
@@ -149,6 +158,9 @@ void PrintIdea(int Index);
 	GameOver = MakeManMove(Move);
 	side = 1 - side;
 	
+	// history push
+	[self historyPush:Move];
+	
 	[self notifyGomoku];
 	return 0;
 }
@@ -163,6 +175,9 @@ void PrintIdea(int Index);
 	
 	GameOver = MakeComMove(Move);
 	side = 1 - side;
+	
+	// history push
+	[self historyPush:Move];
 	
 	isComputerThinking = false; // must end thinking before 
 	[self notifyGomoku];	
@@ -184,6 +199,42 @@ void PrintIdea(int Index);
 		//[ob onGomokuNotify:(id<GomokuObservable>)self];
 		//[ob onGomokuNotify:<#(id GomokuObservable)observable#>
 	}
+}
+
+// ----- history management ----- //
+- (void)historyPush:(int)move {
+	history[numMoves++] = move;
+}
+
+- (void)historyPop {
+}
+
+//- (void)historyVisit:(void (*)(int, int, int))visitor {
+- (void)historyVisit:(id)visitor withSelector:(SEL)sel {
+	int x, y, val, i;
+	val = 0; // default is the first player
+	int* h = history;
+	for (i = 0; i < numMoves; i++, h++) {
+		// decode move
+		y = *h / RowSize - 1;
+		x = *h % RowSize - 1;
+		
+		// visit
+		IMP visit = [visitor methodForSelector:sel]; // get visit implementor
+		visit(visitor, sel, x, y, val); // Objective-C style 
+		
+		//(*visitor)(x, y, val); // C-style function pointer
+		
+		// next player
+		val = 1 - val;
+	}
+}
+
+// ----- a little house keeping ----- //
+- (void)dealloc {
+	// clean up
+	free(history);
+	
 }
 
 @end
