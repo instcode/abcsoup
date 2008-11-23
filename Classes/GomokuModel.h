@@ -20,13 +20,24 @@
 
 #import "Constant.h"
 
-#define MAN 0
-#define COM 1
+//#define MAN 0
+//#define COM 1
+
+// define the first player with index 0 so that history management is consistent.
+#define MAN 1
+#define COM 0
+
 #define EMPTY 2
 #define EDGE 3 // chuoi' wa' di :-w
 
 @interface GomokuModel : NSObject <GomokuObservable>
 {	
+	int* history; // save the moves of two players. The first player decides how the history array is interpreted.
+	// history index indicates the n-th move. The parity of the history index (even, odd) shows which player is moving.
+	// history value indicates the position of the piece.
+	// history array is used as a duplicate of the board array for rendering consistency. It is also be used to implement the undo/redo feature and show a list of history moves.
+	int numMoves; // the number of moves in the history array.
+	
 	int boardSize;
 	int humanPiece;
 	int computerPiece;
@@ -59,6 +70,11 @@
 - (void)attachGomoku:(id<GomokuObserver>)observer;
 - (void)notifyGomoku;
 
+// history management
+- (void)historyPush:(int)move; // push a move to the history "stack"
+- (void)historyPop;
+//- (void)historyVisit:(void (*)(int x, int y, int val))visitor;
+- (void)historyVisit:(id)visitor withSelector:(SEL)sel;
 @end
 
 // =========================== TrumCaro.c functions =============================== //

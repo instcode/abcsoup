@@ -34,6 +34,9 @@
 	CGPoint cursor; // highlight cursor
 }
 
+// visitor and renderer
+- (void) visitAndRenderCell:(int)_x:(int)_y:(int)val;
+
 // observer
 - (void)onGomokuNotify:(id<GomokuObservable>)observable;
 - (void)onZoomScaleChanged:(float)scale;
