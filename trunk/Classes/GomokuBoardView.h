@@ -32,6 +32,8 @@
 	bool firstTimePainting;
 	
 	CGPoint cursor; // highlight cursor
+	
+	UIScrollView* superview;
 }
 
 // visitor and renderer
@@ -44,6 +46,8 @@
 - (float)cellSizeFromScale:(float)scale; // compute cellSize from an input scale
 - (CGSize)getFullBoardSize;	// return the full size = cellSize*boardSize in points
 - (CGPoint)getScrollOffset; // get center position of the full board view
+- (CGPoint)getCurrentScrollOffset:(CGPoint)expectCursor; // get content offset based on current cursor position in the boardView and the scrollView.
+- (void)focusOnCursor;
 - (void)hideCursor;
 
 - (bool)isFirstTimePainting;

@@ -89,6 +89,12 @@
 	//[self setNeedsDisplay];
 }
 
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+	// bounces
+	//self.alwaysBounceVertical	= false;
+	//self.alwaysBounceHorizontal = false;
+}
+
 // -- handles zooming --
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {	
 	return boardView;
