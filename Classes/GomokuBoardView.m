@@ -8,6 +8,8 @@
 
 // History ======================= //
 // [2008-10-27] Render board
+// [2008-11-23] Add history management
+// [2008-11-24] Add focusOnCursor feature
 // =============================== //
 
 #import "GomokuBoardView.h"
@@ -35,6 +37,52 @@
 	//return CGPointMake((fullSize.width) / 2, (fullSize.height) / 2);
 }
 
+- (CGPoint)getCurrentScrollOffset:(CGPoint)expectCursor {
+	int X = VIEW_BOARD_SIZE / 2;
+	int Y = VIEW_BOARD_SIZE / 2;
+	int deltaX = expectCursor.x - X;
+	int deltaY = expectCursor.y - Y;
+	
+	// avoid out of bound in scrollview (avoid seeing white space and boucning back)
+	if (deltaX < 0) deltaX = 0;
+	if (deltaY < 0) deltaY = 0;
+	if (deltaX >= boardSize - VIEW_BOARD_SIZE) deltaX = boardSize - VIEW_BOARD_SIZE - 1;
+	if (deltaY >= boardSize - VIEW_BOARD_SIZE) deltaY = boardSize - VIEW_BOARD_SIZE - 1;
+	
+	return CGPointMake(cellSize*deltaX, cellSize*deltaY);
+}
+
+int manFocus = 0;
+int comFocus = 0;
+- (void)focusOnCursor {
+	CGPoint delta = [superview contentOffset];
+	// new cursor position in view window coordinate
+	float X = cursor.x - delta.x / cellSize;
+	float Y = cursor.y - delta.y / cellSize;
+	
+	int maxX = VIEW_BOARD_SIZE;
+	CGRect superBounds = [superview bounds];
+	int maxY = superBounds.size.height / cellSize - 1; // chua` hao :D
+	
+	CGPoint newOffset = [self getCurrentScrollOffset:cursor];
+	// if out of screen
+	if (X < EPSILON_SIZE || X >= maxX - EPSILON_SIZE || Y < 0 || Y >= maxY - EPSILON_SIZE) {
+	// move content offset if needed
+	//CGRect newRect = CGRectMake(newOffset.x, newOffset.y, 20, 20);
+		/*
+		if ([gomokuModel side] == MAN) // COM has just moved
+			comFocus = 1;
+		else
+			manFocus = 1;
+		if (comFocus && manFocus)
+		*/
+		 [superview setContentOffset:newOffset animated:YES];	
+	}
+	//CGPoint c = superview.contentOffset;
+	//}
+	//[superview scrollRectToVisible:newRect];
+}
+
 -(void)hideCursor {
 	cursor = CGPointMake(-1, -1);	
 }
@@ -55,14 +103,16 @@
 	//cellSize = (int)(fmin(screenBound.size.width, screenBound.size.height) / boardSize);
 	cellSize = [self cellSizeFromScale:1];
 	CGSize fullSize = [self getFullBoardSize];
+	// put this view at (0, 0) of the parent scrollview
 	[self setFrame:CGRectMake(0, 0, fullSize.width, fullSize.height)]; // affect center!
 	//! set bound is not correct because we need to set the position of boardview as regards to its superview (scrollview).
 	//! set bound is for internal only.
 	
 	// set scrollview's content size
-	UIView* superview = [self superview];
+	superview = [self superview];
 	
-	CGPoint offset = [self getScrollOffset]; // must be placed before setFrame so that offset is calculated on the old bounds so that the board is centered.
+	//CGPoint offset = [self getScrollOffset]; // must be placed before setFrame so that offset is calculated on the old bounds so that the board is centered.
+	CGPoint offset = [self getCurrentScrollOffset:CGPointMake(boardSize/2, boardSize/2)]; // expect cursor at the center of current board size
 	[superview setFrame:[self frame]];
 	[superview setContentSize:fullSize];
 	[superview setContentOffset:offset];
@@ -89,7 +139,9 @@
 	[renderCursorDelegate setCellSize:cellSize];		
 	
 	// no cursor at start
-	[self hideCursor];
+	//[self hideCursor];
+	// cursor at center
+	cursor = CGPointMake(boardSize/2, boardSize/2);
 	
 	// ask for layer first time rendering
 	[self notifyFirstTimePainting];	
@@ -122,11 +174,11 @@
 
 - (void)drawRect:(CGRect)rect {
 	//[super drawRect:rect];
-	if ([ gomokuModel isComputerThinking ]) {
+	//if ([ gomokuModel isComputerThinking ]) {
 		// No need to redraw because painting during computer's thinking
 		// will display the entire board incorrectly
-		return;
-	}
+		//return;
+	//}
 	// why not use isFirstTime flag here. The boardSize == 0's semantic is not explicitly clear that this is the first time of rendering, i.e., in case I want somewhere in the program that boardSize=0, that this line fails. And now I want to move the get board size statement out of this block to off-load the drawRect function, what can I do? I have to add the isFirstTime flag again!!!
 	//if (boardSize == 0) { 
 	if ([self isFirstTimePainting]) {
@@ -144,8 +196,8 @@
    	
 	// --------------- Board Rendering -------------------- //
 	//[self setTransform:CGAffineTransformIdentity]; // disable scale from scroll view
-	CGAffineTransform curMat = self.transform;
-	curMat.a = 1; curMat.b = 0; curMat.c = 0; curMat.d = 1; 
+	//CGAffineTransform curMat = self.transform;
+	//curMat.a = 1; curMat.b = 0; curMat.c = 0; curMat.d = 1; 
 	//[self setTransform:curMat];
 	
 	int i, j; 
@@ -163,10 +215,11 @@
 	// visit history for rendering of pieces
 	[gomokuModel historyVisit:self withSelector:@selector(visitAndRenderCell:::)];
 	
-	[ self notifyPaintingFinished ];
+	//[ self notifyPaintingFinished ];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	
 	// only single-touch at the moment (anyObject)
 	UITouch *touch = [touches anyObject];
 	
@@ -179,6 +232,7 @@
 
 	// put cursor
 	cursor = CGPointMake(c, r);	
+		
 	// redraw
 	[self setNeedsDisplay];
 }
@@ -226,11 +280,16 @@
 	// human move
 	if ([gomokuModel getBoardValue: r column: c] == EMPTY) {
 		[gomokuModel humanMove:r column:c];
+		//[self focusOnCursor]; // focus
 	}
+	
+	// computer move
+	[ self notifyPaintingFinished ]; // move and focus
 	
 	// remove cursor
 	//cursorX = cursorY = -1;
 }
+
 
 
 
@@ -239,6 +298,11 @@
 	
 	// set board cursor
 	cursor = CGPointMake(move % boardSize, move / boardSize);
+	
+	// focus on current piece
+	//[ NSThread detachNewThreadSelector: @selector(focusOnCursor) toTarget: self withObject: nil ];
+	[self focusOnCursor];
+	[self setNeedsDisplay];
 }
 
 - (bool)isFirstTimePainting {
@@ -256,8 +320,14 @@
 	 Note: Long running code must be placed in another thread for not blocking rendering thread.
 	 */
 	if ([ gomokuModel side ] == COM && ![ gomokuModel isComputerThinking ]) {
-		[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
+		//[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
+		[self startThinking];
 	}
+	/*
+	else  
+		if ([ gomokuModel side ] == MAN) {
+			[self focusOnCursor]; // focus on previous computer move
+		}*/
 }
 
 // ----- observer ----- //
