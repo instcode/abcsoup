@@ -84,6 +84,7 @@ void PrintIdea(int Index);
 @synthesize side;
 @synthesize searchDepth;
 @synthesize isComputerThinking;
+@synthesize computerMoveFirst;
 
 - (void)setHumanPiece:(int)piece {
 	humanPiece		= piece;
@@ -108,6 +109,9 @@ void PrintIdea(int Index);
 	//observers = [NSMutableSet setWithCapacity:10]; // why use this do not work??? be empty after a while?
 	observers = [[NSMutableSet alloc] init];
 	
+	// default COM moves first
+	self.computerMoveFirst = false;
+	// restart board
 	[self restart];
 	
 	return self;
@@ -122,15 +126,20 @@ void PrintIdea(int Index);
 	history = (int*)malloc(boardSize*boardSize*sizeof(int));
 	numMoves = 0;
 	
-	// make COM move first
-	int Move = [self indexOf:boardSize/2 column:boardSize/2];
-	MakeComMove(Move);
-	Side = MAN;
-	side = MAN;
-	// <special> //
-	// here computerMove is not called, we must do a manual insert to history array.
-	[self historyPush:Move];	
-		
+	if (self.computerMoveFirst) {
+		// make COM move first
+		int Move = [self indexOf:boardSize/2 column:boardSize/2];
+		MakeComMove(Move);
+		Side = MAN;
+		side = MAN;
+		// <special> //
+		// here computerMove is not called, we must do a manual insert to history array.
+		[self historyPush:Move];	
+	} else {
+		// make MAN move first
+		side = MAN;
+	}
+	
 	// update view
 	[self notifyGomoku];
 }
