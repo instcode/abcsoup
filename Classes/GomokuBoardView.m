@@ -161,10 +161,10 @@ int comFocus = 0;
 	float y = _y * cellSize;
 	
 	switch (val) {
-		case MAN:
+		case MAN: // 1: second player
 			[whiteLayer renderAtPoint:CGPointMake(x, y)];
 			break;
-		case COM:
+		case COM: // 0: first player
 			[blackLayer renderAtPoint:CGPointMake(x, y)];
 			break;
 		default:
@@ -294,6 +294,9 @@ int comFocus = 0;
 
 
 - (void)startThinking {
+	// show indicator
+	[superview showIndicatorView];
+	
 	int move = [gomokuModel computerMove];
 	
 	// set board cursor
@@ -303,6 +306,9 @@ int comFocus = 0;
 	//[ NSThread detachNewThreadSelector: @selector(focusOnCursor) toTarget: self withObject: nil ];
 	[self focusOnCursor];
 	[self setNeedsDisplay];
+	
+	// hide indicator
+	[superview hideIndicatorView];
 }
 
 - (bool)isFirstTimePainting {

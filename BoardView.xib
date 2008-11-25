@@ -42,6 +42,18 @@
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUITag">1</int>
 					</object>
+					<object class="IBUIActivityIndicatorView" id="926496126">
+						<reference key="NSNextResponder" ref="958008133"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{150, 198}, {20, 20}}</string>
+						<reference key="NSSuperview" ref="958008133"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<bool key="IBUIHidesWhenStopped">NO</bool>
+						<bool key="IBUIAnimating">YES</bool>
+						<int key="IBUIStyle">2</int>
+					</object>
 				</object>
 				<string key="NSFrameSize">{320, 415}</string>
 				<reference key="NSSuperview"/>
@@ -63,6 +75,14 @@
 						<reference key="destination" ref="958008133"/>
 					</object>
 					<int key="connectionID">25</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">indicatorView</string>
+						<reference key="source" ref="958008133"/>
+						<reference key="destination" ref="926496126"/>
+					</object>
+					<int key="connectionID">27</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -92,6 +112,7 @@
 						<reference key="object" ref="958008133"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="926496126"/>
 							<reference ref="359441569"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
@@ -99,6 +120,14 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">22</int>
 						<reference key="object" ref="359441569"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
+						<reference key="parent" ref="958008133"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">26</int>
+						<reference key="object" ref="926496126"/>
 						<reference key="parent" ref="958008133"/>
 					</object>
 				</object>
@@ -114,15 +143,17 @@
 					<string>21.IBPluginDependency</string>
 					<string>22.CustomClassName</string>
 					<string>22.IBPluginDependency</string>
+					<string>26.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIViewController</string>
 					<string>UIResponder</string>
 					<string>GomokuBoardScrollView</string>
-					<string>{{342, 309}, {320, 415}}</string>
+					<string>{{300, 260}, {320, 415}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>GomokuBoardView</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
@@ -146,7 +177,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">25</int>
+			<int key="maxID">27</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -154,6 +185,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">GomokuBoardScrollView</string>
 					<string key="superclassName">UIScrollView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">indicatorView</string>
+						<string key="NS.object.0">UIActivityIndicatorView</string>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/GomokuBoardScrollView.h</string>

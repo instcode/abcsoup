@@ -11,6 +11,11 @@
 
 @interface GomokuBoardScrollView : UIScrollView <UIScrollViewDelegate> {
 	GomokuBoardView* boardView;
+	UIActivityIndicatorView* indicatorView;
 }
+
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView* indicatorView;
+- (void) showIndicatorView;
+- (void) hideIndicatorView;
 
 @end

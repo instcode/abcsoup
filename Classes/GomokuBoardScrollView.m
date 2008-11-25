@@ -18,6 +18,8 @@
 	self.alwaysBounceHorizontal = true;	
 	self.clipsToBounds = true;
 	self.autoresizesSubviews = false; // do not auto resize so that boardView is placed properly in scrollview
+	// indicator view 
+	//indicatorView.hidesWhenStopped = true;
 	
 	// reference to boardView
 	boardView = (GomokuBoardView*)[self viewWithTag:1]; // boardView is tag with number 1
@@ -60,6 +62,14 @@
 	*/
 }
 
+- (void) showIndicatorView {
+	[indicatorView startAnimating];
+}
+
+- (void) hideIndicatorView {
+	[indicatorView stopAnimating];
+}
+
 /*
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -97,8 +107,8 @@
 
 // -- handles zooming --
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {	
-	return boardView;
-	//return nil;
+	//return boardView;
+	return nil;
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale {

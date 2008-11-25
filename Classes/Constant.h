@@ -9,7 +9,7 @@
 
 #define VIEW_BOARD_SIZE 10
 #define DEFAULT_BOARD_SIZE 19
-#define DEFAULT_SEARCH_DEPTH 5
+#define DEFAULT_SEARCH_DEPTH 9
 
 // the surrounding area that do not allow the cursor to focus on
 #define EPSILON_SIZE 2

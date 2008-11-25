@@ -10,7 +10,8 @@
 
 
 @interface GomokuTabController : UITabBarController {
-
+	
 }
 
+- (IBAction)respondToButtonNewClick:(id)sender;
 @end

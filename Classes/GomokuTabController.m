@@ -7,12 +7,18 @@
 //
 
 #import "GomokuTabController.h"
-
+#import "Gomoku.h"
+#import "GomokuModel.h"
 
 @implementation GomokuTabController
 
 - (void)awakeFromNib {
 	1 == 1;
+}
+
+- (void)respondToButtonNewClick:(id)sender {
+	GomokuModel* model = [Gomoku getGomokuModel];
+	[model restart];
 }
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
