@@ -239,6 +239,20 @@ void PrintIdea(int Index);
 	}
 }
 
+// ----- undo ----- //
+- (void) undo {
+	if (numMoves > 2) {
+		// undo the two last moves
+		RestoreCom(history[numMoves-1]);
+		RestoreMan(history[numMoves-2]);
+		// remove the two last items out of history
+		numMoves -= 2;
+		// side remains the same
+		// notify redraw
+		[self notifyGomoku];
+	}
+}
+
 // ----- a little house keeping ----- //
 - (void)dealloc {
 	// clean up
@@ -268,12 +282,13 @@ void Restart(int InitDepth, int InitStop) {
 }
 
 int MakeManMove(int Move){
-int cFor, cBack, mFor, mBack, Ret = 0;
-const int *p = &Direct[0];
+	int cFor, cBack, mFor, mBack, Ret = 0;
+	const int *p = &Direct[0]; // direction
+	
 	Board[Move] = MAN;
 	for (int d = 0; d<4; d++){
-		cFor = ManIndex[Move][d]+1;mFor = Move+*p*cFor;
-		cBack = ManIndex[Move][d+4]+1;mBack = Move+*(p+4)*cBack;
+		cFor = ManIndex[Move][d]+1;		mFor	= Move+*p*cFor;
+		cBack = ManIndex[Move][d+4]+1;	mBack	= Move+*(p+4)*cBack;
 		ManIndex[mFor][d+4] += cBack;
 		ManIndex[mBack][d] += cFor;
 		if ((Board[mFor] == EMPTY)&&(!Track[mFor])) *++pMoveEnd = mFor;
@@ -281,7 +296,7 @@ const int *p = &Direct[0];
 		Track[mFor] += cBack;
 		Track[mBack] += cFor;
 		if ((cFor+cBack)==6) Ret = 1;
-		p++;
+		p++; // next direction
 	}
 	return Ret;
 }

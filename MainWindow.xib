@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="68"/>
+			<integer value="24"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -56,7 +56,7 @@
 									<int key="IBUIStyle">1</int>
 								</object>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="676196272">
-									<string key="IBUITitle">^.^</string>
+									<string key="IBUITitle">Undo</string>
 									<int key="IBUIStyle">1</int>
 								</object>
 							</object>
@@ -235,6 +235,14 @@
 					</object>
 					<int key="connectionID">78</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">respondToButtonUndoClick:</string>
+						<reference key="source" ref="676196272"/>
+						<reference key="destination" ref="10856698"/>
+					</object>
+					<int key="connectionID">79</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -365,6 +373,7 @@
 						<int key="objectID">67</int>
 						<reference key="object" ref="676196272"/>
 						<reference key="parent" ref="629883290"/>
+						<string key="objectName">btnUndo</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">68</int>
@@ -448,7 +457,7 @@
 					<string>{{525, 276}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>GomokuTabController</string>
-					<string>{{342, 138}, {320, 480}}</string>
+					<string>{{268, 191}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -489,7 +498,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">78</int>
+			<int key="maxID">79</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -498,8 +507,17 @@
 					<string key="className">GomokuTabController</string>
 					<string key="superclassName">UITabBarController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">respondToButtonNewClick:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>respondToButtonNewClick:</string>
+							<string>respondToButtonUndoClick:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -537,6 +555,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UIBarButtonItem</string>
+					<string key="superclassName">UIBarItem</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>

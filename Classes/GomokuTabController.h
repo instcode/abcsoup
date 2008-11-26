@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GomokuModel.h"
 
 @interface GomokuTabController : UITabBarController {
-	
+	GomokuModel* model;
 }
 
 - (IBAction)respondToButtonNewClick:(id)sender;
+- (IBAction)respondToButtonUndoClick:(id)sender;
 @end
