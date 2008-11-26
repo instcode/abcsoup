@@ -12,6 +12,7 @@
  * [2008-10-23] Wrap TrumCaro.c into an Objective-C class.
  * [2008-10-27] Implement Observable.
  * [2008-10-28] Remove setBoardValue method.
+ * [2008-11-26] Add undo function.
  */
 
 /* 
@@ -67,6 +68,7 @@
 - (int)humanMove:(int)row column:(int)col;
 - (int)computerMove;
 - (int)isGameOver;
+- (void)undo;
 
 // observable
 - (void)attachGomoku:(id<GomokuObserver>)observer;

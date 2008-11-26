@@ -13,12 +13,14 @@
 @implementation GomokuTabController
 
 - (void)awakeFromNib {
-	1 == 1;
+	model = [Gomoku getGomokuModel];
 }
 
-- (void)respondToButtonNewClick:(id)sender {
-	GomokuModel* model = [Gomoku getGomokuModel];
+- (void)respondToButtonNewClick:(id)sender {	
 	[model restart];
+}
+- (void)respondToButtonUndoClick:(id)sender {
+	[model undo];
 }
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
