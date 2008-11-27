@@ -12,6 +12,10 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		250AA5260EB0D14F00B636C8 /* Move.c in Sources */ = {isa = PBXBuildFile; fileRef = 250AA5250EB0D14F00B636C8 /* Move.c */; };
+		25344C760EDEDC0900A2F034 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 25344C750EDEDC0900A2F034 /* Board.png */; };
+		25344C8F0EDEE98D00A2F034 /* BoardSpring.png in Resources */ = {isa = PBXBuildFile; fileRef = 25344C8E0EDEE98D00A2F034 /* BoardSpring.png */; };
+		25344C940EDEEFE000A2F034 /* GoSpring.png in Resources */ = {isa = PBXBuildFile; fileRef = 25344C930EDEEFE000A2F034 /* GoSpring.png */; };
+		25344CA30EDEF21400A2F034 /* AboutTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25344CA20EDEF21400A2F034 /* AboutTableController.m */; };
 		254392650ED031A4006A4235 /* RenderCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 254392640ED031A4006A4235 /* RenderCursor.m */; };
 		25454B430ED02C01001B51B1 /* GomokuBoardScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25454B420ED02C01001B51B1 /* GomokuBoardScrollView.m */; };
 		255DB36C0EAF95E200061B2B /* GomokuBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36B0EAF95E200061B2B /* GomokuBoardView.m */; };
@@ -36,6 +40,11 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		250AA5240EB0D14F00B636C8 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
 		250AA5250EB0D14F00B636C8 /* Move.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Move.c; sourceTree = "<group>"; };
+		25344C750EDEDC0900A2F034 /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Board.png; sourceTree = "<group>"; };
+		25344C8E0EDEE98D00A2F034 /* BoardSpring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BoardSpring.png; sourceTree = "<group>"; };
+		25344C930EDEEFE000A2F034 /* GoSpring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GoSpring.png; sourceTree = "<group>"; };
+		25344CA10EDEF21400A2F034 /* AboutTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableController.h; sourceTree = "<group>"; };
+		25344CA20EDEF21400A2F034 /* AboutTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableController.m; sourceTree = "<group>"; };
 		254392630ED031A4006A4235 /* RenderCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderCursor.h; sourceTree = "<group>"; };
 		254392640ED031A4006A4235 /* RenderCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderCursor.m; sourceTree = "<group>"; };
 		25454B410ED02C01001B51B1 /* GomokuBoardScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuBoardScrollView.h; sourceTree = "<group>"; };
@@ -94,6 +103,8 @@
 				1D3623250D0F684500981E51 /* JouzuGomokuAppDelegate.m */,
 				8A74441B0ECB569C00756229 /* GomokuTabController.h */,
 				8A74441C0ECB569C00756229 /* GomokuTabController.m */,
+				25344CA10EDEF21400A2F034 /* AboutTableController.h */,
+				25344CA20EDEF21400A2F034 /* AboutTableController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -177,6 +188,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				25344C930EDEEFE000A2F034 /* GoSpring.png */,
+				25344C8E0EDEE98D00A2F034 /* BoardSpring.png */,
+				25344C750EDEDC0900A2F034 /* Board.png */,
 				2899E5210DE3E06400AC0155 /* BoardView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -238,6 +252,9 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* BoardView.xib in Resources */,
+				25344C760EDEDC0900A2F034 /* Board.png in Resources */,
+				25344C8F0EDEE98D00A2F034 /* BoardSpring.png in Resources */,
+				25344C940EDEEFE000A2F034 /* GoSpring.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +279,7 @@
 				8A74441D0ECB569C00756229 /* GomokuTabController.m in Sources */,
 				25454B430ED02C01001B51B1 /* GomokuBoardScrollView.m in Sources */,
 				254392650ED031A4006A4235 /* RenderCursor.m in Sources */,
+				25344CA30EDEF21400A2F034 /* AboutTableController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
