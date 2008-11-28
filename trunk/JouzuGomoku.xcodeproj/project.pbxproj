@@ -12,6 +12,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		250AA5260EB0D14F00B636C8 /* Move.c in Sources */ = {isa = PBXBuildFile; fileRef = 250AA5250EB0D14F00B636C8 /* Move.c */; };
+		252F55160EE05362009820AF /* Option.png in Resources */ = {isa = PBXBuildFile; fileRef = 252F55150EE05362009820AF /* Option.png */; };
+		252F551A0EE05C1C009820AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 252F55190EE05C1C009820AF /* About.png */; };
 		25344C760EDEDC0900A2F034 /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 25344C750EDEDC0900A2F034 /* Board.png */; };
 		25344C8F0EDEE98D00A2F034 /* BoardSpring.png in Resources */ = {isa = PBXBuildFile; fileRef = 25344C8E0EDEE98D00A2F034 /* BoardSpring.png */; };
 		25344C940EDEEFE000A2F034 /* GoSpring.png in Resources */ = {isa = PBXBuildFile; fileRef = 25344C930EDEEFE000A2F034 /* GoSpring.png */; };
@@ -40,6 +42,8 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		250AA5240EB0D14F00B636C8 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
 		250AA5250EB0D14F00B636C8 /* Move.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Move.c; sourceTree = "<group>"; };
+		252F55150EE05362009820AF /* Option.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Option.png; sourceTree = "<group>"; };
+		252F55190EE05C1C009820AF /* About.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = About.png; sourceTree = "<group>"; };
 		25344C750EDEDC0900A2F034 /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Board.png; sourceTree = "<group>"; };
 		25344C8E0EDEE98D00A2F034 /* BoardSpring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BoardSpring.png; sourceTree = "<group>"; };
 		25344C930EDEEFE000A2F034 /* GoSpring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GoSpring.png; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				252F55190EE05C1C009820AF /* About.png */,
+				252F55150EE05362009820AF /* Option.png */,
 				25344C930EDEEFE000A2F034 /* GoSpring.png */,
 				25344C8E0EDEE98D00A2F034 /* BoardSpring.png */,
 				25344C750EDEDC0900A2F034 /* Board.png */,
@@ -255,6 +261,8 @@
 				25344C760EDEDC0900A2F034 /* Board.png in Resources */,
 				25344C8F0EDEE98D00A2F034 /* BoardSpring.png in Resources */,
 				25344C940EDEEFE000A2F034 /* GoSpring.png in Resources */,
+				252F55160EE05362009820AF /* Option.png in Resources */,
+				252F551A0EE05C1C009820AF /* About.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
