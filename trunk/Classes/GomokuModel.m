@@ -75,6 +75,10 @@ int ManSearch(int Ply, int Alpha, int Beta);
 void PrintOpinion(int R, int* _Roi);
 void PrintIdea(int Index);
 
+int Get5[4][5];
+int Get4[4][4];
+int Get3[4][3];
+
 // ============================ GomokuModel wrapper methods ==================== //
 @implementation GomokuModel
 
@@ -164,6 +168,56 @@ void PrintIdea(int Index);
 
 - (int)humanMove:(int)row column:(int)col {
 	int Move = [self indexOf:row column:col];
+	
+	///////////////////// calculate rows of 3,4 and 5 here //////////////////////
+	
+	for (int i=0; i<4; i++)
+	{
+		for (int j=0; j<3; j++)
+			Get3[i][j] = -1;
+		for (int k=0; k<4; k++)
+			Get4[i][k] = -1;
+		for (int l=0; l<4; l++)
+			Get5[i][l] = -1;
+	}
+	
+	int cFor, cBack, temp;
+	const int *p = &Direct[0];
+	for (int d = 0; d<4; d++){
+		cFor = ManIndex[Move][d]+1;
+		cBack = ManIndex[Move][d+4]+1;
+		temp = cBack;
+		if ((cFor+cBack) == 6) 
+		{
+			for (int i = 0; i<5;i++)
+			{
+				Get5[d][i] = Move+*(p+4)*(temp - 1);
+				cBack++;
+			}
+		}
+		
+		if ((cFor+cBack) == 5)
+		{
+			for (int i = 0; i<4;i++)
+			{
+				Get4[d][i] = Move+*(p+4)*(temp - 1);
+				cBack++;
+			}
+		}
+		
+		if ((cFor+cBack) == 4)
+		{
+			for (int i = 0; i<3;i++)
+			{
+				Get4[d][i] = Move+*(p+4)*(temp - 1);
+				cBack++;
+			}
+		}			
+		p++;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////
+	
 	GameOver = MakeManMove(Move);
 	side = 1 - side;
 	
@@ -181,6 +235,55 @@ void PrintIdea(int Index);
 	
 	int row = Move / (boardSize+2) - 1;
 	int col = Move % (boardSize+2) - 1;
+	
+	///////////////////// calculate rows of 3,4 and 5 here //////////////////////
+	
+	for (int i=0; i<4; i++)
+	{
+		for (int j=0; j<3; j++)
+			Get3[i][j] = -1;
+		for (int k=0; k<4; k++)
+			Get4[i][k] = -1;
+		for (int l=0; l<4; l++)
+			Get5[i][l] = -1;
+	}
+	
+	int cFor, cBack, temp;
+	const int *p = &Direct[0];
+	for (int d = 0; d<4; d++){
+		cFor = ComIndex[Move][d]+1;
+		cBack = ComIndex[Move][d+4]+1;
+		temp = cBack;
+		if ((cFor+cBack) == 6) 
+		{
+			for (int i = 0; i<5;i++)
+			{
+				Get5[d][i] = Move+*(p+4)*(temp - 1);
+				cBack++;
+			}
+		}
+		
+		if ((cFor+cBack) == 5)
+		{
+			for (int i = 0; i<4;i++)
+			{
+				Get4[d][i] = Move+*(p+4)*(temp - 1);
+				cBack++;
+			}
+		}
+		
+		if ((cFor+cBack) == 4)
+		{
+			for (int i = 0; i<3;i++)
+			{
+				Get4[d][i] = Move+*(p+4)*(temp - 1);
+				cBack++;
+			}
+		}			
+		p++;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////
 	
 	GameOver = MakeComMove(Move);
 	side = 1 - side;
@@ -314,7 +417,8 @@ const int *p = &Direct[0];
 		if ((Board[mBack] == EMPTY)&&(!Track[mBack])) *++pMoveEnd = mBack;
 		Track[mFor] += cBack;
 		Track[mBack] += cFor;
-		if ((cFor+cBack)==6) Ret = 1;
+		if ((cFor+cBack)==6) 
+			Ret = 1;
 		p++;
 	}
 	return Ret;
