@@ -144,6 +144,14 @@ int Get3[4][3];
 		side = MAN;
 	}
 	
+	// init get3, get4, get5
+	int i, j;
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 3; j++) Get3[i][j] = 5.5*RowSize; // set this for test only
+		for (j = 0; j < 4; j++) Get4[i][j] = 5.5*RowSize+1;
+		for (j = 0; j < 5; j++) Get5[i][j] = 5.5*RowSize+2;
+	}
+	
 	// update view
 	[self notifyGomoku];
 }
@@ -152,6 +160,10 @@ int Get3[4][3];
 	return (row+1)*(boardSize+2) + col+1;
 	//return (col+1)*(boardSize+2) + row+1; // Khoa made x as row, y as col. I assume y as row, x as col.
 }
+- (CGPoint)getRowCol:(int)move {
+	return CGPointMake(move % RowSize - 1, move / RowSize - 1);
+}
+
 - (int)getBoardValue:(int)row column:(int)col {
 	int i = [self indexOf:row column:col];
 	return Board[i];
@@ -177,7 +189,7 @@ int Get3[4][3];
 			Get3[i][j] = -1;
 		for (int k=0; k<4; k++)
 			Get4[i][k] = -1;
-		for (int l=0; l<4; l++)
+		for (int l=0; l<5; l++)
 			Get5[i][l] = -1;
 	}
 	
@@ -209,7 +221,7 @@ int Get3[4][3];
 		{
 			for (int i = 0; i<3;i++)
 			{
-				Get4[d][i] = Move+*(p+4)*(temp - 1);
+				Get3[d][i] = Move+*(p+4)*(temp - 1);
 				cBack++;
 			}
 		}			
@@ -244,7 +256,7 @@ int Get3[4][3];
 			Get3[i][j] = -1;
 		for (int k=0; k<4; k++)
 			Get4[i][k] = -1;
-		for (int l=0; l<4; l++)
+		for (int l=0; l<5; l++)
 			Get5[i][l] = -1;
 	}
 	
@@ -276,7 +288,7 @@ int Get3[4][3];
 		{
 			for (int i = 0; i<3;i++)
 			{
-				Get4[d][i] = Move+*(p+4)*(temp - 1);
+				Get3[d][i] = Move+*(p+4)*(temp - 1);
 				cBack++;
 			}
 		}			
@@ -323,18 +335,20 @@ int Get3[4][3];
 
 //- (void)historyVisit:(void (*)(int, int, int))visitor {
 - (void)historyVisit:(id)visitor withSelector:(SEL)sel {
-	int x, y, val, i;
+	CGPoint point;
+	int val, i;
 	val = 0; // default is the first player
 	int* h = history;
 	for (i = 0; i < numMoves; i++, h++) {
 		// decode move
-		y = *h / RowSize - 1;
-		x = *h % RowSize - 1;
+		point = [self getRowCol:*h];
+		//y = *h / RowSize - 1;
+		//x = *h % RowSize - 1;
 		
 		// visit
 		IMP visit = [visitor methodForSelector:sel]; // get visit implementor
-		visit(visitor, sel, x, y, val); // Objective-C style 
-		
+		visit(visitor, sel, (int)point.x, (int)point.y, val); // Objective-C style. If use "point" then have to cast float to int, or the selector cannot be found.
+				
 		//(*visitor)(x, y, val); // C-style function pointer
 		
 		// next player
@@ -353,6 +367,44 @@ int Get3[4][3];
 		// side remains the same
 		// notify redraw
 		[self notifyGomoku];
+	}
+}
+
+// ----- hints ----- //
+- (void)hintVisit:(id)visitor withSelector:(SEL)sel {
+	int i, j, move;
+	CGPoint point;
+	for (i = 0; i < 4; i++) { // 4 direction: hor, ver, right diag, left diag
+		for (j = 0; j < 3; j++) { // three
+			move = Get3[i][j];
+			if (move < 0) continue;
+			
+			point = [self getRowCol:move];
+			
+			// visit
+			IMP visit = [visitor methodForSelector:sel]; // get visit implementor
+			visit(visitor, sel, (int)point.x, (int)point.y, 3); // get 3 
+		}
+		for (j = 0; j < 4; j++) { // four
+			move = Get4[i][j];
+			if (move < 0) continue;
+			
+			point = [self getRowCol:move];
+			
+			// visit
+			IMP visit = [visitor methodForSelector:sel]; // get visit implementor
+			visit(visitor, sel, (int)point.x, (int)point.y, 4); // get 4 
+		}
+		for (j = 0; j < 5; j++) { // five
+			move = Get5[i][j];
+			if (move < 0) continue;
+			
+			point = [self getRowCol:move];
+			
+			// visit
+			IMP visit = [visitor methodForSelector:sel]; // get visit implementor
+			visit(visitor, sel, (int)point.x, (int)point.y, 5); // get 5 
+		}
 	}
 }
 

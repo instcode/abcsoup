@@ -138,6 +138,10 @@ int comFocus = 0;
 	renderCursorDelegate = [[RenderCursor alloc] init] ;		
 	[renderCursorDelegate setCellSize:cellSize];		
 	
+	// for hint layer
+	renderHintDelegate = [[RenderHint alloc] init];
+	[renderHintDelegate setCellSize:cellSize];
+	
 	// no cursor at start
 	//[self hideCursor];
 	// cursor at center
@@ -172,6 +176,27 @@ int comFocus = 0;
 	}
 }
 
+- (void) visitAndRenderHint:(int)_x:(int)_y:(int)type {
+	// type: 3, 4, 5
+	float x = _x * cellSize;
+	float y = _y * cellSize;
+	
+	// just render the same color for all types
+	switch (type) {
+		case 3:	
+			[hintLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		case 4:
+			[hintLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		case 5:
+			[hintLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		default:
+			break;
+	}
+}
+
 - (void)drawRect:(CGRect)rect {
 	//[super drawRect:rect];
 	//if ([ gomokuModel isComputerThinking ]) {
@@ -189,7 +214,8 @@ int comFocus = 0;
 		blackLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderBlackDelegate];
 		whiteLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderWhiteDelegate];
 		cursorLayer = [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderCursorDelegate];
-	
+		hintLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderHintDelegate];
+		
 		// no first time painting any more
 		[self cancelFirstTimePainting];
 	}	
@@ -212,6 +238,8 @@ int comFocus = 0;
 	// render cursor
 	[cursorLayer renderAtPoint:CGPointMake(cursor.x*cellSize, cursor.y*cellSize)];
 	
+	// render hints to show dangerous moves
+	[gomokuModel hintVisit:self withSelector:@selector(visitAndRenderHint:::)];	
 	// visit history for rendering of pieces
 	[gomokuModel historyVisit:self withSelector:@selector(visitAndRenderCell:::)];
 	

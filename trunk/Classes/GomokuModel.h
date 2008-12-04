@@ -65,6 +65,7 @@
 - (int)getBoardValue:(int)row column:(int)col; // row: y, col: x
 //- (void)setBoardValue:(int)value row:(int)r column:(int)c; // obsolete
 - (int)indexOf:(int)row column:(int)col;
+- (CGPoint) getRowCol:(int)move;
 - (int)humanMove:(int)row column:(int)col;
 - (int)computerMove;
 - (int)isGameOver;
@@ -79,6 +80,10 @@
 - (void)historyPop;
 //- (void)historyVisit:(void (*)(int x, int y, int val))visitor;
 - (void)historyVisit:(id)visitor withSelector:(SEL)sel;
+
+// hint
+- (void)hintVisit:(id)visitor withSelector:(SEL)sel;
+
 @end
 
 // =========================== TrumCaro.c functions =============================== //
