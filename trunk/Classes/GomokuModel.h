@@ -29,7 +29,7 @@
 #define COM 0
 
 #define EMPTY 2
-#define EDGE 3 // chuoi' wa' di :-w
+#define EDGE 3 
 
 @interface GomokuModel : NSObject <GomokuObservable>
 {	

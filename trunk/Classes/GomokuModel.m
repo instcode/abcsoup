@@ -183,20 +183,20 @@ int Get3[4][3];
 	
 	int cFor, cBack, temp;
 	const int *p = &Direct[0];
-	for (int d = 0; d<4; d++){
-		cFor = ManIndex[Move][d]+1;
-		cBack = ManIndex[Move][d+4]+1;
+	for (int d = 0; d<4; d++){ // 4 direction: right, bottom, bottom right, bottom left
+		cFor  = ManIndex[Move][d]   + 1;	// the number of pieces in direction forward of d
+		cBack = ManIndex[Move][d+4] + 1;	// the number of pieces in direction backward of d
 		temp = cBack;
-		if ((cFor+cBack) == 6) 
+		if ((cFor+cBack) == 6) // a full row of 5 since the current cell is counted twice
 		{
 			for (int i = 0; i<5;i++)
 			{
-				Get5[d][i] = Move+*(p+4)*(temp - 1);
-				cBack++;
+				Get5[d][i] = Move + *(p+4) * (temp - 1);
+				cBack++; // ???
 			}
 		}
 		
-		if ((cFor+cBack) == 5)
+		if ((cFor+cBack) == 5) // a row of 4
 		{
 			for (int i = 0; i<4;i++)
 			{
@@ -205,7 +205,7 @@ int Get3[4][3];
 			}
 		}
 		
-		if ((cFor+cBack) == 4)
+		if ((cFor+cBack) == 4) // a row of 3
 		{
 			for (int i = 0; i<3;i++)
 			{
@@ -213,7 +213,7 @@ int Get3[4][3];
 				cBack++;
 			}
 		}			
-		p++;
+		p++; // next direction
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
