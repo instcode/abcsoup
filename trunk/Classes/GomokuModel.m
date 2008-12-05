@@ -78,6 +78,9 @@ void PrintIdea(int Index);
 int Get5[4][5];
 int Get4[4][4];
 int Get3[4][3];
+int Get5Man[4][5];
+int Get4Man[4][4];
+int Get3Man[4][3];
 
 // ============================ GomokuModel wrapper methods ==================== //
 @implementation GomokuModel
@@ -145,12 +148,12 @@ int Get3[4][3];
 	}
 	
 	// init get3, get4, get5
-	int i, j;
-	for (i = 0; i < 4; i++) {
-		for (j = 0; j < 3; j++) Get3[i][j] = 5.5*RowSize; // set this for test only
-		for (j = 0; j < 4; j++) Get4[i][j] = 5.5*RowSize+1;
-		for (j = 0; j < 5; j++) Get5[i][j] = 5.5*RowSize+2;
-	}
+	//int i, j;
+	//for (i = 0; i < 4; i++) {
+	//	for (j = 0; j < 3; j++) Get3[i][j] = 5.5*RowSize; // set this for test only
+	//	for (j = 0; j < 4; j++) Get4[i][j] = 5.5*RowSize+1;
+	//	for (j = 0; j < 5; j++) Get5[i][j] = 5.5*RowSize+2;
+	//}
 	
 	// update view
 	[self notifyGomoku];
@@ -186,11 +189,11 @@ int Get3[4][3];
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<3; j++)
-			Get3[i][j] = -1;
+			Get3Man[i][j] = -1;
 		for (int k=0; k<4; k++)
-			Get4[i][k] = -1;
+			Get4Man[i][k] = -1;
 		for (int l=0; l<5; l++)
-			Get5[i][l] = -1;
+			Get5Man[i][l] = -1;
 	}
 	
 	int cFor, cBack, temp;
@@ -198,13 +201,13 @@ int Get3[4][3];
 	for (int d = 0; d<4; d++){ // 4 direction: right, bottom, bottom right, bottom left
 		cFor  = ManIndex[Move][d]   + 1;	// the number of pieces in direction forward of d
 		cBack = ManIndex[Move][d+4] + 1;	// the number of pieces in direction backward of d
-		temp = cBack;
+		temp = cFor;
 		if ((cFor+cBack) == 6) // a full row of 5 since the current cell is counted twice
 		{
 			for (int i = 0; i<5;i++)
 			{
-				Get5[d][i] = Move + *(p+4) * (temp - 1);
-				cBack++; // ???
+				Get5Man[d][i] = Move + *p * (temp - 1);
+				temp--; 
 			}
 		}
 		
@@ -212,8 +215,8 @@ int Get3[4][3];
 		{
 			for (int i = 0; i<4;i++)
 			{
-				Get4[d][i] = Move+*(p+4)*(temp - 1);
-				cBack++;
+				Get4Man[d][i] = Move+*p*(temp - 1);
+				temp--;
 			}
 		}
 		
@@ -221,8 +224,8 @@ int Get3[4][3];
 		{
 			for (int i = 0; i<3;i++)
 			{
-				Get3[d][i] = Move+*(p+4)*(temp - 1);
-				cBack++;
+				Get3Man[d][i] = Move+*p*(temp - 1);
+				temp--;
 			}
 		}			
 		p++; // next direction
@@ -265,13 +268,13 @@ int Get3[4][3];
 	for (int d = 0; d<4; d++){
 		cFor = ComIndex[Move][d]+1;
 		cBack = ComIndex[Move][d+4]+1;
-		temp = cBack;
+		temp = cFor;
 		if ((cFor+cBack) == 6) 
 		{
 			for (int i = 0; i<5;i++)
 			{
-				Get5[d][i] = Move+*(p+4)*(temp - 1);
-				cBack++;
+				Get5[d][i] = Move+*p*(temp - 1);
+				temp--;
 			}
 		}
 		
@@ -279,8 +282,8 @@ int Get3[4][3];
 		{
 			for (int i = 0; i<4;i++)
 			{
-				Get4[d][i] = Move+*(p+4)*(temp - 1);
-				cBack++;
+				Get4[d][i] = Move+*p*(temp - 1);
+				temp--;
 			}
 		}
 		
@@ -288,8 +291,8 @@ int Get3[4][3];
 		{
 			for (int i = 0; i<3;i++)
 			{
-				Get3[d][i] = Move+*(p+4)*(temp - 1);
-				cBack++;
+				Get3[d][i] = Move+*p*(temp - 1);
+				temp--;
 			}
 		}			
 		p++;
