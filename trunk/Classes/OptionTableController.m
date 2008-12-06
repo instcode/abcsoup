@@ -6,6 +6,8 @@
 //  Copyright 2008 NUS. All rights reserved.
 //
 
+#import "Constant.h"
+#import "Gomoku.h"
 #import "OptionTableController.h"
 
 @implementation OptionTableController
@@ -35,16 +37,16 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     keys		= [NSArray arrayWithObjects:
 				   @"Difficulty", 
-				   @"Mode",
-				   @"Color", 
+				   @"Human",
+				   //@"Color", 
 				   nil];
 	objects	= [NSArray arrayWithObjects:
 			   @"Hard",
 			   @"Human/Computer",
-			   @"Black & White", 
+			   //@"Black & White", 
 			   nil];
-	
-return [keys count];
+	gomokuModel = [Gomoku getGomokuModel];
+	return [keys count];
 }
 
 
@@ -59,14 +61,38 @@ return [keys count];
     // Configure the cell
 	cell.text = [keys objectAtIndex:indexPath.row];
 	
-	/*
-	
-	*/
 	switch (indexPath.row) {
 		case 0: {
 			UISlider* difficulty = [[[UISlider alloc] initWithFrame:CGRectMake(0, 12, 160, 20)] autorelease];
+			[difficulty setMinimumValue:MIN_SEARCH_DEPTH];
+			[difficulty setMaximumValue:MAX_SEARCH_DEPTH];
+			[difficulty setValue:gomokuModel.searchDepth];
+			[difficulty setContinuous:false];
 			[difficulty addTarget:self action:@selector(difficultyValueChanged:) forControlEvents:UIControlEventValueChanged];
 			cell.accessoryView = difficulty;
+			break;
+		}
+		case 1: {
+			NSString* blackName = [[NSBundle mainBundle] pathForResource:@"black" ofType:@"png"];
+			NSString* whiteName = [[NSBundle mainBundle] pathForResource:@"white" ofType:@"png"];
+			
+			UIImage* imgBlack = [[UIImage imageWithContentsOfFile:blackName] autorelease];
+			UIImage* imgWhite = [[UIImage imageWithContentsOfFile:whiteName] autorelease];
+			
+			//NSArray* items = [NSArray arrayWithObjects:@"Black", @"White", nil];
+			NSArray* items = [NSArray arrayWithObjects:imgBlack, imgWhite, nil];
+			UISegmentedControl* mode = [[[UISegmentedControl alloc] initWithItems:items] autorelease];
+			[mode setFrame:CGRectMake(0, 12, 160, 35)];
+			/*
+			if (gomokuModel.computerMoveFirst) // computer black, human white
+				mode.selectedSegmentIndex = 1;
+			else // human black, computer white
+				mode.selectedSegmentIndex = 0;
+			 */
+			mode.selectedSegmentIndex = gomokuModel.computerMoveFirst;
+			mode.momentary = false;
+			[mode addTarget:self action:@selector(modeValueChanged:) forControlEvents:UIControlEventValueChanged];
+			cell.accessoryView = mode;
 			break;
 		}
 		default: {
@@ -86,7 +112,29 @@ return [keys count];
 }
 
 - (void) difficultyValueChanged: (id)sender {
-	1==1;
+	UISlider* slider = (UISlider*)sender;
+	int d = round(slider.value);
+	if (d % 2 == 0) d++;
+	if (d > MAX_SEARCH_DEPTH) d = MAX_SEARCH_DEPTH;
+	
+	slider.value = d;
+	gomokuModel.searchDepth = d;
+}
+
+- (void) modeValueChanged: (id)sender {
+	UISegmentedControl* mode = (UISegmentedControl*)sender;
+	if (gomokuModel.computerMoveFirst != mode.selectedSegmentIndex) { // changed
+		gomokuModel.computerMoveFirst = mode.selectedSegmentIndex;
+		[gomokuModel restart];
+	}
+	/*
+	if (mode.selectedSegmentIndex == 0) { // human black
+		gomokuModel.computerMoveFirst = 0;
+		[gomokuModel restart];
+	} else { // human white
+		gomokuModel.computerMoveFirst = 1;
+		[gomokuModel restart];
+	}*/
 }
 
 /*
