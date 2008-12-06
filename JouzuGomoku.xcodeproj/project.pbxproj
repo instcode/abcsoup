@@ -25,6 +25,8 @@
 		255DB36F0EAF965500061B2B /* GomokuInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36E0EAF965500061B2B /* GomokuInfoView.m */; };
 		255DB3950EAF9A0F00061B2B /* GomokuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB3940EAF9A0F00061B2B /* GomokuModel.m */; };
 		255DB39B0EAF9AB600061B2B /* GomokuInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB39A0EAF9AB600061B2B /* GomokuInfoViewController.m */; };
+		25703FE90EE98F7400AC44D2 /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = 25703FE70EE98F7300AC44D2 /* black.png */; };
+		25703FEA0EE98F7400AC44D2 /* white.png in Resources */ = {isa = PBXBuildFile; fileRef = 25703FE80EE98F7400AC44D2 /* white.png */; };
 		25ABD3660EB42BB7006FF5C3 /* Gomoku.m in Sources */ = {isa = PBXBuildFile; fileRef = 25ABD3640EB42BB7006FF5C3 /* Gomoku.m */; };
 		25C13E5F0EB5BCFE001DF77E /* CellLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C13E5E0EB5BCFE001DF77E /* CellLayer.m */; };
 		25C13E740EB5C3F4001DF77E /* RenderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C13E730EB5C3F4001DF77E /* RenderCell.m */; };
@@ -69,6 +71,8 @@
 		255DB3990EAF9AB600061B2B /* GomokuInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuInfoViewController.h; sourceTree = "<group>"; };
 		255DB39A0EAF9AB600061B2B /* GomokuInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuInfoViewController.m; sourceTree = "<group>"; };
 		255DB3A80EAF9B3300061B2B /* GomokuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuModel.h; sourceTree = "<group>"; };
+		25703FE70EE98F7300AC44D2 /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black.png; sourceTree = "<group>"; };
+		25703FE80EE98F7400AC44D2 /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
 		25ABD3640EB42BB7006FF5C3 /* Gomoku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gomoku.m; sourceTree = "<group>"; };
 		25ABD3650EB42BB7006FF5C3 /* Gomoku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gomoku.h; sourceTree = "<group>"; };
 		25C13E5D0EB5BCFE001DF77E /* CellLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellLayer.h; sourceTree = "<group>"; };
@@ -217,6 +221,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				25703FE70EE98F7300AC44D2 /* black.png */,
+				25703FE80EE98F7400AC44D2 /* white.png */,
 				252F55190EE05C1C009820AF /* About.png */,
 				252F55150EE05362009820AF /* Option.png */,
 				25344C930EDEEFE000A2F034 /* GoSpring.png */,
@@ -288,6 +294,8 @@
 				25344C940EDEEFE000A2F034 /* GoSpring.png in Resources */,
 				252F55160EE05362009820AF /* Option.png in Resources */,
 				252F551A0EE05C1C009820AF /* About.png in Resources */,
+				25703FE90EE98F7400AC44D2 /* black.png in Resources */,
+				25703FEA0EE98F7400AC44D2 /* white.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

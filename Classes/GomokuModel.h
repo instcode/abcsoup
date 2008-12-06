@@ -82,6 +82,8 @@
 - (void)historyVisit:(id)visitor withSelector:(SEL)sel;
 
 // hint
+- (void)detectHumanDanger:(int)Move;
+- (void)detectComputerDanger:(int)Move;
 - (void)hintVisit:(id)visitor withSelector:(SEL)sel;
 
 @end

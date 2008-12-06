@@ -148,12 +148,15 @@ int Get3Man[4][3];
 	}
 	
 	// init get3, get4, get5
-	//int i, j;
-	//for (i = 0; i < 4; i++) {
-	//	for (j = 0; j < 3; j++) Get3[i][j] = 5.5*RowSize; // set this for test only
-	//	for (j = 0; j < 4; j++) Get4[i][j] = 5.5*RowSize+1;
-	//	for (j = 0; j < 5; j++) Get5[i][j] = 5.5*RowSize+2;
-	//}
+	int i, j;
+	for (i = 0; i < 4; i++) {
+		//for (j = 0; j < 3; j++) Get3[i][j] = 5.5*RowSize; // set this for test only
+		//for (j = 0; j < 4; j++) Get4[i][j] = 5.5*RowSize+1;
+		//for (j = 0; j < 5; j++) Get5[i][j] = 5.5*RowSize+2;
+		for (j = 0; j < 3; j++) Get3[i][j] = -1;
+		for (j = 0; j < 4; j++) Get4[i][j] = -1;
+		for (j = 0; j < 5; j++) Get5[i][j] = -1;
+	}
 	
 	// update view
 	[self notifyGomoku];
@@ -181,11 +184,7 @@ int Get3Man[4][3];
 	//[self notifyGomoku];
 }*/
 
-- (int)humanMove:(int)row column:(int)col {
-	int Move = [self indexOf:row column:col];
-	
-	///////////////////// calculate rows of 3,4 and 5 here //////////////////////
-	
+- (void)detectHumanDanger:(int)Move {
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<3; j++)
@@ -230,29 +229,9 @@ int Get3Man[4][3];
 		}			
 		p++; // next direction
 	}
-	
-	////////////////////////////////////////////////////////////////////////////
-	
-	GameOver = MakeManMove(Move);
-	side = 1 - side;
-	
-	// history push
-	[self historyPush:Move];
-	
-	[self notifyGomoku];
-	return 0;
 }
 
-- (int)computerMove {
-	isComputerThinking = true;
-	int R = ComSearch(0, -INFI, INFI);
-	int Move = BestMove[0];
-	
-	int row = Move / (boardSize+2) - 1;
-	int col = Move % (boardSize+2) - 1;
-	
-	///////////////////// calculate rows of 3,4 and 5 here //////////////////////
-	
+- (void)detectComputerDanger:(int)Move {
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<3; j++)
@@ -297,6 +276,38 @@ int Get3Man[4][3];
 		}			
 		p++;
 	}
+}
+
+- (int)humanMove:(int)row column:(int)col {
+	int Move = [self indexOf:row column:col];
+	
+	///////////////////// calculate rows of 3,4 and 5 here //////////////////////
+	
+	[self detectHumanDanger:Move];
+	
+	////////////////////////////////////////////////////////////////////////////
+	
+	GameOver = MakeManMove(Move);
+	side = 1 - side;
+	
+	// history push
+	[self historyPush:Move];
+	
+	[self notifyGomoku];
+	return 0;
+}
+
+- (int)computerMove {
+	isComputerThinking = true;
+	int R = ComSearch(0, -INFI, INFI);
+	int Move = BestMove[0];
+	
+	int row = Move / (boardSize+2) - 1;
+	int col = Move % (boardSize+2) - 1;
+	
+	///////////////////// calculate rows of 3,4 and 5 here //////////////////////
+	
+	[self detectComputerDanger:Move];
 	
 	////////////////////////////////////////////////////////////////////////////
 	
@@ -361,6 +372,7 @@ int Get3Man[4][3];
 
 // ----- undo ----- //
 - (void) undo {
+	if (GameOver) return;
 	if (numMoves > 2) {
 		// undo the two last moves
 		RestoreCom(history[numMoves-1]);
@@ -368,6 +380,11 @@ int Get3Man[4][3];
 		// remove the two last items out of history
 		numMoves -= 2;
 		// side remains the same
+		
+		// detect danger again
+		[self detectComputerDanger:history[numMoves-1]];
+		[self detectHumanDanger:history[numMoves-2]];
+		
 		// notify redraw
 		[self notifyGomoku];
 	}
