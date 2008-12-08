@@ -61,13 +61,33 @@
 	int x = [[self subviews] indexOfObject:boardView];
 	*/
 }
-
+UIAlertView* alert;
+UIActivityIndicatorView* indicator;
+UILabel* label;
 - (void) showIndicatorView {
+	return;
+	indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	[indicator setFrame:CGRectMake(200, 200, 200, 200)];
+	label = [[UILabel alloc] initWithFrame:CGRectMake(200, 200, 200, 200)];
+	label.text = @"Computer is thinking...";
+	[self addSubview:label];
+	
+	[self insertSubview:indicator atIndex:0];
+	[indicatorView stopAnimating];
 	[indicatorView startAnimating];
+	
+	//alert = [[UIAlertView alloc]initWithTitle:@"a" message:@"B" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+	//[alert show];
 }
 
 - (void) hideIndicatorView {
+	return;
 	[indicatorView stopAnimating];
+	//[alert dismissWithClickedButtonIndex:0 animated:true];
+	//[alert dealloc];
+	[indicator removeFromSuperview];
+	[indicator dealloc];
+	[label removeFromSuperview];
 }
 
 /*
@@ -107,7 +127,8 @@
 
 // -- handles zooming --
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {	
-	//return boardView;
+	//boardView.contentMode = UIViewContentModeRedraw;
+	//return boardView;	
 	return nil;
 }
 
@@ -116,6 +137,7 @@
 	// for efficiency, we send new scale message to boardView only
 	//[view onZoomScaleChanged:scale];
 	//[self setNeedsDisplay];
+	//[boardView setNeedsDisplay];
 	// no more zoom
 	
 	return;

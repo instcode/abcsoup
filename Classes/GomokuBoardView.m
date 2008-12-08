@@ -18,6 +18,8 @@
 #import "CellLayer.h"
 
 #include <math.h> # add -lm
+#import <QuartzCore/QuartzCore.h>
+
 
 @implementation GomokuBoardView
 
@@ -64,14 +66,14 @@ int comFocus = 0;
 - (void)focusOnCursor {
 	CGPoint delta = [superview contentOffset];
 	// new cursor position in view window coordinate
-	float X = cursor.x - delta.x / cellSize;
-	float Y = cursor.y - delta.y / cellSize;
+	float X = computerCursor.x - delta.x / cellSize;
+	float Y = computerCursor.y - delta.y / cellSize;
 	
 	int maxX = VIEW_BOARD_SIZE;
 	CGRect superBounds = [superview bounds];
 	int maxY = superBounds.size.height / cellSize - 1; // chua` hao :D
 	
-	CGPoint newOffset = [self getCurrentScrollOffset:cursor];
+	CGPoint newOffset = [self getCurrentScrollOffset:computerCursor];
 	// if out of screen (lies in the epsilon size border of the view)
 	if (X < EPSILON_SIZE || X >= maxX - EPSILON_SIZE || Y < 0 || Y >= maxY - EPSILON_SIZE) {
 	// move content offset if needed
@@ -83,7 +85,33 @@ int comFocus = 0;
 			manFocus = 1;
 		if (comFocus && manFocus)
 		*/
-		 [superview setContentOffset:newOffset animated:YES];	
+		//[UIView beginAnimations:nil context:NULL];
+		[superview setContentOffset:newOffset animated:YES];
+		
+		//[superview commitAnimations];
+		//[CATransaction commit];
+		//[UIView commitAnimations];
+		//[NSThread setThreadPriority:1];
+		/*
+		[superview setContentOffset:newOffset animated:YES];
+		CGPoint c = superview.contentOffset;
+		c.x;
+		c.y;
+		*/
+		
+		/*
+		CALayer* layer = superview.layer;
+		CAKeyframeAnimation *offsetAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+		offsetAnimation.removedOnCompletion = YES;
+		offsetAnimation.duration = 1.0;
+		
+		// Create the path for the bounces
+		CGMutablePathRef thePath = CGPathCreateMutable();
+		CGPathMoveToPoint(thePath, NULL, superview.contentOffset.x, superview.contentOffset.y);
+		CGPathAddLineToPoint(thePath, NULL, newOffset.x, newOffset.y);
+				
+		[layer addAnimation:offsetAnimation forKey:@"focusOnCursor"];
+		*/
 	}
 	//CGPoint c = superview.contentOffset;
 	//}
@@ -158,8 +186,27 @@ int comFocus = 0;
 	// place proper cursors when new game
 	//[self notifyNewGame];
 	//return self;
+	isHumanMoved = false;
+	isHumanRendered = false;
+	
+	timer = [NSTimer scheduledTimerWithTimeInterval:(1.0/8.0)
+											 target:self selector:@selector(tick) userInfo:nil repeats:YES];
+	[timer fire];
 }
 
+- (void)tick {
+	if (isHumanMoved && isHumanRendered) {
+		// computer move
+		[self askForComputerMove];
+		//[self focusOnCursor];
+		isHumanMoved = false; // allow human to move
+	}
+	/*
+	//[self setNeedsDisplay];
+	if ([gomokuModel side] == COM)
+		[self focusOnCursor];
+*/
+ }
 
 
 /* we can implement this and move the first time painting code out by adding more controllers */
@@ -215,7 +262,10 @@ int comFocus = 0;
 	}
 }
 
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect {	
+	
+	//if ([gomokuModel side] == COM)
+		//[self focusOnCursor];
 	//[super drawRect:rect];
 	//if ([ gomokuModel isComputerThinking ]) {
 		// No need to redraw because painting during computer's thinking
@@ -256,6 +306,7 @@ int comFocus = 0;
 	
 	// render cursor
 	[cursorLayer renderAtPoint:CGPointMake(cursor.x*cellSize, cursor.y*cellSize)];
+	[cursorLayer renderAtPoint:CGPointMake(computerCursor.x*cellSize, computerCursor.y*cellSize)];
 	
 	// render hints to show dangerous moves
 	[gomokuModel hintVisit:self withSelector:@selector(visitAndRenderHint:::)];	
@@ -263,6 +314,35 @@ int comFocus = 0;
 	[gomokuModel historyVisit:self withSelector:@selector(visitAndRenderCell:::)];
 	
 	//[ self notifyPaintingFinished ];
+	// flip side
+	
+	if (isHumanMoved && !isHumanRendered) {
+		isHumanRendered = true;
+		
+		// ask for render again to push computer move
+		//self.contentMode = UIViewContentModeRedraw;
+		//[self setNeedsDisplay];
+		//[self setNeedsDisplayInRect:rect];
+		//[self setNeedsLayout];
+		//self.bounds = self.bounds;
+		//[self setTransform:CGAffineTransformIdentity];
+		//[superview setNeedsLayout];
+		//self.bounds.size.height = self.bounds.size.height - 1;
+		//self.bounds.size.height = self.bounds.size.height + 1;
+		
+		//NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(scheduleRender) object:nil];
+		
+		//[ NSThread detachNewThreadSelector: @selector(scheduleRender) toTarget: self withObject: nil ];
+		//[thread start];
+		//[thread dealloc];
+		//[self scheduleRender];
+	}
+}
+
+- (void) scheduleRender {
+	//[NSThread sleepForTimeInterval:0.01];
+	[self setNeedsDisplay]; // schedule a redraw, but makes the scroll animation fail to perform. Why?
+	//[self focusOnCursor];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -328,13 +408,15 @@ int comFocus = 0;
 	if ([gomokuModel getBoardValue: r column: c] == EMPTY) {
 		[gomokuModel humanMove:r column:c];
 		//[self focusOnCursor]; // focus
+		isHumanMoved = true;
+		isHumanRendered = false;
 	}
 	
 	// isGameOver
 	[self checkGameOver];
 	
 	// computer move
-	[ self notifyPaintingFinished ]; // move and focus
+	//[ self notifyPaintingFinished ]; // move and focus
 	
 	// remove cursor
 	//cursorX = cursorY = -1;
@@ -365,24 +447,6 @@ int comFocus = 0;
 }
 
 
-- (void)startThinking {
-	// show indicator
-	[superview showIndicatorView];
-	
-	int move = [gomokuModel computerMove];
-	
-	// set board cursor
-	cursor = CGPointMake(move % boardSize, move / boardSize);
-	
-	// focus on current piece
-	//[ NSThread detachNewThreadSelector: @selector(focusOnCursor) toTarget: self withObject: nil ];
-	[self focusOnCursor];
-	[self setNeedsDisplay];
-	
-	// hide indicator
-	[superview hideIndicatorView];
-}
-
 - (bool)isFirstTimePainting {
 	return firstTimePainting;
 }
@@ -393,7 +457,7 @@ int comFocus = 0;
 	firstTimePainting = 0;
 }
 
-- (void)notifyPaintingFinished {	
+- (void)askForComputerMove {	
 	/*
 	 Note: Long running code must be placed in another thread for not blocking rendering thread.
 	 */
@@ -410,6 +474,24 @@ int comFocus = 0;
 			[self focusOnCursor]; // focus on previous computer move
 		}*/
 }
+- (void)startThinking {
+	// show indicator
+	[superview showIndicatorView];
+	
+	int move = [gomokuModel computerMove];
+	
+	// set board cursor
+	computerCursor = CGPointMake(move % boardSize, move / boardSize);
+	
+	// focus on current piece
+	//[ NSThread detachNewThreadSelector: @selector(focusOnCursor) toTarget: self withObject: nil ];
+	[self focusOnCursor];
+	//[self setNeedsDisplay];
+	
+	// hide indicator
+	[superview hideIndicatorView];
+}
+
 
 // ----- observer ----- //
 - (void)onGomokuNotify:(id<GomokuObservable>)observable {
