@@ -75,10 +75,10 @@ int ManSearch(int Ply, int Alpha, int Beta);
 void PrintOpinion(int R, int* _Roi);
 void PrintIdea(int Index);
 
-int Get5[4][5];
+int Get5[4][5]; // computer hint
 int Get4[4][4];
 int Get3[4][3];
-int Get5Man[4][5];
+int Get5Man[4][5]; // human hint
 int Get4Man[4][4];
 int Get3Man[4][3];
 
@@ -156,6 +156,9 @@ int Get3Man[4][3];
 		for (j = 0; j < 3; j++) Get3[i][j] = -1;
 		for (j = 0; j < 4; j++) Get4[i][j] = -1;
 		for (j = 0; j < 5; j++) Get5[i][j] = -1;
+		for (j = 0; j < 3; j++) Get3Man[i][j] = -1;
+		for (j = 0; j < 4; j++) Get4Man[i][j] = -1;
+		for (j = 0; j < 5; j++) Get5Man[i][j] = -1;
 	}
 	
 	// update view
@@ -395,6 +398,7 @@ int Get3Man[4][3];
 	int i, j, move;
 	CGPoint point;
 	for (i = 0; i < 4; i++) { // 4 direction: hor, ver, right diag, left diag
+		// -- computer -- //
 		for (j = 0; j < 3; j++) { // three
 			move = Get3[i][j];
 			if (move < 0) continue;
@@ -424,6 +428,38 @@ int Get3Man[4][3];
 			// visit
 			IMP visit = [visitor methodForSelector:sel]; // get visit implementor
 			visit(visitor, sel, (int)point.x, (int)point.y, 5); // get 5 
+		}
+		
+		// -- human -- //
+		for (j = 0; j < 3; j++) { // three
+			move = Get3Man[i][j];
+			if (move < 0) continue;
+			
+			point = [self getRowCol:move];
+			
+			// visit
+			IMP visit = [visitor methodForSelector:sel]; // get visit implementor
+			visit(visitor, sel, (int)point.x, (int)point.y, 3+3); // get 3 
+		}
+		for (j = 0; j < 4; j++) { // four
+			move = Get4Man[i][j];
+			if (move < 0) continue;
+			
+			point = [self getRowCol:move];
+			
+			// visit
+			IMP visit = [visitor methodForSelector:sel]; // get visit implementor
+			visit(visitor, sel, (int)point.x, (int)point.y, 4+3); // get 4 
+		}
+		for (j = 0; j < 5; j++) { // five
+			move = Get5Man[i][j];
+			if (move < 0) continue;
+			
+			point = [self getRowCol:move];
+			
+			// visit
+			IMP visit = [visitor methodForSelector:sel]; // get visit implementor
+			visit(visitor, sel, (int)point.x, (int)point.y, 5+3); // get 5 
 		}
 	}
 }

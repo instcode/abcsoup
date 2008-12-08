@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RenderCell.h"
 
-@interface RenderHint : RenderCell {
+@interface RenderHintComputer : RenderCell {
 
 }
 - (void)render:(CGContextRef)context;

@@ -20,13 +20,14 @@
 		25344CA30EDEF21400A2F034 /* AboutTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25344CA20EDEF21400A2F034 /* AboutTableController.m */; };
 		254392650ED031A4006A4235 /* RenderCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 254392640ED031A4006A4235 /* RenderCursor.m */; };
 		25454B430ED02C01001B51B1 /* GomokuBoardScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25454B420ED02C01001B51B1 /* GomokuBoardScrollView.m */; };
-		25555AB40EE837B000F8B148 /* RenderHint.m in Sources */ = {isa = PBXBuildFile; fileRef = 25555AB30EE837B000F8B148 /* RenderHint.m */; };
+		25555AB40EE837B000F8B148 /* RenderHintComputer.m in Sources */ = {isa = PBXBuildFile; fileRef = 25555AB30EE837B000F8B148 /* RenderHintComputer.m */; };
 		255DB36C0EAF95E200061B2B /* GomokuBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36B0EAF95E200061B2B /* GomokuBoardView.m */; };
 		255DB36F0EAF965500061B2B /* GomokuInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB36E0EAF965500061B2B /* GomokuInfoView.m */; };
 		255DB3950EAF9A0F00061B2B /* GomokuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB3940EAF9A0F00061B2B /* GomokuModel.m */; };
 		255DB39B0EAF9AB600061B2B /* GomokuInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255DB39A0EAF9AB600061B2B /* GomokuInfoViewController.m */; };
 		25703FE90EE98F7400AC44D2 /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = 25703FE70EE98F7300AC44D2 /* black.png */; };
 		25703FEA0EE98F7400AC44D2 /* white.png in Resources */ = {isa = PBXBuildFile; fileRef = 25703FE80EE98F7400AC44D2 /* white.png */; };
+		258305330EED358000373CB9 /* RenderHintHuman.m in Sources */ = {isa = PBXBuildFile; fileRef = 258305320EED358000373CB9 /* RenderHintHuman.m */; };
 		25ABD3660EB42BB7006FF5C3 /* Gomoku.m in Sources */ = {isa = PBXBuildFile; fileRef = 25ABD3640EB42BB7006FF5C3 /* Gomoku.m */; };
 		25C13E5F0EB5BCFE001DF77E /* CellLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C13E5E0EB5BCFE001DF77E /* CellLayer.m */; };
 		25C13E740EB5C3F4001DF77E /* RenderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C13E730EB5C3F4001DF77E /* RenderCell.m */; };
@@ -61,8 +62,8 @@
 		25454B410ED02C01001B51B1 /* GomokuBoardScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuBoardScrollView.h; sourceTree = "<group>"; };
 		25454B420ED02C01001B51B1 /* GomokuBoardScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuBoardScrollView.m; sourceTree = "<group>"; };
 		25471CCE0ED18F3F0004DE59 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
-		25555AB20EE837B000F8B148 /* RenderHint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderHint.h; sourceTree = "<group>"; };
-		25555AB30EE837B000F8B148 /* RenderHint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderHint.m; sourceTree = "<group>"; };
+		25555AB20EE837B000F8B148 /* RenderHintComputer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderHintComputer.h; sourceTree = "<group>"; };
+		25555AB30EE837B000F8B148 /* RenderHintComputer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderHintComputer.m; sourceTree = "<group>"; };
 		255DB36A0EAF95E200061B2B /* GomokuBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuBoardView.h; sourceTree = "<group>"; };
 		255DB36B0EAF95E200061B2B /* GomokuBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuBoardView.m; sourceTree = "<group>"; };
 		255DB36D0EAF965500061B2B /* GomokuInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuInfoView.h; sourceTree = "<group>"; };
@@ -73,6 +74,8 @@
 		255DB3A80EAF9B3300061B2B /* GomokuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GomokuModel.h; sourceTree = "<group>"; };
 		25703FE70EE98F7300AC44D2 /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black.png; sourceTree = "<group>"; };
 		25703FE80EE98F7400AC44D2 /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
+		258305310EED358000373CB9 /* RenderHintHuman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderHintHuman.h; sourceTree = "<group>"; };
+		258305320EED358000373CB9 /* RenderHintHuman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderHintHuman.m; sourceTree = "<group>"; };
 		25ABD3640EB42BB7006FF5C3 /* Gomoku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gomoku.m; sourceTree = "<group>"; };
 		25ABD3650EB42BB7006FF5C3 /* Gomoku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gomoku.h; sourceTree = "<group>"; };
 		25C13E5D0EB5BCFE001DF77E /* CellLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellLayer.h; sourceTree = "<group>"; };
@@ -164,8 +167,10 @@
 				25C140720EB5EAB1001DF77E /* RenderPiece.m */,
 				254392630ED031A4006A4235 /* RenderCursor.h */,
 				254392640ED031A4006A4235 /* RenderCursor.m */,
-				25555AB20EE837B000F8B148 /* RenderHint.h */,
-				25555AB30EE837B000F8B148 /* RenderHint.m */,
+				25555AB20EE837B000F8B148 /* RenderHintComputer.h */,
+				25555AB30EE837B000F8B148 /* RenderHintComputer.m */,
+				258305310EED358000373CB9 /* RenderHintHuman.h */,
+				258305320EED358000373CB9 /* RenderHintHuman.m */,
 			);
 			name = BoardView;
 			sourceTree = "<group>";
@@ -325,7 +330,8 @@
 				8A8120B70EE629C9008784AD /* Option2.m in Sources */,
 				8A8122630EE65F04008784AD /* OptionCell.m in Sources */,
 				8A8122CB0EE663D6008784AD /* OptionViewController.m in Sources */,
-				25555AB40EE837B000F8B148 /* RenderHint.m in Sources */,
+				25555AB40EE837B000F8B148 /* RenderHintComputer.m in Sources */,
+				258305330EED358000373CB9 /* RenderHintHuman.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

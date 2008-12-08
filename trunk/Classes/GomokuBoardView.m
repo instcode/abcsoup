@@ -138,9 +138,12 @@ int comFocus = 0;
 	renderCursorDelegate = [[RenderCursor alloc] init] ;		
 	[renderCursorDelegate setCellSize:cellSize];		
 	
-	// for hint layer
-	renderHintDelegate = [[RenderHint alloc] init];
-	[renderHintDelegate setCellSize:cellSize];
+	// for computer hint layer
+	renderHintComputerDelegate	= [[RenderHintComputer alloc] init];
+	[renderHintComputerDelegate setCellSize:cellSize];
+	// for human hint layer
+	renderHintHumanDelegate		= [[RenderHintHuman alloc] init];
+	[renderHintHumanDelegate setCellSize:cellSize];
 	
 	// no cursor at start
 	//[self hideCursor];
@@ -177,20 +180,29 @@ int comFocus = 0;
 }
 
 - (void) visitAndRenderHint:(int)_x:(int)_y:(int)type {
-	// type: 3, 4, 5
+	// type: 3, 4, 5 for computer, 6, 7, 8 for human
 	float x = _x * cellSize;
 	float y = _y * cellSize;
 	
 	// just render the same color for all types
 	switch (type) {
 		case 3:	
-			[hintLayer renderAtPoint:CGPointMake(x, y)];
+			[hintComputerLayer renderAtPoint:CGPointMake(x, y)];
 			break;
 		case 4:
-			[hintLayer renderAtPoint:CGPointMake(x, y)];
+			[hintComputerLayer renderAtPoint:CGPointMake(x, y)];
 			break;
 		case 5:
-			[hintLayer renderAtPoint:CGPointMake(x, y)];
+			[hintComputerLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		case 6:
+			[hintHumanLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		case 7:
+			[hintHumanLayer renderAtPoint:CGPointMake(x, y)];
+			break;
+		case 8:
+			[hintHumanLayer renderAtPoint:CGPointMake(x, y)];
 			break;
 		default:
 			break;
@@ -214,7 +226,8 @@ int comFocus = 0;
 		blackLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderBlackDelegate];
 		whiteLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderWhiteDelegate];
 		cursorLayer = [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderCursorDelegate];
-		hintLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderHintDelegate];
+		hintComputerLayer	= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderHintComputerDelegate];
+		hintHumanLayer		= [[CellLayer alloc] initWithContext:ctxCurrent withDelegate:renderHintHumanDelegate];
 		
 		// no first time painting any more
 		[self cancelFirstTimePainting];
@@ -401,9 +414,17 @@ int comFocus = 0;
 	[renderCellDelegate  release];
 	[renderBlackDelegate release];
 	[renderWhiteDelegate release];
+	[renderCursorDelegate release];
+	[renderHintComputerDelegate release];
+	[renderHintHumanDelegate release];
+	
 	[rectLayer  release];
 	[blackLayer release];
 	[whiteLayer release];
+	[cursorLayer release];
+	[hintComputerLayer release];
+	[hintHumanLayer release];
+	
     [super dealloc];
 }
 
