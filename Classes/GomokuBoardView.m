@@ -353,7 +353,7 @@ int comFocus = 0;
 	/*
 	 Note: Long running code must be placed in another thread for not blocking rendering thread.
 	 */
-	if ([ gomokuModel side ] == COM && ![ gomokuModel isComputerThinking ]) {
+	if (![gomokuModel isGameOver] && [gomokuModel side] == COM && ![ gomokuModel isComputerThinking ]) {
 		//[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
 		[self startThinking];
 	}
