@@ -161,8 +161,11 @@ int Get3Man[4][3];
 		for (j = 0; j < 5; j++) Get5Man[i][j] = -1;
 	}
 	
+	// notify restart
+	[self notifyRestart];
+	
 	// update view
-	[self notifyGomoku];
+	[self notifyGomoku];	
 }
 
 - (int)indexOf:(int)row column:(int)col {
@@ -326,7 +329,11 @@ int Get3Man[4][3];
 }
 
 - (int)isGameOver {
-	return GameOver;
+	if (GameOver) {
+		if (Side == COM) return 1;
+		if (Side == MAN) return 2;
+	} else return 0;
+	//return GameOver;
 }
 
 // ----- observable ----- //
@@ -340,6 +347,12 @@ int Get3Man[4][3];
 		//[ob onGomokuNotify:(id<GomokuObservable>)self];
 		//[ob onGomokuNotify:<#(id GomokuObservable)observable#>
 	}
+}
+
+- (void)notifyRestart {
+	for (id<GomokuObserver> ob in observers) {
+		[ob onNotifyNewGame:self];
+	}	
 }
 
 // ----- history management ----- //

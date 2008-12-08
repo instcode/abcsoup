@@ -48,8 +48,15 @@
 	if (deltaY < 0) deltaY = 0;
 	if (deltaX >= boardSize - VIEW_BOARD_SIZE) deltaX = boardSize - VIEW_BOARD_SIZE - 1;
 	if (deltaY >= boardSize - VIEW_BOARD_SIZE) deltaY = boardSize - VIEW_BOARD_SIZE - 1;
-	
-	return CGPointMake(cellSize*deltaX, cellSize*deltaY);
+
+	float offX = cellSize*deltaX;
+	float offY = cellSize*deltaY;
+	// sometimes offY reveals a white section at the bottom, since the height of the scrollview is not modulo to the the number of cells.
+	// avoid this problem by cut-off based on the scrollview's height.
+	CGRect parentBound = [[self superview] bounds];
+	if (offY + parentBound.size.height >= boardSize*cellSize)
+		offY = boardSize*cellSize - parentBound.size.height;
+	return CGPointMake(offX, offY);
 }
 
 int manFocus = 0;
@@ -65,7 +72,7 @@ int comFocus = 0;
 	int maxY = superBounds.size.height / cellSize - 1; // chua` hao :D
 	
 	CGPoint newOffset = [self getCurrentScrollOffset:cursor];
-	// if out of screen
+	// if out of screen (lies in the epsilon size border of the view)
 	if (X < EPSILON_SIZE || X >= maxX - EPSILON_SIZE || Y < 0 || Y >= maxY - EPSILON_SIZE) {
 	// move content offset if needed
 	//CGRect newRect = CGRectMake(newOffset.x, newOffset.y, 20, 20);
@@ -95,7 +102,7 @@ int comFocus = 0;
 	
 	// init gomokuModel
 	gomokuModel = [Gomoku getGomokuModel];
-	[gomokuModel attachGomoku:self]; // register for observing model changes	
+	[gomokuModel attachGomoku:self]; // register for observing model changes: render, restart events	
 	
 		
 	// -- board size, cell size settings --	
@@ -145,16 +152,15 @@ int comFocus = 0;
 	renderHintHumanDelegate		= [[RenderHintHuman alloc] init];
 	[renderHintHumanDelegate setCellSize:cellSize];
 	
-	// no cursor at start
-	//[self hideCursor];
-	// cursor at center
-	cursor = CGPointMake(boardSize/2, boardSize/2);
-	
 	// ask for layer first time rendering
 	[self notifyFirstTimePainting];	
-		
+	
+	// place proper cursors when new game
+	//[self notifyNewGame];
 	//return self;
 }
+
+
 
 /* we can implement this and move the first time painting code out by adding more controllers */
 /*
@@ -324,6 +330,9 @@ int comFocus = 0;
 		//[self focusOnCursor]; // focus
 	}
 	
+	// isGameOver
+	[self checkGameOver];
+	
 	// computer move
 	[ self notifyPaintingFinished ]; // move and focus
 	
@@ -331,7 +340,29 @@ int comFocus = 0;
 	//cursorX = cursorY = -1;
 }
 
-
+- (void)checkGameOver {
+	NSString* winMessage = nil;
+	
+	switch ([gomokuModel isGameOver]) {
+		case 1: // computer
+			winMessage = @"Computer won. Practice more!";
+			break;
+		case 2: // human
+			winMessage = @"You won! Amazing!";
+			break;
+			
+		default:
+			break;
+	} 
+	if (winMessage != nil) { // display a message
+		//UIAlertView* alertGameOver = [[UIAlertView alloc] initWithTitle:@"Game Over" message:@"win" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		//[alertGameOver show];
+				
+		UIActionSheet* actionGameOver = [[UIActionSheet alloc] initWithTitle:winMessage delegate:nil cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil];
+		actionGameOver.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+		[actionGameOver showInView:superview];
+	}
+}
 
 
 - (void)startThinking {
@@ -369,6 +400,9 @@ int comFocus = 0;
 	if (![gomokuModel isGameOver] && [gomokuModel side] == COM && ![ gomokuModel isComputerThinking ]) {
 		//[ NSThread detachNewThreadSelector: @selector(startThinking) toTarget: self withObject: nil ];
 		[self startThinking];
+		
+		// isGameOver
+		[self checkGameOver];
 	}
 	/*
 	else  
@@ -381,6 +415,14 @@ int comFocus = 0;
 - (void)onGomokuNotify:(id<GomokuObservable>)observable {
 	// ask for a full redraw. Note that the redraw is queued and it is unsure when it is actually redrawn and displayed on the screen.
 	[self setNeedsDisplay];
+}
+
+- (void)onNotifyNewGame:(id<GomokuObservable>)observable {
+	// cursor at center
+	if ([gomokuModel computerMoveFirst])
+		cursor = CGPointMake(boardSize/2, boardSize/2);
+	else
+		[self hideCursor];	
 }
 
 - (void)onZoomScaleChanged:(float)scale {

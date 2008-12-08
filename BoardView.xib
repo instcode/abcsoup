@@ -22,6 +22,17 @@
 			<object class="IBProxyObject" id="843779117">
 				<string key="IBProxiedObjectIdentifier">IBFirstResponder</string>
 			</object>
+			<object class="IBUIActivityIndicatorView" id="926496126">
+				<nil key="NSNextResponder"/>
+				<int key="NSvFlags">292</int>
+				<string key="NSFrame">{{150, 198}, {20, 20}}</string>
+				<bool key="IBUIOpaque">NO</bool>
+				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+				<bool key="IBUIUserInteractionEnabled">NO</bool>
+				<bool key="IBUIHidesWhenStopped">NO</bool>
+				<bool key="IBUIAnimating">YES</bool>
+				<int key="IBUIStyle">2</int>
+			</object>
 			<object class="IBUIView" id="958008133">
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
@@ -41,18 +52,6 @@
 						</object>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUITag">1</int>
-					</object>
-					<object class="IBUIActivityIndicatorView" id="926496126">
-						<reference key="NSNextResponder" ref="958008133"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{150, 198}, {20, 20}}</string>
-						<reference key="NSSuperview" ref="958008133"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<bool key="IBUIHidesWhenStopped">NO</bool>
-						<bool key="IBUIAnimating">YES</bool>
-						<int key="IBUIStyle">2</int>
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 415}</string>
@@ -112,7 +111,6 @@
 						<reference key="object" ref="958008133"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="926496126"/>
 							<reference ref="359441569"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
@@ -128,7 +126,7 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">26</int>
 						<reference key="object" ref="926496126"/>
-						<reference key="parent" ref="958008133"/>
+						<reference key="parent" ref="360949347"/>
 					</object>
 				</object>
 			</object>
