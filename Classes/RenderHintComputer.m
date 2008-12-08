@@ -6,11 +6,11 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import "RenderHint.h"
+#import "RenderHintComputer.h"
 
 
-@implementation RenderHint
-float hintFillColor[] = {0.8745, 0.7843, 0.3804, 1.0};
+@implementation RenderHintComputer
+float hintComputerFillColor[] = {0.8745, 0.7843, 0.3804, 1.0};
 
 // override
 - (void)render:(CGContextRef)context {
@@ -18,7 +18,7 @@ float hintFillColor[] = {0.8745, 0.7843, 0.3804, 1.0};
 	// draw a rect
 	
 	CGRect fillRect = CGRectMake(0, 0, cellSize, cellSize);		
-	CGColorRef fillColorRef = CGColorCreate(CGColorSpaceCreateDeviceRGB(), hintFillColor);
+	CGColorRef fillColorRef = CGColorCreate(CGColorSpaceCreateDeviceRGB(), hintComputerFillColor);
 	CGContextBeginPath(context);
 	CGContextAddRect(context, fillRect);	
 	CGContextSetFillColorWithColor(context, fillColorRef);
