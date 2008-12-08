@@ -330,8 +330,8 @@ int Get3Man[4][3];
 
 - (int)isGameOver {
 	if (GameOver) {
-		if (Side == COM) return 1;
-		if (Side == MAN) return 2;
+		if (side == MAN) return 1;
+		if (side == COM) return 2;
 	} else return 0;
 	//return GameOver;
 }
