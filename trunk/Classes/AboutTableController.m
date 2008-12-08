@@ -54,7 +54,7 @@
 				   nil];
 	objects	= [NSArray arrayWithObjects:
 			   @"1.0",
-			   @"30/11/2008",
+			   @"08/12/2008",
 			   @"Aptus Ventures", 
 			   nil];
 	

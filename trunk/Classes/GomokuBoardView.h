@@ -47,7 +47,8 @@
 - (void) visitAndRenderHint:(int)_x:(int)_y:(int)type;
 
 // observer
-- (void)onGomokuNotify:(id<GomokuObservable>)observable;
+- (void)onGomokuNotify:(id<GomokuObservable>)observable;	// on paint
+- (void)onNotifyNewGame:(id<GomokuObservable>)observable;	// on new game
 - (void)onZoomScaleChanged:(float)scale;
 
 - (float)cellSizeFromScale:(float)scale; // compute cellSize from an input scale
@@ -57,10 +58,14 @@
 - (void)focusOnCursor;
 - (void)hideCursor;
 
+- (void)checkGameOver; // display a message when gameover
+
 - (bool)isFirstTimePainting;
 - (void)notifyFirstTimePainting;
 - (void)cancelFirstTimePainting;
 - (void)notifyPaintingFinished;
 - (void)startThinking;
+- (void)notifyNewGame;
+
 //- (void)viewLoaded;
 @end

@@ -73,7 +73,8 @@
 
 // observable
 - (void)attachGomoku:(id<GomokuObserver>)observer;
-- (void)notifyGomoku;
+- (void)notifyGomoku;  // render notification
+- (void)notifyRestart; // restart notification
 
 // history management
 - (void)historyPush:(int)move; // push a move to the history "stack"
