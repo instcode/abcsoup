@@ -38,8 +38,14 @@
 	bool firstTimePainting;
 	
 	CGPoint cursor; // highlight cursor
+	CGPoint computerCursor; //highlight computer cursor
 	
 	UIScrollView* superview;
+	
+	bool isHumanMoved;
+	bool isHumanRendered; // a flag to capture human move state to decide whether the board should be painted and the computer should make a move
+
+	NSTimer* timer;
 }
 
 // visitor and renderer
@@ -63,9 +69,12 @@
 - (bool)isFirstTimePainting;
 - (void)notifyFirstTimePainting;
 - (void)cancelFirstTimePainting;
-- (void)notifyPaintingFinished;
-- (void)startThinking;
-- (void)notifyNewGame;
 
+- (void)askForComputerMove;
+- (void)startThinking;
+
+- (void)scheduleRender;
 //- (void)viewLoaded;
+
+
 @end
