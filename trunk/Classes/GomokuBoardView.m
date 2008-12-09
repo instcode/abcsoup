@@ -305,9 +305,10 @@ int comFocus = 0;
 	}
 	
 	// render cursor
-	[cursorLayer renderAtPoint:CGPointMake(cursor.x*cellSize, cursor.y*cellSize)];
-	[cursorLayer renderAtPoint:CGPointMake(computerCursor.x*cellSize, computerCursor.y*cellSize)];
-	
+	if ([gomokuModel side] == MAN)
+		[cursorLayer renderAtPoint:CGPointMake(computerCursor.x*cellSize, computerCursor.y*cellSize)];
+	else
+		[cursorLayer renderAtPoint:CGPointMake(cursor.x*cellSize, cursor.y*cellSize)];
 	// render hints to show dangerous moves
 	[gomokuModel hintVisit:self withSelector:@selector(visitAndRenderHint:::)];	
 	// visit history for rendering of pieces
