@@ -7,7 +7,7 @@
 //
 
 #import "AboutTableController.h"
-
+#import "Constant.h"
 
 @implementation AboutTableController
 @synthesize keys, objects;
@@ -51,11 +51,22 @@
 				   @"Version", 
 				   @"Build",
 				   @"Copyright", 
+				   
+//#ifdef LITE_VERSION
+//				   @"What's new?",
+//#endif
 				   nil];
 	objects	= [NSArray arrayWithObjects:
+#ifdef LITE_VERSION
+			   @"1.0 Lite",
+#else
 			   @"1.0",
-			   @"08/12/2008",
-			   @"Aptus Ventures", 
+#endif
+			   @"17/12/2008",
+			   @"Aptus Ventures",
+//#ifdef LITE_VERSION
+//			   @"Undo, hint, auto scroll",
+//#endif
 			   nil];
 	
 	return [keys count];
@@ -63,24 +74,45 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *CellIdentifier = @"dictAboutCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-    }
-    // configure the cell
-	cell.text = [keys objectAtIndex:indexPath.row];
-	UILabel* rhsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 12, 160, 20)];
-	rhsLabel.textAlignment = UITextAlignmentRight;
-	rhsLabel.textColor = [UIColor colorWithRed:0.1961 green:0.3098 blue:0.5216 alpha:1];
-	//rhsLabel.numberOfLines = 2;
-	//rhsLabel.font = [UIFont systemFontOfSize:12.0];
-	rhsLabel.text = [objects objectAtIndex:indexPath.row];
-	cell.accessoryView = rhsLabel;
-	[rhsLabel release];
-    return cell;
+    //if (indexPath.row != 3) {
+		static NSString *CellIdentifier = @"dictAboutCell";
+		
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+		}
+		// configure the cell
+		cell.text = [keys objectAtIndex:indexPath.row];
+		UILabel* rhsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 12, 160, 20)];
+		rhsLabel.textAlignment = UITextAlignmentRight;
+		rhsLabel.textColor = [UIColor colorWithRed:0.1961 green:0.3098 blue:0.5216 alpha:1];
+		//rhsLabel.numberOfLines = 2;
+		//rhsLabel.font = [UIFont systemFontOfSize:12.0];
+		rhsLabel.text = [objects objectAtIndex:indexPath.row];
+		cell.accessoryView = rhsLabel;
+		[rhsLabel release];		
+		return cell;
+	//} else {
+	/*
+		// add a custom height cell to advertise the full version
+		NSString* adIdentifier = @"dictAdCell";
+		UITableViewCell* cell;// = [tableView dequeueReusableCellWithIdentifier:adIdentifier];
+		//if (cell == nil) {
+			//cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 300, 300) reuseIdentifier:adIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 300, 40)] autorelease];
+		
+		//}
+		
+		// create ad label
+		UILabel* adLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 100)] autorelease];
+		adLabel.text = [objects objectAtIndex:indexPath.row];
+		adLabel.textColor = [UIColor colorWithRed:0.1961 green:0.3098 blue:0.5216 alpha:1];
+		//adLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+		
+		[cell.contentView addSubview:adLabel];
+		//cell.contentView = adLabel;
+		return cell;
+	}*/
 }
 
 /*
@@ -121,11 +153,16 @@
     [super viewWillAppear:animated];
 }
 */
-/*
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+	
+#ifdef LITE_VERSION
+	UIAlertView* adAlert = [[UIAlertView alloc] initWithTitle:@"What's New?" message:@"The full version of Gomoku offers intelligent scrolling, color hints, and undo features to give the game more fun. Please purchase from AppStore and get challenges from our Gomoku's true power!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[adAlert show];
+#endif
 }
-*/
+
 /*
 - (void)viewWillDisappear:(BOOL)animated {
 }
