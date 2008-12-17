@@ -310,7 +310,10 @@ int comFocus = 0;
 	else
 		[cursorLayer renderAtPoint:CGPointMake(cursor.x*cellSize, cursor.y*cellSize)];
 	// render hints to show dangerous moves
+#ifdef LITE_VERSION
+#else
 	[gomokuModel hintVisit:self withSelector:@selector(visitAndRenderHint:::)];	
+#endif	
 	// visit history for rendering of pieces
 	[gomokuModel historyVisit:self withSelector:@selector(visitAndRenderCell:::)];
 	

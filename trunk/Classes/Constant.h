@@ -7,6 +7,9 @@
  *
  */
 
+// default is commercial version with full features
+#define LITE_VERSION
+
 #define VIEW_BOARD_SIZE 10
 #define DEFAULT_BOARD_SIZE 19
 

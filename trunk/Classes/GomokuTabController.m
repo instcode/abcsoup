@@ -20,7 +20,12 @@
 	[model restart];
 }
 - (void)respondToButtonUndoClick:(id)sender {
+#ifdef LITE_VERSION
+	UIAlertView* alertCommercial = [[UIAlertView alloc] initWithTitle:@"Feature Not Available" message:@"This feature is not available in the lite version. Please purchase the full version from AppStore." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alertCommercial show];
+#else
 	[model undo];
+#endif
 }
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -38,12 +43,11 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
-*/
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
