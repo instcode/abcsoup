@@ -9,6 +9,7 @@
 #import "BoardView.h"
 #import "BoardManager.h"
 #import "PieceMeshFactory.h"
+#import "TextureManager.h"
 #import <OpenGLES/ES1/gl.h>
 
 @implementation BoardView
@@ -28,7 +29,8 @@
 		pieceViews = [[PieceView alloc] initWithMeshModel: mesh: [boardModel.pieceModels objectAtIndex:0]];
 		 */
 		
-		
+		// try to load a texture
+		GLuint texPhoto = [[TextureManager instance] loadJigsawPhoto:@"manutd256.png"];
 		
 		[self createPieceViews];
 	}
