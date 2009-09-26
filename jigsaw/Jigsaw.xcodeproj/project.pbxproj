@@ -13,6 +13,9 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		25004F43102F1675002BEA45 /* BoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25004F42102F1675002BEA45 /* BoardView.m */; };
 		2535BA2C103C4A4400323C7A /* CurveType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2535BA2B103C4A4400323C7A /* CurveType.m */; };
+		256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C2106E4AF600BFCE26 /* TextureManager.m */; };
+		256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C5106E5FE300BFCE26 /* ImageLoader.m */; };
+		256782A1106E739F00BFCE26 /* manutd256.png in Resources */ = {isa = PBXBuildFile; fileRef = 256782A0106E739F00BFCE26 /* manutd256.png */; };
 		257BB38B10259777004B6DFA /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38810259777004B6DFA /* About.png */; };
 		257BB38C10259777004B6DFA /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38910259777004B6DFA /* Board.png */; };
 		257BB38D10259777004B6DFA /* Option.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38A10259777004B6DFA /* Option.png */; };
@@ -50,6 +53,11 @@
 		25004F42102F1675002BEA45 /* BoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardView.m; sourceTree = "<group>"; };
 		2535BA2A103C4A4400323C7A /* CurveType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveType.h; sourceTree = "<group>"; };
 		2535BA2B103C4A4400323C7A /* CurveType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurveType.m; sourceTree = "<group>"; };
+		256781C1106E4AF600BFCE26 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
+		256781C2106E4AF600BFCE26 /* TextureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureManager.m; sourceTree = "<group>"; };
+		256781C4106E5FE300BFCE26 /* ImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageLoader.h; sourceTree = "<group>"; };
+		256781C5106E5FE300BFCE26 /* ImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageLoader.m; sourceTree = "<group>"; };
+		256782A0106E739F00BFCE26 /* manutd256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manutd256.png; sourceTree = "<group>"; };
 		257BB38810259777004B6DFA /* About.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = About.png; path = data/icons/About.png; sourceTree = "<group>"; };
 		257BB38910259777004B6DFA /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Board.png; path = data/icons/Board.png; sourceTree = "<group>"; };
 		257BB38A10259777004B6DFA /* Option.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Option.png; path = data/icons/Option.png; sourceTree = "<group>"; };
@@ -147,6 +155,14 @@
 			name = Jigsaw;
 			sourceTree = "<group>";
 		};
+		25678299106E718200BFCE26 /* photo */ = {
+			isa = PBXGroup;
+			children = (
+				256782A0106E739F00BFCE26 /* manutd256.png */,
+			);
+			name = photo;
+			sourceTree = "<group>";
+		};
 		257BB37F10259754004B6DFA /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +222,10 @@
 				25A9C5B1102D455000B3FFC0 /* BoardModel.m */,
 				25004F41102F1675002BEA45 /* BoardView.h */,
 				25004F42102F1675002BEA45 /* BoardView.m */,
+				256781C1106E4AF600BFCE26 /* TextureManager.h */,
+				256781C2106E4AF600BFCE26 /* TextureManager.m */,
+				256781C4106E5FE300BFCE26 /* ImageLoader.h */,
+				256781C5106E5FE300BFCE26 /* ImageLoader.m */,
 			);
 			name = Render;
 			sourceTree = "<group>";
@@ -296,6 +316,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				25678299106E718200BFCE26 /* photo */,
 				25A9C463102D393E00B3FFC0 /* curve */,
 				257BB38010259760004B6DFA /* XIB */,
 				257BB37F10259754004B6DFA /* icons */,
@@ -364,6 +385,7 @@
 				257BB38C10259777004B6DFA /* Board.png in Resources */,
 				257BB38D10259777004B6DFA /* Option.png in Resources */,
 				25A9C465102D395100B3FFC0 /* curve01.crv in Resources */,
+				256782A1106E739F00BFCE26 /* manutd256.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +416,8 @@
 				25A9C5B6102D460700B3FFC0 /* BoardManager.m in Sources */,
 				25004F43102F1675002BEA45 /* BoardView.m in Sources */,
 				2535BA2C103C4A4400323C7A /* CurveType.m in Sources */,
+				256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */,
+				256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
