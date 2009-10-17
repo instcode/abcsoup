@@ -14,7 +14,7 @@
 #import "Constant.h"
 #import "EAGLView.h"
 #import "WindowsManager.h"
-#import "BoardManager.h"
+#import "Jigsaw.h"
 
 #define USE_DEPTH_BUFFER 0
 
@@ -64,8 +64,11 @@
         
         animationInterval = 1.0 / 60.0;
 		
-		BoardManager* manager = [BoardManager getBoardManager];
-		boardView = manager.boardView;
+		// create a board and register with Jigsaw
+		board = [[Board alloc] initWithSize:5 :5];
+		Jigsaw* js = [Jigsaw instance];
+		[js addBoard: board];
+		[js setActiveBoard: board];
 		
 		// one time initialization
 		//[self initView]; // not work when drawView is not called.
@@ -74,6 +77,7 @@
 }
 
 - (void)initView {
+	[board loadResources];
 }
 
 - (void)drawView {
@@ -82,19 +86,7 @@
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
     // Replace the implementation of this method to do your own custom drawing
     
-    const GLfloat squareVertices[] = {
-        -10.5f, -10.5f,
-        10.5f,  -10.5f,
-        -10.5f,  10.5f,
-        10.5f,   10.5f,
-    };
-    const GLubyte squareColors[] = {
-        255, 255,   0, 255,
-        0,   255, 255, 255,
-        0,     0,   0,   0,
-        255,   0, 255, 255,
-    };
-	
+    	
 	//[EAGLContext setCurrentContext:context];
 	//glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 	
@@ -107,7 +99,7 @@
 	//glMatrixMode(GL_MODELVIEW);
     //glRotatef(3.0f, 0.0f, 0.0f, 1.0f);
 	
-	//[boardView genTexCoords];
+	//[board genTexCoords];
 	
     
         
@@ -117,15 +109,9 @@
 	// set wireframe mode
 	
 	// render board
-	[boardView render];
+	[board render];
 	
 	
-    glVertexPointer(2, GL_FLOAT, 0, squareVertices);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
-    glEnableClientState(GL_COLOR_ARRAY);
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
 	
 	// views drawing here
@@ -140,6 +126,7 @@
     [EAGLContext setCurrentContext:context];
     [self destroyFramebuffer];
     [self createFramebuffer];
+	[self initView]; // load textures, one time
     [self drawView];
 }
 
