@@ -6,8 +6,8 @@
 //  Copyright 2009 AptusVentures. All rights reserved.
 //
 
-#import "PieceView.h"
 #import "OpenGLES/ES1/gl.h"
+#import "PieceView.h"
 
 @implementation PieceView
 
@@ -22,15 +22,39 @@
 			points[2 * i + 0] = mesh.points[i].x;
 			points[2 * i + 1] = mesh.points[i].y;
 		}
+		texcoords = (struct TexCoord*) malloc(sizeof(struct TexCoord) * mesh.nbPoints);
 	}
 	return self;
 }
 
+void transformPoint(float m[16], float v[3], float r[3]) {
+	//float r[3];
+	r[0] = m[0] * v[1] + m[4] * v[2] + m[8] * v[3] + m[12];
+	r[1] = m[1] * v[1] + m[5] * v[2] + m[9] * v[3] + m[13];
+	r[2] = m[2] * v[1] + m[6] * v[2] + m[10] * v[3] + m[14];
+	//return r;
+}
+
+- (void) genTexCoords: (float[]) m: (float) textureScale {
+	float u[3], v[3];
+	v[2] = 0.0f; // z = 0;
+	for (int i = 0; i < mesh.nbPoints; ++i) {
+		v[0] = points[2 * i + 0];
+		v[1] = points[2 * i + 1];
+		transformPoint(m, v, u);
+		texcoords[i].s = v[0] * textureScale;
+		texcoords[i].t = v[1] * textureScale;
+	}
+}
+
 - (void) render {
-	
-	glColor4f(1, 1, 1, 1);
+	glColor4f(0, 1, 0, 1);
 	glVertexPointer(2, GL_FLOAT, 0, points); // two components
     glEnableClientState(GL_VERTEX_ARRAY);
+	
+	glTexCoordPointer(2, GL_FLOAT, 0, texcoords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
     //glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
     //glEnableClientState(GL_COLOR_ARRAY);
     

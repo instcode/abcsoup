@@ -29,11 +29,12 @@ static TextureManager* texManager;
 	return curJigsawPhoto;
 }
 
+/*
 - (GLuint) getJigsawPhoto: (NSString*) file {
 	return [(NSNumber*) [dictTexture valueForKey:file] unsignedIntValue];;
-}
+}*/
 
-- (GLuint) loadJigsawPhoto: (NSString*) file {
+- (GLuint) getJigsawPhoto: (NSString*) file {
 	GLuint tex;
 	if ([dictTexture valueForKey:file] == NULL) {
 		// load texture unit
@@ -43,11 +44,12 @@ static TextureManager* texManager;
 		
 		glGenTextures(1, &tex);
 		glBindTexture(GL_TEXTURE_2D, tex);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, CGImageGetWidth(imgRef), CGImageGetHeight(imgRef), 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, CGImageGetWidth(imgRef), CGImageGetHeight(imgRef), 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+		
 		
 		// house keeping
 		[dictTexture setValue:[NSNumber numberWithUnsignedInt:tex] forKey:file];

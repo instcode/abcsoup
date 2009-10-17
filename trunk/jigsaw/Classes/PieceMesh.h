@@ -16,6 +16,10 @@
 	
 	int nbPoints;
 	struct JPoint* points;
+	
+	// cannot place texture coordinates here because of the reuse of the piece mesh in different places.
+	//struct TexCoord* texcoords;
+	
 	unsigned short* index;
 	int nbTriangles;
 }

@@ -66,13 +66,20 @@
 		
 		BoardManager* manager = [BoardManager getBoardManager];
 		boardView = manager.boardView;
+		
+		// one time initialization
+		//[self initView]; // not work when drawView is not called.
     }
     return self;
 }
 
+- (void)initView {
+}
 
 - (void)drawView {
+    [EAGLContext setCurrentContext:context];
     
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
     // Replace the implementation of this method to do your own custom drawing
     
     const GLfloat squareVertices[] = {
@@ -87,10 +94,10 @@
         0,     0,   0,   0,
         255,   0, 255, 255,
     };
-    
-    [EAGLContext setCurrentContext:context];
-    
-    glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+	
+	//[EAGLContext setCurrentContext:context];
+	//glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+	
     glViewport(0, 0, backingWidth, backingHeight);
     
     glMatrixMode(GL_PROJECTION);
@@ -99,7 +106,11 @@
     glOrthof(-160.0f, 160.0f, -240.0f, 240.0f, -1.0f, 1.0f);
 	//glMatrixMode(GL_MODELVIEW);
     //glRotatef(3.0f, 0.0f, 0.0f, 1.0f);
+	
+	//[boardView genTexCoords];
+	
     
+        
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
