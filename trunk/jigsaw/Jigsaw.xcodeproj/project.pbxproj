@@ -11,7 +11,6 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		25004F43102F1675002BEA45 /* BoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25004F42102F1675002BEA45 /* BoardView.m */; };
 		2535BA2C103C4A4400323C7A /* CurveType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2535BA2B103C4A4400323C7A /* CurveType.m */; };
 		256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C2106E4AF600BFCE26 /* TextureManager.m */; };
 		256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C5106E5FE300BFCE26 /* ImageLoader.m */; };
@@ -23,13 +22,11 @@
 		25A9C40B102B272A00B3FFC0 /* PieceMeshFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C40A102B272A00B3FFC0 /* PieceMeshFactory.m */; };
 		25A9C45C102D36B600B3FFC0 /* Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C45B102D36B600B3FFC0 /* Geometry.c */; };
 		25A9C465102D395100B3FFC0 /* curve01.crv in Resources */ = {isa = PBXBuildFile; fileRef = 25A9C464102D395100B3FFC0 /* curve01.crv */; };
-		25A9C468102D3A7200B3FFC0 /* Renderable.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C467102D3A7200B3FFC0 /* Renderable.m */; };
 		25A9C46B102D3B0C00B3FFC0 /* Float3.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C46A102D3B0C00B3FFC0 /* Float3.m */; };
-		25A9C5A8102D43FB00B3FFC0 /* PieceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C5A7102D43FB00B3FFC0 /* PieceModel.m */; };
-		25A9C5AB102D440200B3FFC0 /* PieceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C5AA102D440200B3FFC0 /* PieceView.m */; };
-		25A9C5B2102D455000B3FFC0 /* BoardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C5B1102D455000B3FFC0 /* BoardModel.m */; };
-		25A9C5B6102D460700B3FFC0 /* BoardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C5B5102D460700B3FFC0 /* BoardManager.m */; };
 		25BF6B87102437BD003BFE21 /* Curve.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BF6B86102437BD003BFE21 /* Curve.m */; };
+		25CF85DE10896E5800A928C0 /* Jigsaw.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85DD10896E5800A928C0 /* Jigsaw.m */; };
+		25CF85E11089715E00A928C0 /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85E01089715E00A928C0 /* Piece.m */; };
+		25CF8645108974FB00A928C0 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF8644108974FB00A928C0 /* Board.m */; };
 		25EBB926102451760039D4EE /* GLView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25EBB925102451760039D4EE /* GLView.xib */; };
 		25EBB9C9102457980039D4EE /* AboutTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBB9BE102457980039D4EE /* AboutTableController.m */; };
 		25EBB9CA102457980039D4EE /* MainTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBB9C0102457980039D4EE /* MainTabController.m */; };
@@ -49,8 +46,6 @@
 		1D3623250D0F684500981E51 /* JigsawAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JigsawAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Jigsaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jigsaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		25004F41102F1675002BEA45 /* BoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardView.h; sourceTree = "<group>"; };
-		25004F42102F1675002BEA45 /* BoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardView.m; sourceTree = "<group>"; };
 		2535BA2A103C4A4400323C7A /* CurveType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveType.h; sourceTree = "<group>"; };
 		2535BA2B103C4A4400323C7A /* CurveType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurveType.m; sourceTree = "<group>"; };
 		256781C1106E4AF600BFCE26 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
@@ -72,19 +67,16 @@
 		25A9C45B102D36B600B3FFC0 /* Geometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Geometry.c; sourceTree = "<group>"; };
 		25A9C464102D395100B3FFC0 /* curve01.crv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = curve01.crv; path = data/curve/curve01.crv; sourceTree = "<group>"; };
 		25A9C466102D3A7200B3FFC0 /* Renderable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderable.h; sourceTree = "<group>"; };
-		25A9C467102D3A7200B3FFC0 /* Renderable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Renderable.m; sourceTree = "<group>"; };
 		25A9C469102D3B0C00B3FFC0 /* Float3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Float3.h; sourceTree = "<group>"; };
 		25A9C46A102D3B0C00B3FFC0 /* Float3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Float3.m; sourceTree = "<group>"; };
-		25A9C5A6102D43FB00B3FFC0 /* PieceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceModel.h; sourceTree = "<group>"; };
-		25A9C5A7102D43FB00B3FFC0 /* PieceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceModel.m; sourceTree = "<group>"; };
-		25A9C5A9102D440200B3FFC0 /* PieceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceView.h; sourceTree = "<group>"; };
-		25A9C5AA102D440200B3FFC0 /* PieceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceView.m; sourceTree = "<group>"; };
-		25A9C5B0102D455000B3FFC0 /* BoardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardModel.h; sourceTree = "<group>"; };
-		25A9C5B1102D455000B3FFC0 /* BoardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardModel.m; sourceTree = "<group>"; };
-		25A9C5B4102D460700B3FFC0 /* BoardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardManager.h; sourceTree = "<group>"; };
-		25A9C5B5102D460700B3FFC0 /* BoardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardManager.m; sourceTree = "<group>"; };
 		25BF6B85102437BD003BFE21 /* Curve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Curve.h; sourceTree = "<group>"; };
 		25BF6B86102437BD003BFE21 /* Curve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Curve.m; sourceTree = "<group>"; };
+		25CF85DC10896E5800A928C0 /* Jigsaw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jigsaw.h; sourceTree = "<group>"; };
+		25CF85DD10896E5800A928C0 /* Jigsaw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Jigsaw.m; sourceTree = "<group>"; };
+		25CF85DF1089715E00A928C0 /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Piece.h; sourceTree = "<group>"; };
+		25CF85E01089715E00A928C0 /* Piece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Piece.m; sourceTree = "<group>"; };
+		25CF8643108974FB00A928C0 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		25CF8644108974FB00A928C0 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		25EBB925102451760039D4EE /* GLView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GLView.xib; sourceTree = "<group>"; };
 		25EBB9BD102457980039D4EE /* AboutTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableController.h; sourceTree = "<group>"; };
 		25EBB9BE102457980039D4EE /* AboutTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableController.m; sourceTree = "<group>"; };
@@ -147,7 +139,6 @@
 		2532A56A101F370C00E0B0B5 /* Jigsaw */ = {
 			isa = PBXGroup;
 			children = (
-				25A9C5B3102D45F700B3FFC0 /* Singleton */,
 				25A9C5AE102D442C00B3FFC0 /* Math */,
 				25A9C5AD102D441C00B3FFC0 /* Render */,
 				25A9C5AC102D440B00B3FFC0 /* Geometry */,
@@ -213,19 +204,16 @@
 			isa = PBXGroup;
 			children = (
 				25A9C466102D3A7200B3FFC0 /* Renderable.h */,
-				25A9C467102D3A7200B3FFC0 /* Renderable.m */,
-				25A9C5A6102D43FB00B3FFC0 /* PieceModel.h */,
-				25A9C5A7102D43FB00B3FFC0 /* PieceModel.m */,
-				25A9C5A9102D440200B3FFC0 /* PieceView.h */,
-				25A9C5AA102D440200B3FFC0 /* PieceView.m */,
-				25A9C5B0102D455000B3FFC0 /* BoardModel.h */,
-				25A9C5B1102D455000B3FFC0 /* BoardModel.m */,
-				25004F41102F1675002BEA45 /* BoardView.h */,
-				25004F42102F1675002BEA45 /* BoardView.m */,
 				256781C1106E4AF600BFCE26 /* TextureManager.h */,
 				256781C2106E4AF600BFCE26 /* TextureManager.m */,
 				256781C4106E5FE300BFCE26 /* ImageLoader.h */,
 				256781C5106E5FE300BFCE26 /* ImageLoader.m */,
+				25CF85DC10896E5800A928C0 /* Jigsaw.h */,
+				25CF85DD10896E5800A928C0 /* Jigsaw.m */,
+				25CF85DF1089715E00A928C0 /* Piece.h */,
+				25CF85E01089715E00A928C0 /* Piece.m */,
+				25CF8643108974FB00A928C0 /* Board.h */,
+				25CF8644108974FB00A928C0 /* Board.m */,
 			);
 			name = Render;
 			sourceTree = "<group>";
@@ -237,15 +225,6 @@
 				25A9C46A102D3B0C00B3FFC0 /* Float3.m */,
 			);
 			name = Math;
-			sourceTree = "<group>";
-		};
-		25A9C5B3102D45F700B3FFC0 /* Singleton */ = {
-			isa = PBXGroup;
-			children = (
-				25A9C5B4102D460700B3FFC0 /* BoardManager.h */,
-				25A9C5B5102D460700B3FFC0 /* BoardManager.m */,
-			);
-			name = Singleton;
 			sourceTree = "<group>";
 		};
 		25EBB9BC1024577E0039D4EE /* GUI */ = {
@@ -408,16 +387,13 @@
 				25A9C405102B259D00B3FFC0 /* PieceMesh.m in Sources */,
 				25A9C40B102B272A00B3FFC0 /* PieceMeshFactory.m in Sources */,
 				25A9C45C102D36B600B3FFC0 /* Geometry.c in Sources */,
-				25A9C468102D3A7200B3FFC0 /* Renderable.m in Sources */,
 				25A9C46B102D3B0C00B3FFC0 /* Float3.m in Sources */,
-				25A9C5A8102D43FB00B3FFC0 /* PieceModel.m in Sources */,
-				25A9C5AB102D440200B3FFC0 /* PieceView.m in Sources */,
-				25A9C5B2102D455000B3FFC0 /* BoardModel.m in Sources */,
-				25A9C5B6102D460700B3FFC0 /* BoardManager.m in Sources */,
-				25004F43102F1675002BEA45 /* BoardView.m in Sources */,
 				2535BA2C103C4A4400323C7A /* CurveType.m in Sources */,
 				256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */,
 				256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */,
+				25CF85DE10896E5800A928C0 /* Jigsaw.m in Sources */,
+				25CF85E11089715E00A928C0 /* Piece.m in Sources */,
+				25CF8645108974FB00A928C0 /* Board.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

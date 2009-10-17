@@ -35,4 +35,5 @@ unsigned char* GetImagePixelData(CGImageRef inImage);
  Save to PPM format (for debug)
  */
 - (void) saveImage: (CGImageRef) inImage: (NSString*) file;
+
 @end

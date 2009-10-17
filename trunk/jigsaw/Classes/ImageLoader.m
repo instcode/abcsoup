@@ -7,6 +7,8 @@
 //
 
 #import "ImageLoader.h"
+#define min(a, b) a < b ? a : b
+#define max(a, b) a > b ? a : b
 
 /*************************************************************
  * Create a RGBA context for bitmap
@@ -30,7 +32,9 @@ CGContextRef CreateRGBABitmapContext (CGImageRef inImage)
     bitmapByteCount     = (bitmapBytesPerRow * pixelsHigh);
 	
     // Use the generic RGB color space.
-    colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    //colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+	colorSpace = CGColorSpaceCreateDeviceRGB();
+	
     if (colorSpace == NULL)
     {
         fprintf(stderr, "Error allocating color space\n");
@@ -121,7 +125,7 @@ CGContextRef CreateRGBBitmapContext (CGImageRef inImage)
 									 8,      // bits per component
 									 bitmapBytesPerRow,
 									 colorSpace,
-									 kCGImageAlphaNoneSkipFirst); // RGBA, if first is used then ARGB
+									 kCGImageAlphaNoneSkipLast); // RGBA, if first is used then ARGB
     if (context == NULL)
     {
         free (bitmapData);
@@ -177,15 +181,30 @@ static ImageLoader* imgLoader;
 	
     // Now we can get a pointer to the image data associated with the bitmap
     // context.
-    void *data = CGBitmapContextGetData (cgctx);
+    unsigned char *data = (unsigned char*)CGBitmapContextGetData (cgctx);
     unsigned char* buffer = NULL;
 	if (data != NULL)
     {
 		int size = w * h * channels;
 		buffer = malloc(size);
-		memcpy(buffer, data, size);
-        // **** You have a pointer to the image data ****
-		
+		// **** You have a pointer to the image data ****
+		switch (channels) {
+			case 3:
+				// also flip over x axis to make it compatible with OpenGL texture
+				for (int i = 0; i < h; ++i) {
+					for (int j = 0; j < w; ++j) {
+						buffer[3 * (i * w + j) + 0] = data[4 * ((h - i - 1) * w + j) + 0];
+						buffer[3 * (i * w + j) + 1] = data[4 * ((h - i - 1) * w + j) + 1];
+						buffer[3 * (i * w + j) + 2] = data[4 * ((h - i - 1) * w + j) + 2];
+					}
+				}
+				break;
+			case 4:
+				memcpy(buffer, data, size);
+				break;
+			default:
+				break;
+		}
         // **** Do stuff with the data here ****
 		
     }
@@ -227,9 +246,23 @@ static ImageLoader* imgLoader;
 
 - (void) saveImage: (CGImageRef) inImage: (NSString*) file 
 {
-	unsigned char* data = [self getImagePixelData:inImage :3];
 	int width = CGImageGetWidth(inImage);
 	int height = CGImageGetHeight(inImage);
+	int channels = CGImageGetBitsPerPixel(inImage) / 8;
+	
+	unsigned char* data = [self getImagePixelData:inImage :channels];
+	
+	// scale data to be in 0 .. 255
+	int size = width * height * channels;
+	int minVal = 32000;
+	int maxVal = 0;
+	
+	for (int i = 0; i < size; ++i) {
+		minVal = min(data[i], minVal);
+		maxVal = max(data[i], maxVal);
+	}
+	for (int i = 0; i < size; ++i) data[i] = 255 * (data[i] - minVal) / (maxVal - minVal);
+	
 	FILE *pFile;
 	char szFilename[256];
 	
@@ -243,7 +276,6 @@ static ImageLoader* imgLoader;
 	fprintf(pFile, "P6\n%d %d\n255\n", width, height);
 	
 	// Write pixel data
-	int size = width * height * 4;//!!!
 	fwrite(data, 1, size, pFile);
 	
 	// Close file

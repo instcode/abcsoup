@@ -12,7 +12,7 @@
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 
-#import "BoardView.h"
+#import "Board.h"
 
 /*
 This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.
@@ -37,7 +37,8 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
     NSTimer *animationTimer;
     NSTimeInterval animationInterval;
 	
-	BoardView* boardView;
+	// Jigsaw puzzle board
+	Board* board;
 }
 
 @property NSTimeInterval animationInterval;
