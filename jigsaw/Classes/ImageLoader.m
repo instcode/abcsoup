@@ -235,7 +235,7 @@ static ImageLoader* imgLoader;
 	
 	// Open file
 	sprintf(szFilename, "%s.ppm", [file UTF8String]);
-	pFile=fopen(szFilename, "wb");
+	pFile=fopen(szFilename, "wb"); // w, not wb (we write in ascii)
 	if(pFile==NULL)
 		return;
 	
@@ -243,7 +243,7 @@ static ImageLoader* imgLoader;
 	fprintf(pFile, "P6\n%d %d\n255\n", width, height);
 	
 	// Write pixel data
-	int size = width * height * 4;
+	int size = width * height * 4;//!!!
 	fwrite(data, 1, size, pFile);
 	
 	// Close file

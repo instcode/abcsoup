@@ -6,11 +6,12 @@
 //  Copyright 2009 AptusVentures. All rights reserved.
 //
 
+#import <OpenGLES/ES1/gl.h>
 #import "BoardView.h"
 #import "BoardManager.h"
 #import "PieceMeshFactory.h"
 #import "TextureManager.h"
-#import <OpenGLES/ES1/gl.h>
+
 
 @implementation BoardView
 
@@ -30,7 +31,9 @@
 		 */
 		
 		// try to load a texture
-		GLuint texPhoto = [[TextureManager instance] loadJigsawPhoto:@"manutd256.png"];
+		texPhoto = [[TextureManager instance] getJigsawPhoto:@"manutd256.png"];
+		// ask to generate texture coordinates
+		genTexCoords = false;
 		
 		[self createPieceViews];
 	}
@@ -136,17 +139,56 @@
 		x0 = - (minNumPieces / 2 ) * pieceWidth;
 	}
 	
+	// 
+	// generate texture coordinates 
+	//
+	if (genTexCoords == false) {
+		float textureScale = 1.0f / screenSize; // normalize texcoords to [0, 1]
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		y = y0;
+		for (int i = 0; i < boardModel.height; ++i) {
+			x = x0;
+			for (int j = 0; j < boardModel.width; ++j) {
+				glPushMatrix();
+				// set piece view position
+				glTranslatef(x, y, 0.0f);
+				glScalef(scaleX, scaleY, 1.0f);
+				
+				// generate texture coordinates
+				GLfloat m[16]; 
+				glGetFloatv (GL_MODELVIEW_MATRIX, m);
+				[pieceViews[i * boardModel.width + j] genTexCoords:m :textureScale]; // piece is rendered from its center
+				glPopMatrix();
+				
+				// next
+				x += pieceWidth;
+			}
+			y -= pieceHeight;
+		}
+		genTexCoords = true;
+	}
+	
+	
+	// 
+	// render
+	//
+	glBindTexture(GL_TEXTURE_2D, texPhoto);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 	y = y0;
 	for (int i = 0; i < boardModel.height; ++i) {
 		x = x0;
 		for (int j = 0; j < boardModel.width; ++j) {
-			// set piece view position
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-			glTranslatef(x, y, 0.0f);
-			glScalef(scaleX, scaleY, 1.0f);
-			// render
-			[pieceViews[i * boardModel.width + j] render]; // piece is rendered from its center
+			glPushMatrix();
+				// set piece view position
+				glTranslatef(x, y, 0.0f);
+				glScalef(scaleX, scaleY, 1.0f);
+						
+				// render
+				[pieceViews[i * boardModel.width + j] render]; // piece is rendered from its center
+			glPopMatrix();
+			
 			// next
 			x += pieceWidth;
 		}

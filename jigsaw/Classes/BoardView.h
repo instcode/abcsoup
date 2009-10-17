@@ -6,6 +6,7 @@
 //  Copyright 2009 AptusVentures. All rights reserved.
 //
 
+#import <OpenGLES/ES1/gl.h>
 #import "PieceView.h"
 #import "BoardModel.h"
 #import "Renderable.h"
@@ -24,6 +25,9 @@ struct CellCurveTypes {
 @private
 	PieceView** pieceViews; // piece view grid
 	BoardModel* boardModel;
+	
+	bool genTexCoords;		// one time texture coordinate generation
+	GLuint texPhoto;
 }
 
 /**

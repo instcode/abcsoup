@@ -44,6 +44,15 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
 
 - (void)startAnimation;
 - (void)stopAnimation;
+
+/**
+ Setup OpenGL projection and other states
+ */
+- (void)initView;
+
+/**
+ Render entry point
+ */
 - (void)drawView;
 
 @end
