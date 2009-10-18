@@ -18,13 +18,16 @@
 		257BB38B10259777004B6DFA /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38810259777004B6DFA /* About.png */; };
 		257BB38C10259777004B6DFA /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38910259777004B6DFA /* Board.png */; };
 		257BB38D10259777004B6DFA /* Option.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38A10259777004B6DFA /* Option.png */; };
+		258BBF051089BF7900069433 /* manutd320.png in Resources */ = {isa = PBXBuildFile; fileRef = 258BBF041089BF7900069433 /* manutd320.png */; };
+		258BBF0D1089C01C00069433 /* manutd512.png in Resources */ = {isa = PBXBuildFile; fileRef = 258BBF0C1089C01C00069433 /* manutd512.png */; };
+		258BBF3A1089C1B900069433 /* RenzoTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 258BBF391089C1B900069433 /* RenzoTimer.cpp */; };
 		25A9C405102B259D00B3FFC0 /* PieceMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C404102B259D00B3FFC0 /* PieceMesh.m */; };
 		25A9C40B102B272A00B3FFC0 /* PieceMeshFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C40A102B272A00B3FFC0 /* PieceMeshFactory.m */; };
 		25A9C45C102D36B600B3FFC0 /* Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C45B102D36B600B3FFC0 /* Geometry.c */; };
 		25A9C465102D395100B3FFC0 /* curve01.crv in Resources */ = {isa = PBXBuildFile; fileRef = 25A9C464102D395100B3FFC0 /* curve01.crv */; };
 		25A9C46B102D3B0C00B3FFC0 /* Float3.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C46A102D3B0C00B3FFC0 /* Float3.m */; };
 		25BF6B87102437BD003BFE21 /* Curve.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BF6B86102437BD003BFE21 /* Curve.m */; };
-		25CF85DE10896E5800A928C0 /* Jigsaw.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85DD10896E5800A928C0 /* Jigsaw.m */; };
+		25CF85DE10896E5800A928C0 /* Jigsaw.mm in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85DD10896E5800A928C0 /* Jigsaw.mm */; };
 		25CF85E11089715E00A928C0 /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85E01089715E00A928C0 /* Piece.m */; };
 		25CF8645108974FB00A928C0 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF8644108974FB00A928C0 /* Board.m */; };
 		25EBB926102451760039D4EE /* GLView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25EBB925102451760039D4EE /* GLView.xib */; };
@@ -35,7 +38,7 @@
 		25EBBADE10249CA60039D4EE /* GameTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBBADD10249CA60039D4EE /* GameTableController.m */; };
 		25EBBD39102556760039D4EE /* WindowsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBBD38102556760039D4EE /* WindowsManager.m */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */; };
+		28FD14FE0DC6FC130079059D /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.mm */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
@@ -57,6 +60,10 @@
 		257BB38910259777004B6DFA /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Board.png; path = data/icons/Board.png; sourceTree = "<group>"; };
 		257BB38A10259777004B6DFA /* Option.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Option.png; path = data/icons/Option.png; sourceTree = "<group>"; };
 		257BB3B910259B84004B6DFA /* Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
+		258BBF041089BF7900069433 /* manutd320.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manutd320.png; sourceTree = "<group>"; };
+		258BBF0C1089C01C00069433 /* manutd512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manutd512.png; sourceTree = "<group>"; };
+		258BBF381089C1B900069433 /* RenzoTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoTimer.h; sourceTree = "<group>"; };
+		258BBF391089C1B900069433 /* RenzoTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenzoTimer.cpp; sourceTree = "<group>"; };
 		25A9C403102B259D00B3FFC0 /* PieceMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMesh.h; sourceTree = "<group>"; };
 		25A9C404102B259D00B3FFC0 /* PieceMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceMesh.m; sourceTree = "<group>"; };
 		25A9C409102B272A00B3FFC0 /* PieceMeshFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMeshFactory.h; sourceTree = "<group>"; };
@@ -72,7 +79,7 @@
 		25BF6B85102437BD003BFE21 /* Curve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Curve.h; sourceTree = "<group>"; };
 		25BF6B86102437BD003BFE21 /* Curve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Curve.m; sourceTree = "<group>"; };
 		25CF85DC10896E5800A928C0 /* Jigsaw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jigsaw.h; sourceTree = "<group>"; };
-		25CF85DD10896E5800A928C0 /* Jigsaw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Jigsaw.m; sourceTree = "<group>"; };
+		25CF85DD10896E5800A928C0 /* Jigsaw.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Jigsaw.mm; sourceTree = "<group>"; };
 		25CF85DF1089715E00A928C0 /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Piece.h; sourceTree = "<group>"; };
 		25CF85E01089715E00A928C0 /* Piece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Piece.m; sourceTree = "<group>"; };
 		25CF8643108974FB00A928C0 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
@@ -92,7 +99,7 @@
 		25EBBD38102556760039D4EE /* WindowsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowsManager.m; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28FD14FC0DC6FC130079059D /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
-		28FD14FD0DC6FC130079059D /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
+		28FD14FD0DC6FC130079059D /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
 		28FD14FF0DC6FC520079059D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -139,6 +146,7 @@
 		2532A56A101F370C00E0B0B5 /* Jigsaw */ = {
 			isa = PBXGroup;
 			children = (
+				258BBF371089C1A800069433 /* Util */,
 				25A9C5AE102D442C00B3FFC0 /* Math */,
 				25A9C5AD102D441C00B3FFC0 /* Render */,
 				25A9C5AC102D440B00B3FFC0 /* Geometry */,
@@ -149,6 +157,8 @@
 		25678299106E718200BFCE26 /* photo */ = {
 			isa = PBXGroup;
 			children = (
+				258BBF0C1089C01C00069433 /* manutd512.png */,
+				258BBF041089BF7900069433 /* manutd320.png */,
 				256782A0106E739F00BFCE26 /* manutd256.png */,
 			);
 			name = photo;
@@ -171,6 +181,15 @@
 				25EBB925102451760039D4EE /* GLView.xib */,
 			);
 			name = XIB;
+			sourceTree = "<group>";
+		};
+		258BBF371089C1A800069433 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				258BBF381089C1B900069433 /* RenzoTimer.h */,
+				258BBF391089C1B900069433 /* RenzoTimer.cpp */,
+			);
+			name = Util;
 			sourceTree = "<group>";
 		};
 		25A9C463102D393E00B3FFC0 /* curve */ = {
@@ -209,7 +228,7 @@
 				256781C4106E5FE300BFCE26 /* ImageLoader.h */,
 				256781C5106E5FE300BFCE26 /* ImageLoader.m */,
 				25CF85DC10896E5800A928C0 /* Jigsaw.h */,
-				25CF85DD10896E5800A928C0 /* Jigsaw.m */,
+				25CF85DD10896E5800A928C0 /* Jigsaw.mm */,
 				25CF85DF1089715E00A928C0 /* Piece.h */,
 				25CF85E01089715E00A928C0 /* Piece.m */,
 				25CF8643108974FB00A928C0 /* Board.h */,
@@ -266,7 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				28FD14FC0DC6FC130079059D /* EAGLView.h */,
-				28FD14FD0DC6FC130079059D /* EAGLView.m */,
+				28FD14FD0DC6FC130079059D /* EAGLView.mm */,
 			);
 			name = MainView;
 			sourceTree = "<group>";
@@ -365,6 +384,8 @@
 				257BB38D10259777004B6DFA /* Option.png in Resources */,
 				25A9C465102D395100B3FFC0 /* curve01.crv in Resources */,
 				256782A1106E739F00BFCE26 /* manutd256.png in Resources */,
+				258BBF051089BF7900069433 /* manutd320.png in Resources */,
+				258BBF0D1089C01C00069433 /* manutd512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +398,7 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* JigsawAppDelegate.m in Sources */,
-				28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */,
+				28FD14FE0DC6FC130079059D /* EAGLView.mm in Sources */,
 				25BF6B87102437BD003BFE21 /* Curve.m in Sources */,
 				25EBB9C9102457980039D4EE /* AboutTableController.m in Sources */,
 				25EBB9CA102457980039D4EE /* MainTabController.m in Sources */,
@@ -391,9 +412,10 @@
 				2535BA2C103C4A4400323C7A /* CurveType.m in Sources */,
 				256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */,
 				256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */,
-				25CF85DE10896E5800A928C0 /* Jigsaw.m in Sources */,
+				25CF85DE10896E5800A928C0 /* Jigsaw.mm in Sources */,
 				25CF85E11089715E00A928C0 /* Piece.m in Sources */,
 				25CF8645108974FB00A928C0 /* Board.m in Sources */,
+				258BBF3A1089C1B900069433 /* RenzoTimer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

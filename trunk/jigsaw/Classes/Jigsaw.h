@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Board.h"
+#include "RenzoTimer.h"
 
+using namespace Renzo;
 /*
  @desciption
  Jigsaw is the global interface for iPhone GUI to interact with the Jigsaw game core. This class is designed as a singleton
@@ -17,6 +19,7 @@
 	NSMutableArray* boards;
 	
 	Board* activeBoard;
+	Timer* timer;
 }
 
 /**
@@ -40,4 +43,5 @@
  */
 - (Board*) getActiveBoard;
 
+- (Timer*) getTimer;
 @end

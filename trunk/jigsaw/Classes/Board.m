@@ -43,7 +43,7 @@
 
 - (void) loadResources {
 	// try to load a texture
-	texPhoto = [[TextureManager instance] getJigsawPhoto:@"manutd256.png"];
+	texPhoto = [[TextureManager instance] getJigsawPhoto:@"manutd512.png"];
 	
 	// generate texture coordinates
 	[self genTexCoords];
@@ -191,6 +191,8 @@
 	//float pieceHeight = 128.0f;
 	float scaleX = pieceWidth / 128.0f;
 	float scaleY = pieceHeight / 128.0f;
+	scaleX *= 0.7f;
+	scaleY *= 0.7f;
 	float x, y;
 	float x0, y0;
 	if (minNumPieces % 2 == 0) { // even pieces on a row
@@ -286,9 +288,9 @@
 			glPopMatrix();
 			
 			// next
-			x += pieceWidth + 10.5;
+			x += pieceWidth;
 		}
-		y -= pieceHeight + 10.5;
+		y -= pieceHeight;
 	}
 }
 

@@ -22,8 +22,15 @@ Jigsaw* jigsaw = NULL;
 - (id) init {
 	if ((self = [super init]) != NULL) {
 		boards = [NSMutableArray arrayWithCapacity: 1]; // support for 1 instance at the beginning
+		timer = new Timer;
 	}
 	return self;
+}
+
+- (void) dealloc {
+	[boards release];
+	delete timer;
+	[super dealloc];
 }
 
 - (void) addBoard: (Board*) b {
@@ -39,6 +46,10 @@ Jigsaw* jigsaw = NULL;
 
 - (Board*) getActiveBoard {
 	return activeBoard;
+}
+
+- (Timer*) getTimer {
+	return timer;
 }
 
 @end
