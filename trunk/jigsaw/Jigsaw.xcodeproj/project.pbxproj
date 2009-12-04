@@ -14,11 +14,9 @@
 		2535BA2C103C4A4400323C7A /* CurveType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2535BA2B103C4A4400323C7A /* CurveType.m */; };
 		256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C2106E4AF600BFCE26 /* TextureManager.m */; };
 		256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C5106E5FE300BFCE26 /* ImageLoader.m */; };
-		256782A1106E739F00BFCE26 /* manutd256.png in Resources */ = {isa = PBXBuildFile; fileRef = 256782A0106E739F00BFCE26 /* manutd256.png */; };
 		257BB38B10259777004B6DFA /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38810259777004B6DFA /* About.png */; };
 		257BB38C10259777004B6DFA /* Board.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38910259777004B6DFA /* Board.png */; };
 		257BB38D10259777004B6DFA /* Option.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38A10259777004B6DFA /* Option.png */; };
-		258BBF051089BF7900069433 /* manutd320.png in Resources */ = {isa = PBXBuildFile; fileRef = 258BBF041089BF7900069433 /* manutd320.png */; };
 		258BBF0D1089C01C00069433 /* manutd512.png in Resources */ = {isa = PBXBuildFile; fileRef = 258BBF0C1089C01C00069433 /* manutd512.png */; };
 		258BBF3A1089C1B900069433 /* RenzoTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 258BBF391089C1B900069433 /* RenzoTimer.cpp */; };
 		25A9C405102B259D00B3FFC0 /* PieceMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C404102B259D00B3FFC0 /* PieceMesh.m */; };
@@ -49,18 +47,17 @@
 		1D3623250D0F684500981E51 /* JigsawAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JigsawAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Jigsaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jigsaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		25226FC010A328BD008BA46D /* EventJPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventJPoint.h; sourceTree = "<group>"; };
 		2535BA2A103C4A4400323C7A /* CurveType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveType.h; sourceTree = "<group>"; };
 		2535BA2B103C4A4400323C7A /* CurveType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurveType.m; sourceTree = "<group>"; };
 		256781C1106E4AF600BFCE26 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
 		256781C2106E4AF600BFCE26 /* TextureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureManager.m; sourceTree = "<group>"; };
 		256781C4106E5FE300BFCE26 /* ImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageLoader.h; sourceTree = "<group>"; };
 		256781C5106E5FE300BFCE26 /* ImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageLoader.m; sourceTree = "<group>"; };
-		256782A0106E739F00BFCE26 /* manutd256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manutd256.png; sourceTree = "<group>"; };
 		257BB38810259777004B6DFA /* About.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = About.png; path = data/icons/About.png; sourceTree = "<group>"; };
 		257BB38910259777004B6DFA /* Board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Board.png; path = data/icons/Board.png; sourceTree = "<group>"; };
 		257BB38A10259777004B6DFA /* Option.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Option.png; path = data/icons/Option.png; sourceTree = "<group>"; };
 		257BB3B910259B84004B6DFA /* Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
-		258BBF041089BF7900069433 /* manutd320.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manutd320.png; sourceTree = "<group>"; };
 		258BBF0C1089C01C00069433 /* manutd512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manutd512.png; sourceTree = "<group>"; };
 		258BBF381089C1B900069433 /* RenzoTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoTimer.h; sourceTree = "<group>"; };
 		258BBF391089C1B900069433 /* RenzoTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenzoTimer.cpp; sourceTree = "<group>"; };
@@ -158,8 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				258BBF0C1089C01C00069433 /* manutd512.png */,
-				258BBF041089BF7900069433 /* manutd320.png */,
-				256782A0106E739F00BFCE26 /* manutd256.png */,
 			);
 			name = photo;
 			sourceTree = "<group>";
@@ -188,6 +183,7 @@
 			children = (
 				258BBF381089C1B900069433 /* RenzoTimer.h */,
 				258BBF391089C1B900069433 /* RenzoTimer.cpp */,
+				25226FC010A328BD008BA46D /* EventJPoint.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -383,8 +379,6 @@
 				257BB38C10259777004B6DFA /* Board.png in Resources */,
 				257BB38D10259777004B6DFA /* Option.png in Resources */,
 				25A9C465102D395100B3FFC0 /* curve01.crv in Resources */,
-				256782A1106E739F00BFCE26 /* manutd256.png in Resources */,
-				258BBF051089BF7900069433 /* manutd320.png in Resources */,
 				258BBF0D1089C01C00069433 /* manutd512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,11 +461,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Aptus Ventures, LLP";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "53EA9BD3-D119-43EC-A541-7A043EEA6C73";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Release;

@@ -66,6 +66,7 @@
 		
 		// create a board and register with Jigsaw
 		board = [[Board alloc] initWithSize:5 :5];
+		//[board setTopOffset: 32.0f];
 		Jigsaw* js = [Jigsaw instance];
 		[js addBoard: board];
 		[js setActiveBoard: board];
@@ -77,10 +78,19 @@
 }
 
 - (void)initView {
+	[EAGLContext setCurrentContext:context];
+    
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+    
+	// load textures and geometry into GPU
 	[board loadResources];
+
+	
 }
 
 - (void)drawView {
+	[board update:10];
+	
     [EAGLContext setCurrentContext:context];
     
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
@@ -173,9 +183,22 @@
     }
 }
 
+- (void) mainLoop {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	bool notDone = YES;
+	
+	while (notDone)
+	{
+		[self performSelectorOnMainThread:@selector(drawView) withObject:self waitUntilDone:NO];
+		[NSThread sleepForTimeInterval:0.5f];
+	}
+	[pool release];
+}
 
 - (void)startAnimation {
     self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:animationInterval target:self selector:@selector(drawView) userInfo:nil repeats:YES];
+		
+	
 }
 
 
@@ -227,6 +250,31 @@
 		[manager goToMainNavigationView];
 		[manager hideStatusBar:FALSE];
 	}
+}
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	// only single-touch at the moment (anyObject)
+	UITouch *touch = [touches anyObject];
+	
+	// get touch point
+	CGPoint touchPoint = [touch locationInView: self];
+	// piece hit test
+	struct JPoint p = {touchPoint.x, touchPoint.y, 0.0f};
+	struct EventJPoint e = {EVENT_TOUCH_BEGAN, p};
+	[board queueTouchEvent: e];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	// only single-touch at the moment (anyObject)
+	UITouch *touch = [touches anyObject];
+	
+	// get touch point
+	CGPoint touchPoint = [touch locationInView: self];
+	struct JPoint p = {touchPoint.x, touchPoint.y, 0.0f};
+	
+	struct EventJPoint e = {EVENT_TOUCH_MOVED, p};
+	[board queueTouchEvent: e];
 }
 
 @end

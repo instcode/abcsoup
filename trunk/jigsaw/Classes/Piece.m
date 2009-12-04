@@ -12,8 +12,11 @@
 
 @implementation Piece
 
-- (id) initWithMesh: (PieceMesh*) _mesh {
+@synthesize uid;
+
+- (id) initWithMesh: (int) _uid: (PieceMesh*) _mesh {
 	if ((self = [super init]) != NULL) {
+		uid = _uid;
 		mesh = _mesh;
 				
 		// create a floating point array of 2D points for the mesh
@@ -23,6 +26,12 @@
 			points[2 * i + 1] = mesh.points[i].y;
 		}
 		texcoords = (struct TexCoord*) malloc(sizeof(struct TexCoord) * mesh.nbPoints);
+	
+		// create line index
+		lineIndex = (unsigned short*) malloc(sizeof(unsigned short) * mesh.nbPoints);
+		for (int i = 0; i < mesh.nbPoints; ++i) 
+			lineIndex[i] = i;
+		
 	}
 	return self;
 }
@@ -64,8 +73,19 @@ void transformPoint(float m[16], float v[3], float r[3]) {
 	}
 }
 
+- (void) transferGeometry {
+	// FIXME: transfer each piece's geometry requires an index for each piece. 
+	
+	/*
+	glVertexPointer(2, GL_FLOAT, 0, points); // two components
+	glEnableClientState(GL_VERTEX_ARRAY);
+	
+	glTexCoordPointer(2, GL_FLOAT, 0, texcoords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	*/
+}
+
 - (void) render {
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glVertexPointer(2, GL_FLOAT, 0, points); // two components
     glEnableClientState(GL_VERTEX_ARRAY);
 	
@@ -78,10 +98,36 @@ void transformPoint(float m[16], float v[3], float r[3]) {
 	
     //glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glDrawElements(GL_TRIANGLES, 3 * mesh.nbTriangles, GL_UNSIGNED_SHORT, mesh.index);
+	
+	
+	glDisable(GL_TEXTURE_2D);
+	glColor4f(0.15f, 0.15f, 0.15f, 1.0f);
+	glDrawElements(GL_LINE_LOOP, mesh.nbPoints, GL_UNSIGNED_SHORT, lineIndex);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glEnable(GL_TEXTURE_2D);
+	
+	
 	//glDrawElements(GL_LINE_STRIP, 3 * mesh.nbTriangles, GL_UNSIGNED_SHORT, mesh.index);
 	//glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_SHORT, mesh.index);
 	//glDrawElements(GL_LINE_STRIP, mesh.nbTriangles, GL_UNSIGNED_SHORT, mesh.index);
 	//glDrawArrays(GL_LINE_LOOP, 0, mesh.nbPoints);
+}
+
+- (void) renderSelected {
+	glDisable(GL_TEXTURE_2D);
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	
+	glVertexPointer(2, GL_FLOAT, 0, points); // two components
+    glEnableClientState(GL_VERTEX_ARRAY);
+	
+	glTexCoordPointer(2, GL_FLOAT, 0, texcoords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+    glDrawElements(GL_LINE_LOOP, mesh.nbPoints, GL_UNSIGNED_SHORT, lineIndex);
+	
+	
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glEnable(GL_TEXTURE_2D);
 }
 
 - (void) update: (int) delta {
@@ -89,6 +135,7 @@ void transformPoint(float m[16], float v[3], float r[3]) {
 
 - (void) dealloc {
 	free(points);
+	free(lineIndex);
 	[super dealloc];
 }
 

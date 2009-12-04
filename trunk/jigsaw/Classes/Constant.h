@@ -24,3 +24,15 @@
 #define LIMIT_X 64		// the upper left bound region to touch to return to the main navigation view
 #define LIMIT_Y 64
 
+//
+// Event ID
+//
+#define EVENT_TOUCH_BEGAN 1
+#define EVENT_TOUCH_MOVED 2
+
+//
+// Mathematics constant
+//
+#define FLOAT_INFINITY 1.0e16
+#define max(a, b) (a > b ? a : b)
+#define min(a, b) (a < b ? a : b)

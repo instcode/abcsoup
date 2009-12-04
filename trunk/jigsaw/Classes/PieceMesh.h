@@ -22,6 +22,9 @@
 	
 	unsigned short* index;
 	int nbTriangles;
+	
+	unsigned short* lineIndex;
+	int nbLines;
 }
 
 @property (nonatomic, readonly) int nbPoints;
