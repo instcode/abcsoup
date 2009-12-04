@@ -31,6 +31,9 @@
 		UIViewController* glViewController = [[UIViewController alloc] init];
 		[glViewController.view addSubview:glView];
 		
+		// start animation loop also
+		[glView startAnimation];
+		
 		// register with windows manager
 		[manager registerViewController: glViewName: glViewController];
 		
