@@ -11,6 +11,7 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2522726E10CC97B8008BA46D /* RenzoUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2522726D10CC97B8008BA46D /* RenzoUtil.cpp */; };
 		2535BA2C103C4A4400323C7A /* CurveType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2535BA2B103C4A4400323C7A /* CurveType.m */; };
 		256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C2106E4AF600BFCE26 /* TextureManager.m */; };
 		256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C5106E5FE300BFCE26 /* ImageLoader.m */; };
@@ -27,7 +28,7 @@
 		25BF6B87102437BD003BFE21 /* Curve.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BF6B86102437BD003BFE21 /* Curve.m */; };
 		25CF85DE10896E5800A928C0 /* Jigsaw.mm in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85DD10896E5800A928C0 /* Jigsaw.mm */; };
 		25CF85E11089715E00A928C0 /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85E01089715E00A928C0 /* Piece.m */; };
-		25CF8645108974FB00A928C0 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF8644108974FB00A928C0 /* Board.m */; };
+		25CF8645108974FB00A928C0 /* Board.mm in Sources */ = {isa = PBXBuildFile; fileRef = 25CF8644108974FB00A928C0 /* Board.mm */; };
 		25EBB926102451760039D4EE /* GLView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25EBB925102451760039D4EE /* GLView.xib */; };
 		25EBB9C9102457980039D4EE /* AboutTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBB9BE102457980039D4EE /* AboutTableController.m */; };
 		25EBB9CA102457980039D4EE /* MainTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBB9C0102457980039D4EE /* MainTabController.m */; };
@@ -48,6 +49,9 @@
 		1D6058910D05DD3D006BFB54 /* Jigsaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jigsaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		25226FC010A328BD008BA46D /* EventJPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventJPoint.h; sourceTree = "<group>"; };
+		2522726810CC9722008BA46D /* RenzoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoUtil.h; sourceTree = "<group>"; };
+		2522726C10CC97B8008BA46D /* RenzoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoUtil.h; sourceTree = "<group>"; };
+		2522726D10CC97B8008BA46D /* RenzoUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenzoUtil.cpp; sourceTree = "<group>"; };
 		2535BA2A103C4A4400323C7A /* CurveType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveType.h; sourceTree = "<group>"; };
 		2535BA2B103C4A4400323C7A /* CurveType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurveType.m; sourceTree = "<group>"; };
 		256781C1106E4AF600BFCE26 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
@@ -80,7 +84,7 @@
 		25CF85DF1089715E00A928C0 /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Piece.h; sourceTree = "<group>"; };
 		25CF85E01089715E00A928C0 /* Piece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Piece.m; sourceTree = "<group>"; };
 		25CF8643108974FB00A928C0 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		25CF8644108974FB00A928C0 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		25CF8644108974FB00A928C0 /* Board.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Board.mm; sourceTree = "<group>"; };
 		25EBB925102451760039D4EE /* GLView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GLView.xib; sourceTree = "<group>"; };
 		25EBB9BD102457980039D4EE /* AboutTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableController.h; sourceTree = "<group>"; };
 		25EBB9BE102457980039D4EE /* AboutTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableController.m; sourceTree = "<group>"; };
@@ -184,6 +188,9 @@
 				258BBF381089C1B900069433 /* RenzoTimer.h */,
 				258BBF391089C1B900069433 /* RenzoTimer.cpp */,
 				25226FC010A328BD008BA46D /* EventJPoint.h */,
+				2522726810CC9722008BA46D /* RenzoUtil.h */,
+				2522726C10CC97B8008BA46D /* RenzoUtil.h */,
+				2522726D10CC97B8008BA46D /* RenzoUtil.cpp */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -228,7 +235,7 @@
 				25CF85DF1089715E00A928C0 /* Piece.h */,
 				25CF85E01089715E00A928C0 /* Piece.m */,
 				25CF8643108974FB00A928C0 /* Board.h */,
-				25CF8644108974FB00A928C0 /* Board.m */,
+				25CF8644108974FB00A928C0 /* Board.mm */,
 			);
 			name = Render;
 			sourceTree = "<group>";
@@ -408,8 +415,9 @@
 				256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */,
 				25CF85DE10896E5800A928C0 /* Jigsaw.mm in Sources */,
 				25CF85E11089715E00A928C0 /* Piece.m in Sources */,
-				25CF8645108974FB00A928C0 /* Board.m in Sources */,
+				25CF8645108974FB00A928C0 /* Board.mm in Sources */,
 				258BBF3A1089C1B900069433 /* RenzoTimer.cpp in Sources */,
+				2522726E10CC97B8008BA46D /* RenzoUtil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

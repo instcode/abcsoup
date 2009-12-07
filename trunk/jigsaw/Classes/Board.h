@@ -70,7 +70,7 @@ enum RenderState {
 	int nbPiecesPerTrayLine;
 	int nbTrayLines;
 	int curTrayLine;
-	
+	int nonEmptyTrayLines;
 	
 	int nbMaxPiecesInTray;
 	int nbPiecesInTray;
@@ -81,6 +81,10 @@ enum RenderState {
 	struct JPoint* trayPieceCorrectPosition; // expected position per piece to stay in tray
 	int* pieceLocation;		// state where a piece is currently located. E.g., on board, on tray, etc.
 	
+	struct JPoint* oldPosition;	// context of pieces to revert when snap fails.
+	int* oldTrayPieces;
+	int* oldPieceLocation;
+	int oldNbPiecesInTray;
 	
 	
 	// event queue
@@ -89,6 +93,15 @@ enum RenderState {
 	
 	// render state
 	enum RenderState renderState;
+	
+	// start up board information
+	int nbMissingPieces;	// 0 will random the number of missing pieces
+							// nbMissingPieces is also the number of pieces stayed in tray at startup time
+	
+	
+	
+	
+	
 }
 
 #define SELECTED_COLOR_DELTA 0.05f
@@ -142,5 +155,6 @@ enum RenderState {
  */
 - (void) onTouchMoved: (struct JPoint) p;
 - (void) onTouchBegan: (struct JPoint) p;
+- (void) onTouchEnded: (struct JPoint) p;
 - (void) queueTouchEvent: (struct EventJPoint) e;
 @end

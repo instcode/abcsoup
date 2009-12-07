@@ -10,6 +10,9 @@
 #import "PieceMeshFactory.h"
 #import "TextureManager.h"
 #import "Constant.h"
+#include "RenzoUtil.h"
+
+using namespace Renzo;
 
 @implementation Board
 @synthesize width, height;
@@ -58,6 +61,8 @@
 		// piece position (before scale)
 		correctPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
 		currentPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
+		oldPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
+		
 		float x, y;
 		y = y0;
 		for (int i = 0; i < height; ++i) {
@@ -92,8 +97,11 @@
 		curTrayLine				= 0;
 		nbMaxPiecesInTray		= nbPiecesPerTrayLine * nbTrayLines;
 		
-		trayPieces = (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
-		pieceLocation = (int*) malloc(sizeof(int) * nbPieces);
+		trayPieces		= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
+		oldTrayPieces	= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
+		
+		pieceLocation		= (int*) malloc(sizeof(int) * nbPieces);
+		oldPieceLocation	= (int*) malloc(sizeof(int) * nbPieces);
 		
 		nbPiecesInTray			= 0;
 		for (int i = 0; i < nbPieces; ++i) {
@@ -118,6 +126,53 @@
 			
 			tx += trayPieceWidth + gap;
 		}
+		
+		// * randomization * //
+		//randomSeed(0);
+		srand(time(NULL));
+		//
+		// start up board information
+		//
+		nbMissingPieces = 8;
+		if (nbMissingPieces == 0)
+			nbMissingPieces = randomInteger(7, 15);
+		nbPiecesInTray = nbMissingPieces;
+		nonEmptyTrayLines = ceil(nbPiecesInTray * 1.0f / nbPiecesPerTrayLine);
+		
+		// create the missing pieces' indices
+		int* missing = (int*) malloc(sizeof(int) * nbPieces);
+		for (int i = 0; i < nbPieces; ++i) 
+			missing[i] = i;
+		
+		for (int i = nbPieces - 1; i >= 0; --i) {
+			int r = randomInteger(0, i);
+			// swap
+			swap(missing[r], missing[i]);
+		}
+		
+		// extract nbMissingPieces consecutive indices
+		int e = randomInteger(0, nbPieces - nbMissingPieces);
+		
+		//int e = 0;
+		int k = 0;
+		printf("Index: ");
+		for (int i = e; i < e + nbMissingPieces; ++i) {
+			int index = missing[i];
+			printf("%d\t", index);
+			// 3 first pieces are visible
+			if (k < nbPiecesPerTrayLine) {
+				pieceLocation[index] = LOCATION_ON_TRAY_VISIBLE;
+			} else {
+				pieceLocation[index] = LOCATION_ON_TRAY_NOT_VISIBLE;
+			}
+			trayPieces[k] = index;
+			
+			// set position
+			currentPosition[index] = trayPieceCorrectPosition[k % nbPiecesPerTrayLine];
+			
+			k++;
+		}
+		
 		
 		
 		/*
@@ -550,7 +605,7 @@
 		selectedIndex = -1;
 		return NULL;
 	}
-	
+
 	return pieces[selectedIndex];
 }
 
@@ -590,7 +645,7 @@
 	float epsilon = 8.0f;
 	
 	if (trayBottom - epsilon <= Y && Y <= trayBottom + epsilon) {
-		curTrayLine = min(nbTrayLines, curTrayLine + 1);
+		curTrayLine = min(nonEmptyTrayLines - 1, curTrayLine + 1);
 		for (int i = 0; i < nbTrayLines; ++i) {
 			for (int j = 0; j < nbPiecesPerTrayLine; ++j) {
 				int index = i * nbPiecesPerTrayLine + j;
@@ -608,7 +663,7 @@
 	return false;
 }
 
-
+int snapped;
 - (void) onTouchMoved: (struct JPoint) p {
 	if (selectedIndex == -1) return;
 	// transform p into OpenGL coordinate
@@ -617,6 +672,7 @@
 	float X = (p.x - Ox);
 	float Y = -(p.y - Oy); // shift then flip
 	float snapThreshold = pieceWidth * pieceHeight * 0.035f;
+	snapped = 0; // reset snapped bit
 	
 	if (Y >= trayTop) {
 		// snap to board
@@ -627,6 +683,18 @@
 			if (dx*dx + dy*dy < snapThreshold) {
 				X = correctPosition[i].x;
 				Y = correctPosition[i].y;
+				
+				// remove piece out of tray
+				pieceLocation[selectedIndex] = LOCATION_ON_BOARD;
+				for (int i = 0; i < nbPiecesPerTrayLine; ++i) {
+					int trayIndex = curTrayLine * nbPiecesPerTrayLine + i;
+					if (trayPieces[trayIndex] == selectedIndex) {
+						trayPieces[trayIndex] = -1;
+						break;
+					}
+				}
+				
+				snapped = 1;
 				break;
 			}
 		}
@@ -672,15 +740,19 @@
 				// put the new piece in
 				trayPieces[trayPieceIndex] = selectedIndex;
 				pieceLocation[selectedIndex] = LOCATION_ON_TRAY_VISIBLE;
-				
+
 				// snap finished
+				snapped = 1;
 				break;
 			}
 		}
 	}
 	
-	currentPosition[selectedIndex].x = X;
-	currentPosition[selectedIndex].y = Y;
+	// only accept snapped pieces
+	//if (snapped) {
+		currentPosition[selectedIndex].x = X;
+		currentPosition[selectedIndex].y = Y;
+	//}
 }
 
 - (void) onTouchBegan: (struct JPoint) p {
@@ -688,8 +760,75 @@
 	hit = [self testHitTrayUp: p];
 	if (! hit)
 		hit = [self testHitTrayDown: p];
-	if (! hit)
+	if (! hit) {
+		// record old context of the selected piece
+		oldNbPiecesInTray = nbPiecesInTray;
+		memcpy(oldPosition, currentPosition, sizeof(struct JPoint) * nbPieces);
+		memcpy(oldPieceLocation, pieceLocation, sizeof(int) * nbPieces);
+		memcpy(oldTrayPieces, trayPieces, sizeof(int) * nbMaxPiecesInTray);
+		
 		[self testHitPiece: p];
+	}
+}
+
+- (void) onTouchEnded: (struct JPoint) p {
+	if (snapped == 0) {
+		// revert to the old position of the selected index
+		if (selectedIndex >= 0) {
+			nbPiecesInTray = oldNbPiecesInTray;
+			memcpy(currentPosition, oldPosition, sizeof(struct JPoint) * nbPieces);
+			memcpy(pieceLocation, oldPieceLocation, sizeof(int) * nbPieces);
+			memcpy(trayPieces, oldTrayPieces, sizeof(int) * nbMaxPiecesInTray);
+		}
+		
+		snapped = 1;
+	} else {
+		//
+		// remove empty tray lines
+		//
+		int* isOccupiedLine	= (int*) malloc(sizeof(int) * nbTrayLines);
+		int* outTrayLine		= (int*) malloc(sizeof(int) * nbTrayLines);
+		
+		for (int i = 0; i < nbTrayLines; ++i) {
+			int isEmpty = 1;
+			for (int j = 0; j < nbPiecesPerTrayLine; ++j) {
+				int trayIndex = i * nbPiecesPerTrayLine + j;
+				if (trayPieces[trayIndex] != -1) { 
+					isEmpty = 0;
+					break;
+				}
+			}
+			isOccupiedLine[i] = 1 - isEmpty;
+		}
+		// prefix sum to compute the new output tray lines
+		outTrayLine[0] = 0;
+		for (int i = 1; i < nbTrayLines; ++i) {
+			outTrayLine[i] = outTrayLine[i - 1] + isOccupiedLine[i - 1];
+		}
+		nonEmptyTrayLines = outTrayLine[nbTrayLines - 1] + isOccupiedLine[nbTrayLines - 1];
+		
+		// stream compaction
+		for (int i = 0; i < nbTrayLines; ++i) {
+			if (isOccupiedLine[i]) {
+				if (i != outTrayLine[i]) {
+					memcpy(trayPieces + outTrayLine[i] * nbPiecesPerTrayLine, trayPieces + i * nbPiecesPerTrayLine, sizeof(int) * nbPiecesPerTrayLine);
+					memset(trayPieces + i * nbPiecesPerTrayLine, 0xFF, sizeof(int) * nbPiecesPerTrayLine); // -1
+				}
+			}
+		}
+		
+		//
+		// if snapped, count the nbPiecesInTray again for consistency
+		//
+		nbPiecesInTray = 0;
+		for (int i = 0; i < nbPieces; ++i) {
+			if (pieceLocation[i] != LOCATION_ON_BOARD)
+				nbPiecesInTray++;
+		}
+		
+		free(isOccupiedLine);
+		free(outTrayLine);
+	}
 }
 
 - (void) queueTouchEvent: (struct EventJPoint) e {

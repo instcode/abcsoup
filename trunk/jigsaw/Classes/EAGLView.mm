@@ -245,11 +245,15 @@
 	CGPoint touchPoint = [touch locationInView: self];
 	//CGPoint touchPoint = [manager mapWindowPointToScreen: [touch locationInView:NULL]]; // use window coordinates
 	// touch the upper left corner to go back to main menu
+	/*
 	if (touchPoint.x < LIMIT_X && touchPoint.y < LIMIT_Y) {
 		
 		[manager goToMainNavigationView];
 		[manager hideStatusBar:FALSE];
-	}
+	}*/
+	
+	struct JPoint p = {touchPoint.x, touchPoint.y, 0.0f};
+	[board onTouchEnded: p];
 }
 
 
@@ -261,8 +265,9 @@
 	CGPoint touchPoint = [touch locationInView: self];
 	// piece hit test
 	struct JPoint p = {touchPoint.x, touchPoint.y, 0.0f};
-	struct EventJPoint e = {EVENT_TOUCH_BEGAN, p};
-	[board queueTouchEvent: e];
+	//struct EventJPoint e = {EVENT_TOUCH_BEGAN, p};
+	//[board queueTouchEvent: e];
+	[board onTouchBegan: p];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -273,8 +278,9 @@
 	CGPoint touchPoint = [touch locationInView: self];
 	struct JPoint p = {touchPoint.x, touchPoint.y, 0.0f};
 	
-	struct EventJPoint e = {EVENT_TOUCH_MOVED, p};
-	[board queueTouchEvent: e];
+	//struct EventJPoint e = {EVENT_TOUCH_MOVED, p};
+	//[board queueTouchEvent: e];
+	[board onTouchMoved: p];
 }
 
 @end
