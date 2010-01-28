@@ -13,6 +13,7 @@
 @implementation Piece
 
 @synthesize uid;
+@synthesize mesh;
 
 - (id) initWithMesh: (int) _uid: (PieceMesh*) _mesh {
 	if ((self = [super init]) != NULL) {
@@ -131,6 +132,10 @@ void transformPoint(float m[16], float v[3], float r[3]) {
 }
 
 - (void) update: (int) delta {
+}
+
+- (bool) isCompatibleWith: (Piece*) aPiece {
+	return [self.mesh isCompatibleWith:aPiece.mesh];
 }
 
 - (void) dealloc {

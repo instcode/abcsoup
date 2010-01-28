@@ -26,6 +26,7 @@ struct TexCoord {
 }
 
 @property (nonatomic, readonly) int uid;
+@property (nonatomic, readonly) PieceMesh* mesh;
 
 /**
  Create a new piece view linked with a mesh
@@ -47,4 +48,8 @@ struct TexCoord {
  */
 - (void) renderSelected;
 
+/**
+ Compatiblity check
+ */
+- (bool) isCompatibleWith: (Piece*) aPiece;
 @end

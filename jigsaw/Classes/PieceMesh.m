@@ -10,8 +10,10 @@
 #include "Point.h"
 #include "Triangle.h"
 #include "Geometry.h"
+#include "Constant.h"
 
 @implementation PieceMesh
+//@synthesize curveType;
 @synthesize points, nbPoints;
 @synthesize index, nbTriangles;
 
@@ -403,6 +405,14 @@
 	}
 	
 	free(isRemoved);
+}
+
+-(bool) isCompatibleWith: (PieceMesh*) aMesh {
+	return 
+	[curveType[CELL_LEFT]	isCompatibleWith:	aMesh.curveType[CELL_RIGHT]] &&
+	[curveType[CELL_RIGHT]	isCompatibleWith:	aMesh.curveType[CELL_LEFT]] &&
+	[curveType[CELL_TOP]	isCompatibleWith:	aMesh.curveType[CELL_BOTTOM]] &&
+	[curveType[CELL_BOTTOM] isCompatibleWith:	aMesh.curveType[CELL_TOP]];
 }
 
 @end

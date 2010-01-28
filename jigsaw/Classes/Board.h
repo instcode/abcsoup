@@ -12,25 +12,35 @@
 #import "CurveType.h"
 #import "Point.h"
 #import "EventJPoint.h"
-
-#define CELL_LEFT 3
-#define CELL_RIGHT 1
-#define CELL_TOP 0
-#define CELL_BOTTOM 2
+#import "Constant.h"
 
 #define LOCATION_ON_BOARD 0
 #define LOCATION_ON_TRAY_NOT_VISIBLE 1
 #define LOCATION_ON_TRAY_VISIBLE 2
+
+#define SELECTED_COLOR_DELTA 0.05f
+#define SELECTED_COLOR_UPPER 0.7f
+#define SELECTED_COLOR_LOWER 0.4f
+
+#define QUEUE_SIZE 128
 
 struct CellCurveTypes {
 	CurveType* c[4];	// 4 curve types for each cell
 };
 
 enum RenderState {
-	WaitForPlayer,
-	TransitionTrayUp,
-	TransitionTrayDown,
+	rsWaitForPlayer,
+	rsTransitionTrayUp,
+	rsTransitionTrayDown,
+	rsTransitionQuestionFadeIn,
 	nbRenderStates
+};
+
+// current state ends after a period of time and switch to a new state
+enum TransitionValue {
+	tvEnd,
+	tvFadeIn,
+	nbTransitionValues
 };
 
 @interface Board : NSObject<Renderable> {
@@ -63,6 +73,12 @@ enum RenderState {
 	struct JPoint* correctPosition;	// correct position of every piece
 	struct JPoint* currentPosition; // current position of every piece
 	
+	int questionIndex;
+	struct JPoint questionPosition; // question mark position	
+	
+	float fadeInAlpha, fadeInAlphaStart, fadeInAlphaInc, fadeInAlphaEnd;
+	struct JPoint fadeInScale, fadeInScaleStart, fadeInScaleEnd, fadeInScaleInc;		// fade in effect scale
+	
 	// tray information
 	float trayTop, trayBottom;			// the vertical line separating the board (top) and the tray (bottom) which is used to store unused pieces
 	float lineVerts[12];	// 4 points (x, y, z)
@@ -86,6 +102,11 @@ enum RenderState {
 	int* oldPieceLocation;
 	int oldNbPiecesInTray;
 	
+	int* missing;					// a random swap index array to mark missing pieces. Size of this array is nbPieces, not nbMissingPieces. 
+	int missingStart, missingEnd;	// missing indices
+	int nbMissingPieces;	// 0 will random the number of missing pieces
+	// nbMissingPieces is also the number of pieces stayed in tray at startup time
+	// nbMissingPieces corresponds to a consecutive section on missing integer array (above).
 	
 	// event queue
 	struct EventJPoint* qTouch;
@@ -93,22 +114,15 @@ enum RenderState {
 	
 	// render state
 	enum RenderState renderState;
+	int automata[nbRenderStates][nbTransitionValues];
 	
 	// start up board information
-	int nbMissingPieces;	// 0 will random the number of missing pieces
-							// nbMissingPieces is also the number of pieces stayed in tray at startup time
 	
 	
 	
 	
 	
 }
-
-#define SELECTED_COLOR_DELTA 0.05f
-#define SELECTED_COLOR_UPPER 0.7f
-#define SELECTED_COLOR_LOWER 0.4f
-
-#define QUEUE_SIZE 128
 
 @property (nonatomic, readonly) int width;
 @property (nonatomic, readonly) int height;
@@ -157,4 +171,13 @@ enum RenderState {
 - (void) onTouchBegan: (struct JPoint) p;
 - (void) onTouchEnded: (struct JPoint) p;
 - (void) queueTouchEvent: (struct EventJPoint) e;
+
+/**
+ Generate state transition table
+ */
+- (void) createAutomata;
+/**
+ State management: switch from current state to a new state according to the input transition value.
+ */
+- (void) switchState: (enum TransitionValue) transitionValue;
 @end

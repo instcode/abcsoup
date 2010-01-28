@@ -36,3 +36,11 @@
 #define FLOAT_INFINITY 1.0e16
 #define max(a, b) (a > b ? a : b)
 #define min(a, b) (a < b ? a : b)
+
+//
+// Cell index
+//
+#define CELL_TOP	0
+#define CELL_RIGHT	1
+#define CELL_BOTTOM 2
+#define CELL_LEFT	3
