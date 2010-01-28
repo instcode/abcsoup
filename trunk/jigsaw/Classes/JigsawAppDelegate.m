@@ -19,7 +19,7 @@
 - (void) testPutGlView {
 	// hide the status bar first so the view is created with more space
 	WindowsManager* manager = [WindowsManager getWindowsManager];
-	[manager hideStatusBar:TRUE];
+	//[manager hideStatusBar:TRUE];
 	
 	// create view
 	NSString* glViewName = @"EAGLView";
@@ -49,7 +49,8 @@
 }
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
     // hide application bar (must set before add views to windows)
-	//[application setStatusBarHidden:TRUE];
+	// so that window is placed at a correct position
+	[application setStatusBarHidden:TRUE];
 	
 	// create windows manager
 	windowManager = [WindowsManager getWindowsManager: application: window: mainNavigationController];

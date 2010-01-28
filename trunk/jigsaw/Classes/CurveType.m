@@ -76,5 +76,11 @@
 	return newCurveType;
 }
 
+- (bool) isCompatibleWith: (CurveType*) aCurve {
+	if (self.curve == aCurve.curve && self.style == aCurve.style &&
+		self.scaleX == -aCurve.scaleX && self.scaleY == -aCurve.scaleY) { 
+		return true;
+	} else return false;
+}
 
 @end

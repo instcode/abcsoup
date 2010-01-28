@@ -140,7 +140,7 @@ using namespace Renzo;
 		nonEmptyTrayLines = ceil(nbPiecesInTray * 1.0f / nbPiecesPerTrayLine);
 		
 		// create the missing pieces' indices
-		int* missing = (int*) malloc(sizeof(int) * nbPieces);
+		missing = (int*) malloc(sizeof(int) * nbPieces);
 		for (int i = 0; i < nbPieces; ++i) 
 			missing[i] = i;
 		
@@ -151,12 +151,12 @@ using namespace Renzo;
 		}
 		
 		// extract nbMissingPieces consecutive indices
-		int e = randomInteger(0, nbPieces - nbMissingPieces);
+		missingStart = randomInteger(0, nbPieces - nbMissingPieces);
+		missingEnd = missingStart + nbMissingPieces - 1;
 		
-		//int e = 0;
 		int k = 0;
 		printf("Index: ");
-		for (int i = e; i < e + nbMissingPieces; ++i) {
+		for (int i = missingStart; i < missingEnd; ++i) {
 			int index = missing[i];
 			printf("%d\t", index);
 			// 3 first pieces are visible
@@ -170,7 +170,7 @@ using namespace Renzo;
 			// set position
 			currentPosition[index] = trayPieceCorrectPosition[k % nbPiecesPerTrayLine];
 			
-			k++;
+			++k;
 		}
 		
 		
@@ -192,7 +192,9 @@ using namespace Renzo;
 		head = 0; tail = -1, count = 0;
 		
 		// render state
-		renderState = WaitForPlayer;
+		[self createAutomata];
+		renderState = rsWaitForPlayer;
+		[self switchState:tvFadeIn];	// fade in first question mark
 		
 		// default, no top offset
 		[self setTopOffset: pieceHeight];
@@ -387,40 +389,13 @@ using namespace Renzo;
 	glBindTexture(GL_TEXTURE_2D, texPhoto);
 	glEnable(GL_TEXTURE_2D);
 	
+	glEnable(GL_BLEND);  
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+	
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	glLineWidth(2.0f);
-	/*
-	const GLfloat squareVertices[] = {
-        -10.5f, -10.5f,
-        10.5f,  -10.5f,
-        -10.5f,  10.5f,
-        10.5f,   10.5f,
-    };
-    const GLubyte squareColors[] = {
-        255, 255,   0, 255,
-        0,   255, 255, 255,
-        0,     0,   0,   0,
-        255,   0, 255, 255,
-    };
 	
-	const GLfloat squareTexCoords[] = {
-		0.0f, 0.0f, 
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f
-	};
-	
-    glVertexPointer(2, GL_FLOAT, 0, squareVertices);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    //glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
-    //glEnableClientState(GL_COLOR_ARRAY);
-    glTexCoordPointer(2, GL_FLOAT, 0, squareTexCoords);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	*/
-	//return;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
@@ -502,9 +477,60 @@ using namespace Renzo;
 		[pieces[index] renderSelected];
 		glPopMatrix();
 	}
+	
+	//
+	// render transition
+	//
+	
+	const GLfloat squareVertices[] = {
+	 -10.5f, -10.5f,
+	 10.5f,  -10.5f,
+	 -10.5f,  10.5f,
+	 10.5f,   10.5f,
+	};
+	 const GLubyte squareColors[] = {
+	 255, 255,   0, 255,
+	 0,   255, 255, 255,
+	 0,     0,   0,   0,
+	 255,   0, 255, 255,
+	 };
+	 
+	 const GLfloat squareTexCoords[] = {
+	 0.0f, 0.0f, 
+	 1.0f, 0.0f,
+	 1.0f, 1.0f,
+	 0.0f, 1.0f
+	 };
+	 
+	switch (renderState) {
+		case rsWaitForPlayer:
+		case rsTransitionQuestionFadeIn: 
+		{
+			// render a box 
+			glDisable(GL_TEXTURE_2D);
+			glPushMatrix();
+				glColor4f(1.0f, 1.0f, 1.0f, fadeInAlpha);
+				glTranslatef(questionPosition.x, questionPosition.y + top, questionPosition.z);
+				glScalef(fadeInScale.x, fadeInScale.y, fadeInScale.z);
+				glScalef(scaleX, scaleY, 1.0f);
+				glVertexPointer(2, GL_FLOAT, 0, squareVertices);
+				glEnableClientState(GL_VERTEX_ARRAY);
+				//glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
+				//glEnableClientState(GL_COLOR_ARRAY);
+				//glTexCoordPointer(2, GL_FLOAT, 0, squareTexCoords);
+				//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			glPopMatrix();
+			glEnable(GL_TEXTURE_2D);
+			break;
+		}
+			
+		
+	}
 }
 
 - (void) update: (int) delta {
+	// flashing selected piece
 	float ratio = delta * 0.1f;
 	selectedColor.x += selectedColorDelta * ratio;
 	selectedColor.y += selectedColorDelta * ratio;
@@ -531,6 +557,24 @@ using namespace Renzo;
 		}
 		head = (head + 1) % QUEUE_SIZE;
 		count--;
+	}
+	
+	// transition state switch
+	float ratioFx = delta * 0.1f;
+	switch (renderState) {
+		case rsTransitionQuestionFadeIn: {
+			fadeInScale.x += fadeInScaleInc.x * ratioFx;
+			fadeInScale.y += fadeInScaleInc.y * ratioFx;
+			fadeInScale.z += fadeInScaleInc.z * ratioFx;
+			fadeInAlpha += fadeInAlphaInc * ratioFx;
+			
+			if ((fadeInScaleInc.x >= 0.0f && fadeInScale.x >= fadeInScaleEnd.x)
+			|| (fadeInScaleInc.x <= 0.0f && fadeInScale.x <= fadeInScaleEnd.x)	
+			) {
+				[self switchState:tvEnd];
+			}
+			break;
+		}
 	}
 }
 
@@ -837,5 +881,56 @@ int snapped;
 	tail = (tail + 1) % QUEUE_SIZE;
 	qTouch[tail] = e;
 	count++;
+}
+
+- (void) createAutomata {
+	automata[rsWaitForPlayer][tvFadeIn] = rsTransitionQuestionFadeIn;
+	automata[rsTransitionQuestionFadeIn][tvEnd] = rsWaitForPlayer;
+}
+
+- (void) switchState: (enum TransitionValue) transitionValue {
+	renderState = (RenderState)automata[renderState][transitionValue];
+	switch (renderState) {
+		case rsWaitForPlayer:
+		{
+			fadeInAlpha = fadeInAlphaEnd;
+			fadeInScale.x = fadeInScaleEnd.x;
+			fadeInScale.y = fadeInScaleEnd.y;
+			fadeInScale.z = fadeInScaleEnd.z;
+			break;
+		}
+			
+		case rsTransitionQuestionFadeIn: 
+		{
+			// fade in values
+			fadeInScaleStart.x = 20.0f;
+			fadeInScaleStart.y = fadeInScaleStart.x;
+			fadeInScaleStart.z = fadeInScaleStart.x;
+			
+			fadeInScaleEnd.x = 5.0f;
+			fadeInScaleEnd.y = fadeInScaleEnd.x;
+			fadeInScaleEnd.z = fadeInScaleEnd.x;
+			
+			fadeInScaleInc.x = -1.0f;
+			fadeInScaleInc.y = fadeInScaleInc.x;
+			fadeInScaleInc.z = fadeInScaleInc.x;
+			
+			int nbUpdates = ((fadeInScaleEnd.x - fadeInScaleStart.x) / fadeInScaleInc.x);
+			
+			fadeInAlphaStart = 0.05f;
+			fadeInAlphaEnd = 0.5f;
+			fadeInAlphaInc = (fadeInAlphaEnd - fadeInAlphaStart) / nbUpdates;
+			
+			fadeInAlpha = fadeInAlphaStart;
+			fadeInScale.x = fadeInScaleStart.x;
+			fadeInScale.y = fadeInScaleStart.y;
+			fadeInScale.z = fadeInScaleStart.z;
+			
+			// generate new question mark position
+			questionIndex = missing[randomInteger(missingStart, missingEnd)];
+			questionPosition = correctPosition[questionIndex];
+			break;
+		}
+	}
 }
 @end

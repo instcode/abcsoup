@@ -29,6 +29,7 @@
 }
 
 @property (nonatomic, readonly) Curve* curve;
+@property (nonatomic, readonly) int style;
 @property (nonatomic, assign) float scaleX, scaleY;
 /*
 @property (nonatomic, readonly) struct JPoint* points;
@@ -48,5 +49,10 @@
  Clone a new curve type with the same curve but flip scale X and Y
  */
 - (CurveType*) cloneFlip;
+
+/**
+ Compatibility check when two curves (pieces) are placed side by side
+ */
+- (bool) isCompatibleWith: (CurveType*) curve;
 
 @end

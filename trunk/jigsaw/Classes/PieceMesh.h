@@ -27,6 +27,7 @@
 	int nbLines;
 }
 
+@property (nonatomic, readonly) CurveType** curveType;
 @property (nonatomic, readonly) int nbPoints;
 @property (nonatomic, readonly) struct JPoint* points;
 @property (nonatomic, readonly) unsigned short* index;
@@ -51,4 +52,9 @@
  Create mesh from the curve input points and current style using ear clipping algorithm
  */
 - (void) createMesh;
+
+/**
+ Compatibility check with 4 surrounding curve types
+ */
+- (bool) isCompatibleWith: (PieceMesh*) aMesh;
 @end

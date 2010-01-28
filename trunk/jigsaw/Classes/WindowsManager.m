@@ -66,21 +66,24 @@ float statusBarHeight = 0;
 }
 
 /**************************************************************************************************************************
+ * CLAIM NOT CORRECT for iPhone 3.0 now!
  * Trick: if set [application setStatusBarHidden:hidden] before 
- * creating window and add sub view then the status bar is hidden and the window is set in correct position.
+ * creating window and add sub view then the status bar is hidden and the window's (0, 0) is set at screen's (0, 24).
  * If the status bar is set to hide after the UIWindow is created, the status bar is just hidden then. The window position
  * in the screen remains unchanged. We need to set its position appropriately.
  * Assumption: at start, the status is shown. So the origin (0,0) of the window is about (0, 24) in the screen.
  **************************************************************************************************************************/
 
 - (void) hideStatusBar: (BOOL) hidden {
+	/// this hack is applied for iPhone SDK 2.1 only. 
+	
 	// set window position properly
 	if (hidden)
 		[window setFrame:CGRectMake(0, -application.statusBarFrame.size.height, 320, 480 + application.statusBarFrame.size.height)];
 		//[window setFrame:CGRectMake(0, -16, 320, 480)];
 	else 
 		[window setFrame:CGRectMake(0, 0, 320, 480)];
-
+	
 	// hide application bar
 	[application setStatusBarHidden:hidden animated:TRUE];
 }

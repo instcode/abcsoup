@@ -460,7 +460,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = DefaultProfileUuid;
 				SDKROOT = iphoneos2.1;
 			};
 			name = Debug;
@@ -474,8 +473,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "53EA9BD3-D119-43EC-A541-7A043EEA6C73";
-				SDKROOT = iphoneos2.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "53EA9BD3-D119-43EC-A541-7A043EEA6C73";
+				SDKROOT = iphoneos3.1;
 			};
 			name = Release;
 		};
