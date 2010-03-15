@@ -49,7 +49,7 @@ struct TexCoord {
 - (void) renderSelected;
 
 /**
- Compatiblity check
+ Similarity check
  */
-- (bool) isCompatibleWith: (Piece*) aPiece;
+- (bool) isSimilarTo: (Piece*) aPiece;
 @end

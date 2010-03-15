@@ -18,6 +18,8 @@
 #define LOCATION_ON_TRAY_NOT_VISIBLE 1
 #define LOCATION_ON_TRAY_VISIBLE 2
 
+#define CELL_STAT_EMPTY -1
+
 #define SELECTED_COLOR_DELTA 0.05f
 #define SELECTED_COLOR_UPPER 0.7f
 #define SELECTED_COLOR_LOWER 0.4f
@@ -95,11 +97,15 @@ enum TransitionValue {
 	float trayPieceWidth;
 	float trayPieceHeight;
 	struct JPoint* trayPieceCorrectPosition; // expected position per piece to stay in tray
+	
 	int* pieceLocation;		// state where a piece is currently located. E.g., on board, on tray, etc.
+	int* oldPieceLocation;  // (!!!) Note: a piece which is on board may not stay in its correct position.
+	
+	int* cellStat;			// cell status (empty, occupied)
+	int* oldCellStat;
 	
 	struct JPoint* oldPosition;	// context of pieces to revert when snap fails.
 	int* oldTrayPieces;
-	int* oldPieceLocation;
 	int oldNbPiecesInTray;
 	
 	int* missing;					// a random swap index array to mark missing pieces. Size of this array is nbPieces, not nbMissingPieces. 

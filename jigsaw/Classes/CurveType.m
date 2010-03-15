@@ -15,6 +15,7 @@
 @synthesize width, height;
 */
 @synthesize curve;
+@synthesize style;
 @synthesize scaleX, scaleY;
 
 - (id) initWithCurve: (Curve*) _curve: (int) _style {
@@ -77,10 +78,20 @@
 }
 
 - (bool) isCompatibleWith: (CurveType*) aCurve {
-	if (self.curve == aCurve.curve && self.style == aCurve.style &&
-		self.scaleX == -aCurve.scaleX && self.scaleY == -aCurve.scaleY) { 
+	if (aCurve == NULL) return false;
+	
+	if (curve == aCurve.curve && style == aCurve.style &&
+		scaleX == -aCurve.scaleX && scaleY == -aCurve.scaleY) { // note the negative mark
 		return true;
 	} else return false;
 }
 
+- (bool) isSimilarTo: (CurveType*) aCurve {
+	if (aCurve == NULL) return false;
+	
+	if (curve == aCurve.curve && style == aCurve.style &&
+		scaleX == aCurve.scaleX && scaleY == aCurve.scaleY) { // no negative mark
+		return true;
+	} else return false;
+}
 @end

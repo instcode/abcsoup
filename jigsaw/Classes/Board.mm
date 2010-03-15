@@ -103,9 +103,14 @@ using namespace Renzo;
 		pieceLocation		= (int*) malloc(sizeof(int) * nbPieces);
 		oldPieceLocation	= (int*) malloc(sizeof(int) * nbPieces);
 		
+		cellStat		= (int*) malloc(sizeof(int) * nbPieces);
+		oldCellStat		= (int*) malloc(sizeof(int) * nbPieces);
+		
 		nbPiecesInTray			= 0;
 		for (int i = 0; i < nbPieces; ++i) {
-			pieceLocation[i] = LOCATION_ON_BOARD;
+			pieceLocation[i] = LOCATION_ON_BOARD; // each piece is on board. 
+			// Note that a piece on board may not be in its correct location. But at start it does.
+			cellStat[i] = i; // cell is occupied with its correct piece.
 		}
 		for (int i = 0; i < nbMaxPiecesInTray; ++i) {
 			trayPieces[i] = -1;
@@ -158,6 +163,8 @@ using namespace Renzo;
 		printf("Index: ");
 		for (int i = missingStart; i < missingEnd; ++i) {
 			int index = missing[i];
+			cellStat[index] = CELL_STAT_EMPTY; // missing piece makes its correct occupied cell empty
+			
 			printf("%d\t", index);
 			// 3 first pieces are visible
 			if (k < nbPiecesPerTrayLine) {
@@ -209,16 +216,31 @@ using namespace Renzo;
 
 
 - (void) dealloc {
+	free(correctPosition);
+	free(currentPosition);
+	free(oldPosition);
+	
 	free(pieces);
-	free(qTouch);
+	
 	free(trayPieceCorrectPosition);
+	free(missing);
+	
 	free(pieceLocation);
+	free(oldPieceLocation);
+	free(trayPieces);
+	free(oldTrayPieces);
+	free(cellStat);
+	free(oldCellStat);
+	
+	free(qTouch);
+	
 	[super dealloc];
 }
 
 - (void) loadResources {
 	// try to load a texture
-	texPhoto = [[TextureManager instance] getJigsawPhoto:@"manutd512.png"];
+	
+	texPhoto = [[TextureManager instance] getJigsawPhoto:@"Jigsaw07.png"];
 	
 	// generate texture coordinates
 	[self genTexCoords];
@@ -394,7 +416,7 @@ using namespace Renzo;
 	
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	
-	glLineWidth(2.0f);
+	glLineWidth(1.0f);
 	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -446,7 +468,7 @@ using namespace Renzo;
 	// render tray separation lines
 	//
 	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-	glLineWidth(3.0f);
+	glLineWidth(1.5f);
 	
 	glDisable(GL_TEXTURE_2D);
 	glPushMatrix();
@@ -719,31 +741,64 @@ int snapped;
 	snapped = 0; // reset snapped bit
 	
 	if (Y >= trayTop) {
+		//-----------------------------------------------------------------
 		// snap to board
+		//-----------------------------------------------------------------
+		
+		// reset the cellStat of the cell containing selectedIndex to empty
+		for (int i = 0; i < nbPieces; ++i) { 
+			if (cellStat[i] == selectedIndex) {
+				cellStat[i] = CELL_STAT_EMPTY;
+				break;
+			}
+		}
+		
 		for (int i = 0; i < nbPieces; ++i) {
 			float dx = X - correctPosition[i].x;
 			float dy = Y - correctPosition[i].y;
 			
 			if (dx*dx + dy*dy < snapThreshold) {
-				X = correctPosition[i].x;
-				Y = correctPosition[i].y;
+				// ensure this location is empty
+				//int cellY = (y0 - correctPosition[i].y) / pieceHeight;
+				//int cellX = (correctPosition[i].x - x0) / pieceWidth;
+				//int cellIndex = cellY * width + cellX;
+				int cellIndex = i;
 				
-				// remove piece out of tray
-				pieceLocation[selectedIndex] = LOCATION_ON_BOARD;
-				for (int i = 0; i < nbPiecesPerTrayLine; ++i) {
-					int trayIndex = curTrayLine * nbPiecesPerTrayLine + i;
-					if (trayPieces[trayIndex] == selectedIndex) {
-						trayPieces[trayIndex] = -1;
+				// allow to snap if the cell is empty
+				if (cellStat[cellIndex] == CELL_STAT_EMPTY) {
+					// ensure the selected piece to be similar to the correct piece in this location
+					// so that it fits with its neighbors.
+					bool isSimilar = ([pieces[selectedIndex] isSimilarTo: pieces[i]]);
+					
+					if (isSimilar) {
+						X = correctPosition[i].x;
+						Y = correctPosition[i].y;
+						
+						// remove piece out of tray
+						pieceLocation[selectedIndex] = LOCATION_ON_BOARD;
+						for (int i = 0; i < nbPiecesPerTrayLine; ++i) {
+							int trayIndex = curTrayLine * nbPiecesPerTrayLine + i;
+							if (trayPieces[trayIndex] == selectedIndex) {
+								trayPieces[trayIndex] = -1;
+								break;
+							}
+						}
+						
+						// update cell stat
+						memcpy(cellStat, oldCellStat, sizeof(int) * nbPieces);
+						cellStat[cellIndex] = selectedIndex; // put selected piece at current cell
+
+						// snap
+						snapped = 1;
 						break;
 					}
 				}
-				
-				snapped = 1;
-				break;
 			}
 		}
 	} else {
+		//---------------------------------------------------------------
 		// snap to tray
+		//---------------------------------------------------------------
 		if (pieceLocation[selectedIndex] != LOCATION_ON_BOARD) {
 			// need to remove the occupied location on the tray for the selected piece
 			// here the selectedIndex must be in curTrayLine only (if not then it's cannot be selected)
@@ -796,7 +851,8 @@ int snapped;
 	//if (snapped) {
 		currentPosition[selectedIndex].x = X;
 		currentPosition[selectedIndex].y = Y;
-	//}
+	
+		//}
 }
 
 - (void) onTouchBegan: (struct JPoint) p {
@@ -810,6 +866,7 @@ int snapped;
 		memcpy(oldPosition, currentPosition, sizeof(struct JPoint) * nbPieces);
 		memcpy(oldPieceLocation, pieceLocation, sizeof(int) * nbPieces);
 		memcpy(oldTrayPieces, trayPieces, sizeof(int) * nbMaxPiecesInTray);
+		memcpy(oldCellStat, cellStat, sizeof(int) * nbPieces);
 		
 		[self testHitPiece: p];
 	}
@@ -823,6 +880,7 @@ int snapped;
 			memcpy(currentPosition, oldPosition, sizeof(struct JPoint) * nbPieces);
 			memcpy(pieceLocation, oldPieceLocation, sizeof(int) * nbPieces);
 			memcpy(trayPieces, oldTrayPieces, sizeof(int) * nbMaxPiecesInTray);
+			memcpy(cellStat, oldCellStat, sizeof(int) * nbPieces);
 		}
 		
 		snapped = 1;
@@ -830,7 +888,7 @@ int snapped;
 		//
 		// remove empty tray lines
 		//
-		int* isOccupiedLine	= (int*) malloc(sizeof(int) * nbTrayLines);
+		int* isOccupiedLine		= (int*) malloc(sizeof(int) * nbTrayLines);
 		int* outTrayLine		= (int*) malloc(sizeof(int) * nbTrayLines);
 		
 		for (int i = 0; i < nbTrayLines; ++i) {
