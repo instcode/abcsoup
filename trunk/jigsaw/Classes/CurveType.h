@@ -55,4 +55,9 @@
  */
 - (bool) isCompatibleWith: (CurveType*) curve;
 
+/**
+ Similarity check of two curves
+ */
+- (bool) isSimilarTo: (CurveType*) curve;
+
 @end

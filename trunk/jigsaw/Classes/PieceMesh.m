@@ -13,9 +13,13 @@
 #include "Constant.h"
 
 @implementation PieceMesh
-//@synthesize curveType;
+//@synthesize curveType; 
 @synthesize points, nbPoints;
 @synthesize index, nbTriangles;
+
+- (CurveType**) curveType {
+	return curveType;
+}
 
 //-----------------------------------------------------------------------------------
 // 1. Points in clock wise order.
@@ -407,12 +411,54 @@
 	free(isRemoved);
 }
 
--(bool) isCompatibleWith: (PieceMesh*) aMesh {
+-(bool) isSimilarTo: (PieceMesh*) aMesh {
+	bool left = false, right = false, top = false, bottom = false;
+	if (curveType[CELL_LEFT] == NULL) {
+		if (aMesh.curveType[CELL_LEFT] == NULL)
+			left = true;
+		else
+			left = false;
+	} else
+		left = [curveType[CELL_LEFT] isSimilarTo: aMesh.curveType[CELL_LEFT]];
+	if (left == false) return false;
+	
+	if (curveType[CELL_RIGHT] == NULL) {
+		if (aMesh.curveType[CELL_RIGHT] == NULL)
+			right = true;
+		else
+			right = false;
+	} else
+		right = [curveType[CELL_RIGHT] isSimilarTo: aMesh.curveType[CELL_RIGHT]];
+	if (right == false) return false;
+	
+	if (curveType[CELL_TOP] == NULL) {
+		if (aMesh.curveType[CELL_TOP] == NULL)
+			top = true;
+		else
+			top = false;
+	} else
+		top = [curveType[CELL_TOP] isSimilarTo: aMesh.curveType[CELL_TOP]];
+	if (top == false) return false;
+	
+	if (curveType[CELL_BOTTOM] == NULL) {
+		if (aMesh.curveType[CELL_BOTTOM] == NULL)
+			bottom = true;
+		else
+			bottom = false;
+	} else
+		bottom = [curveType[CELL_BOTTOM] isSimilarTo: aMesh.curveType[CELL_BOTTOM]];
+	if (bottom == false) return false;
+	
+	//return left && right && top && bottom;
+	return true;
+	
+	/*
 	return 
 	[curveType[CELL_LEFT]	isCompatibleWith:	aMesh.curveType[CELL_RIGHT]] &&
 	[curveType[CELL_RIGHT]	isCompatibleWith:	aMesh.curveType[CELL_LEFT]] &&
 	[curveType[CELL_TOP]	isCompatibleWith:	aMesh.curveType[CELL_BOTTOM]] &&
 	[curveType[CELL_BOTTOM] isCompatibleWith:	aMesh.curveType[CELL_TOP]];
+	*/
 }
 
 @end

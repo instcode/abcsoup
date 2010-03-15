@@ -54,7 +54,7 @@
 - (void) createMesh;
 
 /**
- Compatibility check with 4 surrounding curve types
+ Similarity check with another mesh
  */
-- (bool) isCompatibleWith: (PieceMesh*) aMesh;
+- (bool) isSimilarTo: (PieceMesh*) aMesh;
 @end

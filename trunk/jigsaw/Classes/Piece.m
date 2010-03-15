@@ -33,6 +33,7 @@
 		for (int i = 0; i < mesh.nbPoints; ++i) 
 			lineIndex[i] = i;
 		
+		
 	}
 	return self;
 }
@@ -87,6 +88,7 @@ void transformPoint(float m[16], float v[3], float r[3]) {
 }
 
 - (void) render {
+	
 	glVertexPointer(2, GL_FLOAT, 0, points); // two components
     glEnableClientState(GL_VERTEX_ARRAY);
 	
@@ -100,10 +102,19 @@ void transformPoint(float m[16], float v[3], float r[3]) {
     //glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glDrawElements(GL_TRIANGLES, 3 * mesh.nbTriangles, GL_UNSIGNED_SHORT, mesh.index);
 	
-	
+	//glScalef(0.95f, 0.95f, 0.95f);
 	glDisable(GL_TEXTURE_2D);
-	glColor4f(0.15f, 0.15f, 0.15f, 1.0f);
+	glColor4f(0.25f, 0.25f, 0.25f, 0.5f);
 	glDrawElements(GL_LINE_LOOP, mesh.nbPoints, GL_UNSIGNED_SHORT, lineIndex);
+	
+	/*
+	int nbPoints2 = mesh.nbPoints * 0.5;
+	glColor4f(0.75f, 0.75f, 0.75f, 0.5f);
+	glDrawElements(GL_LINE_STRIP, nbPoints2, GL_UNSIGNED_SHORT, lineIndex);
+	glColor4f(0.15f, 0.15f, 0.15f, 0.5f);
+	glDrawElements(GL_LINE_STRIP, nbPoints2, GL_UNSIGNED_SHORT, lineIndex + nbPoints2);
+	*/
+	
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_TEXTURE_2D);
 	
@@ -134,8 +145,8 @@ void transformPoint(float m[16], float v[3], float r[3]) {
 - (void) update: (int) delta {
 }
 
-- (bool) isCompatibleWith: (Piece*) aPiece {
-	return [self.mesh isCompatibleWith:aPiece.mesh];
+- (bool) isSimilarTo: (Piece*) aPiece {
+	return [mesh isSimilarTo: aPiece.mesh];
 }
 
 - (void) dealloc {

@@ -20,6 +20,35 @@
 		257BB38D10259777004B6DFA /* Option.png in Resources */ = {isa = PBXBuildFile; fileRef = 257BB38A10259777004B6DFA /* Option.png */; };
 		258BBF0D1089C01C00069433 /* manutd512.png in Resources */ = {isa = PBXBuildFile; fileRef = 258BBF0C1089C01C00069433 /* manutd512.png */; };
 		258BBF3A1089C1B900069433 /* RenzoTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 258BBF391089C1B900069433 /* RenzoTimer.cpp */; };
+		25953417111CD2F500DC48A6 /* Jigsaw01.png in Resources */ = {isa = PBXBuildFile; fileRef = 259533FA111CD2F500DC48A6 /* Jigsaw01.png */; };
+		25953418111CD2F500DC48A6 /* Jigsaw02.png in Resources */ = {isa = PBXBuildFile; fileRef = 259533FB111CD2F500DC48A6 /* Jigsaw02.png */; };
+		25953419111CD2F500DC48A6 /* Jigsaw03.png in Resources */ = {isa = PBXBuildFile; fileRef = 259533FC111CD2F500DC48A6 /* Jigsaw03.png */; };
+		2595341A111CD2F500DC48A6 /* Jigsaw04.png in Resources */ = {isa = PBXBuildFile; fileRef = 259533FD111CD2F500DC48A6 /* Jigsaw04.png */; };
+		2595341B111CD2F500DC48A6 /* Jigsaw05.png in Resources */ = {isa = PBXBuildFile; fileRef = 259533FE111CD2F500DC48A6 /* Jigsaw05.png */; };
+		2595341C111CD2F500DC48A6 /* Jigsaw06.png in Resources */ = {isa = PBXBuildFile; fileRef = 259533FF111CD2F500DC48A6 /* Jigsaw06.png */; };
+		2595341D111CD2F500DC48A6 /* Jigsaw07.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953400111CD2F500DC48A6 /* Jigsaw07.png */; };
+		2595341E111CD2F500DC48A6 /* Jigsaw08.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953401111CD2F500DC48A6 /* Jigsaw08.png */; };
+		2595341F111CD2F500DC48A6 /* Jigsaw09.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953402111CD2F500DC48A6 /* Jigsaw09.png */; };
+		25953420111CD2F500DC48A6 /* Jigsaw10.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953403111CD2F500DC48A6 /* Jigsaw10.png */; };
+		25953421111CD2F500DC48A6 /* Jigsaw12.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953404111CD2F500DC48A6 /* Jigsaw12.png */; };
+		25953422111CD2F500DC48A6 /* Jigsaw13.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953405111CD2F500DC48A6 /* Jigsaw13.png */; };
+		25953423111CD2F500DC48A6 /* Jigsaw14.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953406111CD2F500DC48A6 /* Jigsaw14.png */; };
+		25953424111CD2F500DC48A6 /* Jigsaw15.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953407111CD2F500DC48A6 /* Jigsaw15.png */; };
+		25953425111CD2F500DC48A6 /* Jigsaw16.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953408111CD2F500DC48A6 /* Jigsaw16.png */; };
+		25953426111CD2F500DC48A6 /* Jigsaw17.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953409111CD2F500DC48A6 /* Jigsaw17.png */; };
+		25953427111CD2F500DC48A6 /* Jigsaw18.png in Resources */ = {isa = PBXBuildFile; fileRef = 2595340A111CD2F500DC48A6 /* Jigsaw18.png */; };
+		25953428111CD2F500DC48A6 /* Jigsaw19.png in Resources */ = {isa = PBXBuildFile; fileRef = 2595340B111CD2F500DC48A6 /* Jigsaw19.png */; };
+		25953429111CD2F500DC48A6 /* Jigsaw22.png in Resources */ = {isa = PBXBuildFile; fileRef = 2595340C111CD2F500DC48A6 /* Jigsaw22.png */; };
+		2595342A111CD2F500DC48A6 /* Jigsaw23.png in Resources */ = {isa = PBXBuildFile; fileRef = 2595340D111CD2F500DC48A6 /* Jigsaw23.png */; };
+		2595342B111CD2F500DC48A6 /* Jigsaw25.png in Resources */ = {isa = PBXBuildFile; fileRef = 2595340E111CD2F500DC48A6 /* Jigsaw25.png */; };
+		2595342C111CD2F500DC48A6 /* Jigsaw26.png in Resources */ = {isa = PBXBuildFile; fileRef = 2595340F111CD2F500DC48A6 /* Jigsaw26.png */; };
+		2595342D111CD2F500DC48A6 /* Jigsaw27.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953410111CD2F500DC48A6 /* Jigsaw27.png */; };
+		2595342E111CD2F500DC48A6 /* Jigsaw28.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953411111CD2F500DC48A6 /* Jigsaw28.png */; };
+		2595342F111CD2F500DC48A6 /* Jigsaw29.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953412111CD2F500DC48A6 /* Jigsaw29.png */; };
+		25953430111CD2F500DC48A6 /* Jigsaw30.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953413111CD2F500DC48A6 /* Jigsaw30.png */; };
+		25953431111CD2F500DC48A6 /* Jigsaw31.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953414111CD2F500DC48A6 /* Jigsaw31.png */; };
+		25953432111CD2F500DC48A6 /* Jigsaw32.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953415111CD2F500DC48A6 /* Jigsaw32.png */; };
+		25953433111CD2F500DC48A6 /* Jigsaw33.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953416111CD2F500DC48A6 /* Jigsaw33.png */; };
 		25A9C405102B259D00B3FFC0 /* PieceMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C404102B259D00B3FFC0 /* PieceMesh.m */; };
 		25A9C40B102B272A00B3FFC0 /* PieceMeshFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C40A102B272A00B3FFC0 /* PieceMeshFactory.m */; };
 		25A9C45C102D36B600B3FFC0 /* Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C45B102D36B600B3FFC0 /* Geometry.c */; };
@@ -65,6 +94,35 @@
 		258BBF0C1089C01C00069433 /* manutd512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manutd512.png; sourceTree = "<group>"; };
 		258BBF381089C1B900069433 /* RenzoTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoTimer.h; sourceTree = "<group>"; };
 		258BBF391089C1B900069433 /* RenzoTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenzoTimer.cpp; sourceTree = "<group>"; };
+		259533FA111CD2F500DC48A6 /* Jigsaw01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw01.png; path = images/Jigsaw01.png; sourceTree = "<group>"; };
+		259533FB111CD2F500DC48A6 /* Jigsaw02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw02.png; path = images/Jigsaw02.png; sourceTree = "<group>"; };
+		259533FC111CD2F500DC48A6 /* Jigsaw03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw03.png; path = images/Jigsaw03.png; sourceTree = "<group>"; };
+		259533FD111CD2F500DC48A6 /* Jigsaw04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw04.png; path = images/Jigsaw04.png; sourceTree = "<group>"; };
+		259533FE111CD2F500DC48A6 /* Jigsaw05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw05.png; path = images/Jigsaw05.png; sourceTree = "<group>"; };
+		259533FF111CD2F500DC48A6 /* Jigsaw06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw06.png; path = images/Jigsaw06.png; sourceTree = "<group>"; };
+		25953400111CD2F500DC48A6 /* Jigsaw07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw07.png; path = images/Jigsaw07.png; sourceTree = "<group>"; };
+		25953401111CD2F500DC48A6 /* Jigsaw08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw08.png; path = images/Jigsaw08.png; sourceTree = "<group>"; };
+		25953402111CD2F500DC48A6 /* Jigsaw09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw09.png; path = images/Jigsaw09.png; sourceTree = "<group>"; };
+		25953403111CD2F500DC48A6 /* Jigsaw10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw10.png; path = images/Jigsaw10.png; sourceTree = "<group>"; };
+		25953404111CD2F500DC48A6 /* Jigsaw12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw12.png; path = images/Jigsaw12.png; sourceTree = "<group>"; };
+		25953405111CD2F500DC48A6 /* Jigsaw13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw13.png; path = images/Jigsaw13.png; sourceTree = "<group>"; };
+		25953406111CD2F500DC48A6 /* Jigsaw14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw14.png; path = images/Jigsaw14.png; sourceTree = "<group>"; };
+		25953407111CD2F500DC48A6 /* Jigsaw15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw15.png; path = images/Jigsaw15.png; sourceTree = "<group>"; };
+		25953408111CD2F500DC48A6 /* Jigsaw16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw16.png; path = images/Jigsaw16.png; sourceTree = "<group>"; };
+		25953409111CD2F500DC48A6 /* Jigsaw17.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw17.png; path = images/Jigsaw17.png; sourceTree = "<group>"; };
+		2595340A111CD2F500DC48A6 /* Jigsaw18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw18.png; path = images/Jigsaw18.png; sourceTree = "<group>"; };
+		2595340B111CD2F500DC48A6 /* Jigsaw19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw19.png; path = images/Jigsaw19.png; sourceTree = "<group>"; };
+		2595340C111CD2F500DC48A6 /* Jigsaw22.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw22.png; path = images/Jigsaw22.png; sourceTree = "<group>"; };
+		2595340D111CD2F500DC48A6 /* Jigsaw23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw23.png; path = images/Jigsaw23.png; sourceTree = "<group>"; };
+		2595340E111CD2F500DC48A6 /* Jigsaw25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw25.png; path = images/Jigsaw25.png; sourceTree = "<group>"; };
+		2595340F111CD2F500DC48A6 /* Jigsaw26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw26.png; path = images/Jigsaw26.png; sourceTree = "<group>"; };
+		25953410111CD2F500DC48A6 /* Jigsaw27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw27.png; path = images/Jigsaw27.png; sourceTree = "<group>"; };
+		25953411111CD2F500DC48A6 /* Jigsaw28.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw28.png; path = images/Jigsaw28.png; sourceTree = "<group>"; };
+		25953412111CD2F500DC48A6 /* Jigsaw29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw29.png; path = images/Jigsaw29.png; sourceTree = "<group>"; };
+		25953413111CD2F500DC48A6 /* Jigsaw30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw30.png; path = images/Jigsaw30.png; sourceTree = "<group>"; };
+		25953414111CD2F500DC48A6 /* Jigsaw31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw31.png; path = images/Jigsaw31.png; sourceTree = "<group>"; };
+		25953415111CD2F500DC48A6 /* Jigsaw32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw32.png; path = images/Jigsaw32.png; sourceTree = "<group>"; };
+		25953416111CD2F500DC48A6 /* Jigsaw33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw33.png; path = images/Jigsaw33.png; sourceTree = "<group>"; };
 		25A9C403102B259D00B3FFC0 /* PieceMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMesh.h; sourceTree = "<group>"; };
 		25A9C404102B259D00B3FFC0 /* PieceMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceMesh.m; sourceTree = "<group>"; };
 		25A9C409102B272A00B3FFC0 /* PieceMeshFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMeshFactory.h; sourceTree = "<group>"; };
@@ -195,6 +253,42 @@
 			name = Util;
 			sourceTree = "<group>";
 		};
+		259533F9111CD2E000DC48A6 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				259533FA111CD2F500DC48A6 /* Jigsaw01.png */,
+				259533FB111CD2F500DC48A6 /* Jigsaw02.png */,
+				259533FC111CD2F500DC48A6 /* Jigsaw03.png */,
+				259533FD111CD2F500DC48A6 /* Jigsaw04.png */,
+				259533FE111CD2F500DC48A6 /* Jigsaw05.png */,
+				259533FF111CD2F500DC48A6 /* Jigsaw06.png */,
+				25953400111CD2F500DC48A6 /* Jigsaw07.png */,
+				25953401111CD2F500DC48A6 /* Jigsaw08.png */,
+				25953402111CD2F500DC48A6 /* Jigsaw09.png */,
+				25953403111CD2F500DC48A6 /* Jigsaw10.png */,
+				25953404111CD2F500DC48A6 /* Jigsaw12.png */,
+				25953405111CD2F500DC48A6 /* Jigsaw13.png */,
+				25953406111CD2F500DC48A6 /* Jigsaw14.png */,
+				25953407111CD2F500DC48A6 /* Jigsaw15.png */,
+				25953408111CD2F500DC48A6 /* Jigsaw16.png */,
+				25953409111CD2F500DC48A6 /* Jigsaw17.png */,
+				2595340A111CD2F500DC48A6 /* Jigsaw18.png */,
+				2595340B111CD2F500DC48A6 /* Jigsaw19.png */,
+				2595340C111CD2F500DC48A6 /* Jigsaw22.png */,
+				2595340D111CD2F500DC48A6 /* Jigsaw23.png */,
+				2595340E111CD2F500DC48A6 /* Jigsaw25.png */,
+				2595340F111CD2F500DC48A6 /* Jigsaw26.png */,
+				25953410111CD2F500DC48A6 /* Jigsaw27.png */,
+				25953411111CD2F500DC48A6 /* Jigsaw28.png */,
+				25953412111CD2F500DC48A6 /* Jigsaw29.png */,
+				25953413111CD2F500DC48A6 /* Jigsaw30.png */,
+				25953414111CD2F500DC48A6 /* Jigsaw31.png */,
+				25953415111CD2F500DC48A6 /* Jigsaw32.png */,
+				25953416111CD2F500DC48A6 /* Jigsaw33.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		25A9C463102D393E00B3FFC0 /* curve */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +411,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				259533F9111CD2E000DC48A6 /* images */,
 				25678299106E718200BFCE26 /* photo */,
 				25A9C463102D393E00B3FFC0 /* curve */,
 				257BB38010259760004B6DFA /* XIB */,
@@ -387,6 +482,35 @@
 				257BB38D10259777004B6DFA /* Option.png in Resources */,
 				25A9C465102D395100B3FFC0 /* curve01.crv in Resources */,
 				258BBF0D1089C01C00069433 /* manutd512.png in Resources */,
+				25953417111CD2F500DC48A6 /* Jigsaw01.png in Resources */,
+				25953418111CD2F500DC48A6 /* Jigsaw02.png in Resources */,
+				25953419111CD2F500DC48A6 /* Jigsaw03.png in Resources */,
+				2595341A111CD2F500DC48A6 /* Jigsaw04.png in Resources */,
+				2595341B111CD2F500DC48A6 /* Jigsaw05.png in Resources */,
+				2595341C111CD2F500DC48A6 /* Jigsaw06.png in Resources */,
+				2595341D111CD2F500DC48A6 /* Jigsaw07.png in Resources */,
+				2595341E111CD2F500DC48A6 /* Jigsaw08.png in Resources */,
+				2595341F111CD2F500DC48A6 /* Jigsaw09.png in Resources */,
+				25953420111CD2F500DC48A6 /* Jigsaw10.png in Resources */,
+				25953421111CD2F500DC48A6 /* Jigsaw12.png in Resources */,
+				25953422111CD2F500DC48A6 /* Jigsaw13.png in Resources */,
+				25953423111CD2F500DC48A6 /* Jigsaw14.png in Resources */,
+				25953424111CD2F500DC48A6 /* Jigsaw15.png in Resources */,
+				25953425111CD2F500DC48A6 /* Jigsaw16.png in Resources */,
+				25953426111CD2F500DC48A6 /* Jigsaw17.png in Resources */,
+				25953427111CD2F500DC48A6 /* Jigsaw18.png in Resources */,
+				25953428111CD2F500DC48A6 /* Jigsaw19.png in Resources */,
+				25953429111CD2F500DC48A6 /* Jigsaw22.png in Resources */,
+				2595342A111CD2F500DC48A6 /* Jigsaw23.png in Resources */,
+				2595342B111CD2F500DC48A6 /* Jigsaw25.png in Resources */,
+				2595342C111CD2F500DC48A6 /* Jigsaw26.png in Resources */,
+				2595342D111CD2F500DC48A6 /* Jigsaw27.png in Resources */,
+				2595342E111CD2F500DC48A6 /* Jigsaw28.png in Resources */,
+				2595342F111CD2F500DC48A6 /* Jigsaw29.png in Resources */,
+				25953430111CD2F500DC48A6 /* Jigsaw30.png in Resources */,
+				25953431111CD2F500DC48A6 /* Jigsaw31.png in Resources */,
+				25953432111CD2F500DC48A6 /* Jigsaw32.png in Resources */,
+				25953433111CD2F500DC48A6 /* Jigsaw33.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,12 +592,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Aptus Ventures, LLP";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Don't Code Sign";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "53EA9BD3-D119-43EC-A541-7A043EEA6C73";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.1;
 			};
 			name = Release;
