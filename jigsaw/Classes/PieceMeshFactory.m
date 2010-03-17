@@ -36,7 +36,7 @@ PieceMeshFactory* pieceMeshFactory = NULL;
 	curves = [NSMutableArray arrayWithCapacity:nbCurves];
 	
 	// create curve objects
-	Curve* curve = [[Curve alloc] initWithFile:@"curve01.crv"];
+	Curve* curve = [[Curve alloc] initWithFile:@"curve02.crv"];
 	
 	// add to array
 	[curves addObject:curve];

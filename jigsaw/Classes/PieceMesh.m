@@ -339,14 +339,14 @@
 		int cur = j;
 		do {
 			cur = (cur + nbPoints - 1) % nbPoints;
-		} while (isRemoved[cur] || cur >= j);
+		} while (isRemoved[cur] || cur == j);
 		i = cur;
 		
 		// find k - forward
 		cur = j;
 		do {
 			cur = (cur + 1) % nbPoints;
-		} while (isRemoved[cur] || cur <= j);
+		} while (isRemoved[cur] || cur == j);
 		k = cur;
 		
 		// check ear
