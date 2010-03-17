@@ -58,6 +58,9 @@
 		25CF85DE10896E5800A928C0 /* Jigsaw.mm in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85DD10896E5800A928C0 /* Jigsaw.mm */; };
 		25CF85E11089715E00A928C0 /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CF85E01089715E00A928C0 /* Piece.m */; };
 		25CF8645108974FB00A928C0 /* Board.mm in Sources */ = {isa = PBXBuildFile; fileRef = 25CF8644108974FB00A928C0 /* Board.mm */; };
+		25D68B5811512B87002552AC /* curve02.crv in Resources */ = {isa = PBXBuildFile; fileRef = 25D68B5611512B87002552AC /* curve02.crv */; };
+		25D68B8F11512E72002552AC /* curve03.crv in Resources */ = {isa = PBXBuildFile; fileRef = 25D68B8E11512E72002552AC /* curve03.crv */; };
+		25D68BAC1151319E002552AC /* curve04.crv in Resources */ = {isa = PBXBuildFile; fileRef = 25D68BAB1151319E002552AC /* curve04.crv */; };
 		25EBB926102451760039D4EE /* GLView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25EBB925102451760039D4EE /* GLView.xib */; };
 		25EBB9C9102457980039D4EE /* AboutTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBB9BE102457980039D4EE /* AboutTableController.m */; };
 		25EBB9CA102457980039D4EE /* MainTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBB9C0102457980039D4EE /* MainTabController.m */; };
@@ -143,6 +146,9 @@
 		25CF85E01089715E00A928C0 /* Piece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Piece.m; sourceTree = "<group>"; };
 		25CF8643108974FB00A928C0 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		25CF8644108974FB00A928C0 /* Board.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Board.mm; sourceTree = "<group>"; };
+		25D68B5611512B87002552AC /* curve02.crv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = curve02.crv; path = data/curve/curve02.crv; sourceTree = "<group>"; };
+		25D68B8E11512E72002552AC /* curve03.crv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = curve03.crv; path = data/curve/curve03.crv; sourceTree = "<group>"; };
+		25D68BAB1151319E002552AC /* curve04.crv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = curve04.crv; path = data/curve/curve04.crv; sourceTree = "<group>"; };
 		25EBB925102451760039D4EE /* GLView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GLView.xib; sourceTree = "<group>"; };
 		25EBB9BD102457980039D4EE /* AboutTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableController.h; sourceTree = "<group>"; };
 		25EBB9BE102457980039D4EE /* AboutTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableController.m; sourceTree = "<group>"; };
@@ -292,6 +298,9 @@
 		25A9C463102D393E00B3FFC0 /* curve */ = {
 			isa = PBXGroup;
 			children = (
+				25D68BAB1151319E002552AC /* curve04.crv */,
+				25D68B8E11512E72002552AC /* curve03.crv */,
+				25D68B5611512B87002552AC /* curve02.crv */,
 				25A9C464102D395100B3FFC0 /* curve01.crv */,
 			);
 			name = curve;
@@ -511,6 +520,9 @@
 				25953431111CD2F500DC48A6 /* Jigsaw31.png in Resources */,
 				25953432111CD2F500DC48A6 /* Jigsaw32.png in Resources */,
 				25953433111CD2F500DC48A6 /* Jigsaw33.png in Resources */,
+				25D68B5811512B87002552AC /* curve02.crv in Resources */,
+				25D68B8F11512E72002552AC /* curve03.crv in Resources */,
+				25D68BAC1151319E002552AC /* curve04.crv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
