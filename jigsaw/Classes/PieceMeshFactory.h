@@ -43,4 +43,10 @@
  Get a random curve type
  */
 - (CurveType*) getRandomCurveType;
+
+/**
+ Get a flat curve type for boundary pieces
+ */
+- (CurveType*) getFlatCurveType;
+
 @end

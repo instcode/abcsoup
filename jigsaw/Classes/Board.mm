@@ -53,10 +53,12 @@ using namespace Renzo;
 		
 		// selected piece info
 		selectedIndex = -1; 
-		selectedColor.x = SELECTED_COLOR_LOWER;
-		selectedColor.y = SELECTED_COLOR_LOWER;
-		selectedColor.z = SELECTED_COLOR_LOWER;
-		selectedColorDelta = SELECTED_COLOR_DELTA;
+		selectedColor.x = SELECTED_COLOR_LOWER_RED;
+		selectedColor.y = SELECTED_COLOR_LOWER_GREEN;
+		selectedColor.z = SELECTED_COLOR_LOWER_BLUE;
+		selectedColorDelta.x = (SELECTED_COLOR_UPPER_RED - SELECTED_COLOR_LOWER_RED) / SELECTED_COLOR_CHANGE_FRAMES;
+		selectedColorDelta.y = (SELECTED_COLOR_UPPER_GREEN - SELECTED_COLOR_LOWER_GREEN) / SELECTED_COLOR_CHANGE_FRAMES;
+		selectedColorDelta.z = (SELECTED_COLOR_UPPER_BLUE - SELECTED_COLOR_LOWER_BLUE) / SELECTED_COLOR_CHANGE_FRAMES;
 		
 		// piece position (before scale)
 		correctPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
@@ -206,6 +208,22 @@ using namespace Renzo;
 		// default, no top offset
 		[self setTopOffset: pieceHeight];
 		[self createPiecesGeometry];
+		
+		// display button position
+		float xLeft		= x0 - pieceWidth * 0.5f;
+		float xRight	= x1 - pieceWidth * 0.5f;
+		//buttonBackPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
+		//buttonNextPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
+		//buttonNewPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
+		buttonBackPos.x = xLeft + 16;
+		buttonBackPos.y = trayTop - 4;
+		buttonBackPos.z = 0.0f;
+		buttonNextPos.x = xRight - 16;
+		buttonNextPos.y = trayTop - 4;
+		buttonNextPos.z = 0.0f;
+		buttonNewPos.x = xLeft + 16;
+		buttonNewPos.y = trayBottom;
+		buttonNewPos.z = 0.0f;
 	}
 	return self;
 }
@@ -234,13 +252,18 @@ using namespace Renzo;
 	
 	free(qTouch);
 	
+	//free(buttonBackPos);
+	//free(buttonNextPos);
+	//free(buttonNewPos);
+	
 	[super dealloc];
 }
 
 - (void) loadResources {
 	// try to load a texture
 	
-	texPhoto = [[TextureManager instance] getJigsawPhoto:@"Jigsaw07.png"];
+	texPhoto = [[TextureManager instance] loadTexture3:@"Jigsaw07.png"];
+	texButtons = [[TextureManager instance] loadTexture4:@"buttons.png"];
 	
 	// generate texture coordinates
 	[self genTexCoords];
@@ -298,10 +321,8 @@ using namespace Renzo;
 	// generate piece meshes
 	PieceMeshFactory* factory = [PieceMeshFactory getPieceMeshFactory];
 	
-	// TODO: generate random curve types here
-	CurveType* curveType = [factory getRandomCurveType];
-	curveType.scaleX = 1;
-	curveType.scaleY = 1;
+	CurveType* curveTypeFlat = [factory getFlatCurveType];
+	
 	//int width, height;
 	//int nbHorCurveTypes = (height - 1) * width;
 	//int nbVerCurveTypes = (width - 1) * height;
@@ -328,25 +349,25 @@ using namespace Renzo;
 			int indexTop = t * width + j;
 			//int indexBottom = b * width + j;
 			if (l < 0)
-				grid[index].c[CELL_LEFT] = NULL;
+				grid[index].c[CELL_LEFT] = curveTypeFlat; //NULL;
 			else {
 				
 				grid[index].c[CELL_LEFT] = [grid[indexLeft].c[CELL_RIGHT] cloneFlip];
 			}
 			if (r >= width)
-				grid[index].c[CELL_RIGHT] = NULL;
+				grid[index].c[CELL_RIGHT] = curveTypeFlat; //NULL;
 			else
-				grid[index].c[CELL_RIGHT] = curveType; //[verCurveTypes objectAtIndex:0];
+				grid[index].c[CELL_RIGHT] = [factory getRandomCurveType]; //[verCurveTypes objectAtIndex:0];
 			
 			if (t < 0)
-				grid[index].c[CELL_TOP] = NULL;
+				grid[index].c[CELL_TOP] = curveTypeFlat; //NULL;
 			else
 				grid[index].c[CELL_TOP] = [grid[indexTop].c[CELL_BOTTOM] cloneFlip];
 			
 			if (b >= height)
-				grid[index].c[CELL_BOTTOM] = NULL;
+				grid[index].c[CELL_BOTTOM] = curveTypeFlat; //NULL;
 			else
-				grid[index].c[CELL_BOTTOM] = curveType; //[horCurveTypes objectAtIndex:0];
+				grid[index].c[CELL_BOTTOM] = [factory getRandomCurveType]; //[horCurveTypes objectAtIndex:0];
 			/*
 			 grid[index].c[CELL_TOP] = curveType;
 			 grid[index].c[CELL_BOTTOM] = curveType;
@@ -371,39 +392,39 @@ using namespace Renzo;
 	free(grid);
 }
 
-- (void) render {
+- (void) renderBoard {
 	float x, y;
 	// 
 	// generate texture coordinates 
 	//
 	/*
-	if (genTexCoords == false) {
-		float textureScale = 1.0f / screenSize; // normalize texcoords to [0, 1]
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		y = y0;
-		for (int i = 0; i < height; ++i) {
-			x = x0;
-			for (int j = 0; j < width; ++j) {
-				glPushMatrix();
-				// set piece view position
-				glTranslatef(x, y, 0.0f);
-				glScalef(scaleX, scaleY, 1.0f);
-				
-				// generate texture coordinates
-				GLfloat m[16]; 
-				glGetFloatv (GL_MODELVIEW_MATRIX, m);
-				[pieces[i * width + j] genTexCoords:m :textureScale]; // piece is rendered from its center
-				glPopMatrix();
-				
-				// next
-				x += pieceWidth;
-			}
-			y -= pieceHeight;
-		}
-		genTexCoords = true;
-	}
-	*/
+	 if (genTexCoords == false) {
+	 float textureScale = 1.0f / screenSize; // normalize texcoords to [0, 1]
+	 glMatrixMode(GL_MODELVIEW);
+	 glLoadIdentity();
+	 y = y0;
+	 for (int i = 0; i < height; ++i) {
+	 x = x0;
+	 for (int j = 0; j < width; ++j) {
+	 glPushMatrix();
+	 // set piece view position
+	 glTranslatef(x, y, 0.0f);
+	 glScalef(scaleX, scaleY, 1.0f);
+	 
+	 // generate texture coordinates
+	 GLfloat m[16]; 
+	 glGetFloatv (GL_MODELVIEW_MATRIX, m);
+	 [pieces[i * width + j] genTexCoords:m :textureScale]; // piece is rendered from its center
+	 glPopMatrix();
+	 
+	 // next
+	 x += pieceWidth;
+	 }
+	 y -= pieceHeight;
+	 }
+	 genTexCoords = true;
+	 }
+	 */
 	
 	// 
 	// render
@@ -418,9 +439,6 @@ using namespace Renzo;
 	
 	glLineWidth(1.0f);
 	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
 	for (int i = 0; i < height; ++i) {
 		for (int j = 0; j < width; ++j) {
 			int index = i * width + j;
@@ -430,20 +448,20 @@ using namespace Renzo;
 				(pieceLocation[index] == LOCATION_ON_BOARD || pieceLocation[index] == LOCATION_ON_TRAY_VISIBLE)) 
 				toRender = 1;
 			/*
-			else { 
-				if (pieceLocation[index] == LOCATION_ON_TRAY_VISIBLE) { 
-					int isInTray = 0;
-					for (int k = 0; k < nbPiecesPerTrayLine; ++k) {
-						int trayIndex = curTrayLine * nbPiecesPerTrayLine + k;
-						if (trayPieces[trayIndex] == index) {
-							isInTray = 1;
-							break;
-						}
-					}
-					if (isInTray)
-						toRender = 1;
-				}
-			}*/
+			 else { 
+			 if (pieceLocation[index] == LOCATION_ON_TRAY_VISIBLE) { 
+			 int isInTray = 0;
+			 for (int k = 0; k < nbPiecesPerTrayLine; ++k) {
+			 int trayIndex = curTrayLine * nbPiecesPerTrayLine + k;
+			 if (trayPieces[trayIndex] == index) {
+			 isInTray = 1;
+			 break;
+			 }
+			 }
+			 if (isInTray)
+			 toRender = 1;
+			 }
+			 }*/
 			
 			if (toRender)
 			{
@@ -457,7 +475,7 @@ using namespace Renzo;
 				
 				// render
 				[pieces[index] render]; // piece is rendered from its center
-			
+				
 				glPopMatrix();
 			}
 			
@@ -467,6 +485,7 @@ using namespace Renzo;
 	//
 	// render tray separation lines
 	//
+	/*
 	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 	glLineWidth(1.5f);
 	
@@ -478,6 +497,8 @@ using namespace Renzo;
     glDrawArrays(GL_LINES, 0, 4);
 	glPopMatrix();
 	glEnable(GL_TEXTURE_2D);
+	*/
+	
 	
 	//
 	// render selected
@@ -493,73 +514,202 @@ using namespace Renzo;
 		
 		int index = selectedIndex;
 		
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		[pieces[index] render]; // piece is rendered from its center
 		// render
 		glColor4f(selectedColor.x, selectedColor.y, selectedColor.z, 1.0f);
-		[pieces[index] render]; // piece is rendered from its center
+		glLineWidth(1.5f);
 		[pieces[index] renderSelected];
 		glPopMatrix();
 	}
 	
 	//
+	// render panel
+	//
+	const float squareVertices[] = {
+		1.0f, -1.0f,
+		1.0f, 1.0f, 
+		-1.0f, -1.0f,
+		-1.0f, 1.0f
+	};
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, texButtons);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA); // alpha in texture already premultiplied.  
+	
+	glVertexPointer(2, GL_FLOAT, 0, squareVertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	
+	// bar info
+	const float barWidth2	= 48.0f;
+	const float barHeight2	= 12.0f;
+	const GLfloat barTexCoords[] = {
+		70.0f / 128, (64 - 50.0f) / 64,
+		70.0f / 128, (64 - 28.0f) / 64,
+		0.0f  / 128, (64 - 50.0f) / 64, 
+		0.0f  / 128, (64 - 28.0f) / 64
+	};
+	glTexCoordPointer(2, GL_FLOAT, 0, barTexCoords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	for (int i = 0; i < nbPiecesPerTrayLine; ++i) {
+		glPushMatrix();
+		int xc = trayPieceCorrectPosition[i].x;
+		int yc = trayPieceCorrectPosition[i].y;
+		//glTranslatef(0.0f, top, 0.0f);
+		glTranslatef(xc, yc + top - pieceHeight * 0.95f, 0.0f);
+		
+		glScalef(scaleX, scaleY, 1.0f);
+		glScalef(barWidth2, barHeight2, 1.0f);
+		
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glPopMatrix();
+	}
+	
+	
+	// button info
+	const float buttonWidth2 = 32;
+	const float buttonHeight2 = 32;
+	const GLfloat buttonBackTexCoords[] = {
+		27.0f / 128, (64 - 27.0f) / 64,
+		27.0f / 128, (64 - 0.0f) / 64,
+		0.0f  / 128, (64 - 27.0f) / 64, 
+		0.0f  / 128, (64 - 0.0f) / 64
+	};
+	const GLfloat buttonNextTexCoords[] = {
+		54.0f / 128, (64 - 27.0f) / 64,
+		54.0f / 128, (64 - 0.0f) / 64,
+		27.0f  / 128, (64 - 27.0f) / 64, 
+		27.0f  / 128, (64 - 0.0f) / 64
+	};
+	const GLfloat buttonNewTexCoords[] = {
+		81.0f / 128, (64 - 27.0f) / 64,
+		81.0f / 128, (64 - 0.0f) / 64,
+		54.0f  / 128, (64 - 27.0f) / 64, 
+		54.0f  / 128, (64 - 0.0f) / 64
+	};
+	
+	// back button
+	if (curTrayLine <= 0) // cannot go back
+		glColor4f(0.5f, 0.5f, 0.5f, 1.0f);
+	else
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glTexCoordPointer(2, GL_FLOAT, 0, buttonBackTexCoords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glPushMatrix();
+	glTranslatef(buttonBackPos.x, buttonBackPos.y + top, buttonBackPos.z);
+	glScalef(scaleX, scaleY, 1.0f);
+	glScalef(buttonWidth2, buttonHeight2, 1.0f);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glPopMatrix();
+	// next button
+	if (curTrayLine >= nonEmptyTrayLines - 1) // cannot go next
+		glColor4f(0.5f, 0.5f, 0.5f, 1.0f);
+	else
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	glTexCoordPointer(2, GL_FLOAT, 0, buttonNextTexCoords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glPushMatrix();
+	glTranslatef(buttonNextPos.x, buttonNextPos.y + top, buttonNextPos.z);
+	glScalef(scaleX, scaleY, 1.0f);
+	glScalef(buttonWidth2, buttonHeight2, 1.0f);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glPopMatrix();
+	// new button
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glTexCoordPointer(2, GL_FLOAT, 0, buttonNewTexCoords);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glPushMatrix();
+	glTranslatef(buttonNewPos.x, buttonNewPos.y + top, buttonNewPos.z);
+	glScalef(scaleX, scaleY, 1.0f);
+	glScalef(buttonWidth2, buttonHeight2, 1.0f);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glPopMatrix();
+}
+
+- (void) renderTransition {
+	//
 	// render transition
 	//
 	
 	const GLfloat squareVertices[] = {
-	 -10.5f, -10.5f,
-	 10.5f,  -10.5f,
-	 -10.5f,  10.5f,
-	 10.5f,   10.5f,
+		-10.5f, -10.5f,
+		10.5f,  -10.5f,
+		-10.5f,  10.5f,
+		10.5f,   10.5f,
 	};
-	 const GLubyte squareColors[] = {
-	 255, 255,   0, 255,
-	 0,   255, 255, 255,
-	 0,     0,   0,   0,
-	 255,   0, 255, 255,
-	 };
-	 
-	 const GLfloat squareTexCoords[] = {
-	 0.0f, 0.0f, 
-	 1.0f, 0.0f,
-	 1.0f, 1.0f,
-	 0.0f, 1.0f
-	 };
-	 
+	const GLubyte squareColors[] = {
+		255, 255,   0, 255,
+		0,   255, 255, 255,
+		0,     0,   0,   0,
+		255,   0, 255, 255,
+	};
+	
+	const GLfloat squareTexCoords[] = {
+		0.0f, 0.0f, 
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f
+	};
+	
+	// render a box 
+	glDisable(GL_TEXTURE_2D);
+	glPushMatrix();
+	glColor4f(1.0f, 1.0f, 1.0f, fadeInAlpha);
+	glTranslatef(questionPosition.x, questionPosition.y + top, questionPosition.z);
+	glScalef(fadeInScale.x, fadeInScale.y, fadeInScale.z);
+	glScalef(scaleX, scaleY, 1.0f);
+	glVertexPointer(2, GL_FLOAT, 0, squareVertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	//glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
+	//glEnableClientState(GL_COLOR_ARRAY);
+	//glTexCoordPointer(2, GL_FLOAT, 0, squareTexCoords);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glPopMatrix();
+	glEnable(GL_TEXTURE_2D);
+	
+	
+}
+
+- (void) render {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
 	switch (renderState) {
 		case rsWaitForPlayer:
+			[self renderBoard];
+			break;
+			
 		case rsTransitionQuestionFadeIn: 
 		{
-			// render a box 
-			glDisable(GL_TEXTURE_2D);
-			glPushMatrix();
-				glColor4f(1.0f, 1.0f, 1.0f, fadeInAlpha);
-				glTranslatef(questionPosition.x, questionPosition.y + top, questionPosition.z);
-				glScalef(fadeInScale.x, fadeInScale.y, fadeInScale.z);
-				glScalef(scaleX, scaleY, 1.0f);
-				glVertexPointer(2, GL_FLOAT, 0, squareVertices);
-				glEnableClientState(GL_VERTEX_ARRAY);
-				//glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
-				//glEnableClientState(GL_COLOR_ARRAY);
-				//glTexCoordPointer(2, GL_FLOAT, 0, squareTexCoords);
-				//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-			glPopMatrix();
-			glEnable(GL_TEXTURE_2D);
+			[self renderBoard];
+			[self renderTransition];
 			break;
 		}
-			
-		
 	}
 }
 
 - (void) update: (int) delta {
 	// flashing selected piece
 	float ratio = delta * 0.1f;
-	selectedColor.x += selectedColorDelta * ratio;
-	selectedColor.y += selectedColorDelta * ratio;
-	selectedColor.z += selectedColorDelta * ratio;
+	selectedColor.x += selectedColorDelta.x * ratio;
+	selectedColor.y += selectedColorDelta.y * ratio;
+	selectedColor.z += selectedColorDelta.z * ratio;
 	
-	if (selectedColor.x > SELECTED_COLOR_UPPER) selectedColorDelta = -selectedColorDelta;
-	if (selectedColor.x < SELECTED_COLOR_LOWER) selectedColorDelta = -selectedColorDelta;
+	if (selectedColor.x >= SELECTED_COLOR_UPPER_RED && 
+		selectedColor.y >= SELECTED_COLOR_UPPER_GREEN && 
+		selectedColor.z >= SELECTED_COLOR_UPPER_BLUE) {
+		selectedColorDelta.x = -selectedColorDelta.x;
+		selectedColorDelta.y = -selectedColorDelta.y;
+		selectedColorDelta.z = -selectedColorDelta.z;
+	} else
+	if (selectedColor.x <= SELECTED_COLOR_LOWER_RED &&
+		selectedColor.y <= SELECTED_COLOR_LOWER_GREEN &&
+		selectedColor.z <= SELECTED_COLOR_LOWER_BLUE) {
+		selectedColorDelta.x = -selectedColorDelta.x;
+		selectedColorDelta.y = -selectedColorDelta.y;
+		selectedColorDelta.z = -selectedColorDelta.z;
+	}
 
 	// event handler
 	if (count > 0) {
@@ -639,10 +789,10 @@ using namespace Renzo;
 	
 	float X = (p.x - Ox);
 	float Y = -(p.y - Oy); // shift then flip
-	float X0 = x0 - pieceWidth * 0.5f;
-	float Y0 = y0 + pieceHeight * 0.5f;
-	float X1 = X0 + screenSize;
-	float Y1 = Y0 - screenSize;
+	//float X0 = x0 - pieceWidth * 0.5f;
+	//float Y0 = y0 + pieceHeight * 0.5f;
+	//float X1 = X0 + screenSize;
+	//float Y1 = Y0 - screenSize;
 	
 	//if (X < X0 || X > X1) return NULL;
 	//if (Y < Y1 || Y > Y0) return NULL;
@@ -683,7 +833,9 @@ using namespace Renzo;
 	float Y = -(p.y - Oy); // shift then flip
 	float epsilon = 8.0f;
 	
-	if (trayTop - epsilon <= Y && Y <= trayTop + epsilon) {
+	if (buttonBackPos.x - epsilon <= X && X <= buttonBackPos.x + epsilon &&
+		buttonBackPos.y - epsilon <= Y && Y <= buttonBackPos.y + epsilon) {
+		//trayTop - epsilon <= Y && Y <= trayTop + epsilon) {
 		curTrayLine = max(0, curTrayLine - 1);
 		for (int i = 0; i < nbTrayLines; ++i) {
 			for (int j = 0; j < nbPiecesPerTrayLine; ++j) {
@@ -710,7 +862,9 @@ using namespace Renzo;
 	float Y = -(p.y - Oy); // shift then flip
 	float epsilon = 8.0f;
 	
-	if (trayBottom - epsilon <= Y && Y <= trayBottom + epsilon) {
+	if (buttonNextPos.x - epsilon <= X && X <= buttonNextPos.x + epsilon &&
+		buttonNextPos.y - epsilon <= Y && Y <= buttonNextPos.y + epsilon) {
+	//if (trayBottom - epsilon <= Y && Y <= trayBottom + epsilon) {
 		curTrayLine = min(nonEmptyTrayLines - 1, curTrayLine + 1);
 		for (int i = 0; i < nbTrayLines; ++i) {
 			for (int j = 0; j < nbPiecesPerTrayLine; ++j) {
@@ -928,6 +1082,11 @@ int snapped;
 				nbPiecesInTray++;
 		}
 		
+		// check if all pieces are in correct position
+		if ([self isComplete]) {
+			[self switchState: tvAllCorrect];
+		}
+		
 		free(isOccupiedLine);
 		free(outTrayLine);
 	}
@@ -942,8 +1101,17 @@ int snapped;
 }
 
 - (void) createAutomata {
+	// default is rsNull
+	for (int i = 0; i < nbRenderStates; ++i)
+		for (int j = 0; j < nbTransitionValues; ++j)
+			automata[i][j] = rsNull;
+	
+	// transition
 	automata[rsWaitForPlayer][tvFadeIn] = rsTransitionQuestionFadeIn;
 	automata[rsTransitionQuestionFadeIn][tvEnd] = rsWaitForPlayer;
+	
+	// game over
+	automata[rsWaitForPlayer][tvAllCorrect] = rsGameOver;
 }
 
 - (void) switchState: (enum TransitionValue) transitionValue {
@@ -991,4 +1159,13 @@ int snapped;
 		}
 	}
 }
+
+- (bool) isComplete {
+	for (int i = 0; i < width * height; ++i) {
+		if (cellStat[i] != i) 
+			return false;
+	}
+	return true;
+}
+
 @end
