@@ -61,7 +61,10 @@ CGContextRef CreateRGBABitmapContext (CGImageRef inImage)
 									 8,      // bits per component
 									 bitmapBytesPerRow,
 									 colorSpace,
-									 kCGImageAlphaPremultipliedLast); // RGBA, if first is used then ARGB
+									 //kCGBitmapByteOrderRGBA | kCGImageAlphaLast
+									 kCGImageAlphaPremultipliedLast
+									 //kCGImageAlphaNoneSkipLast
+									); // RGBA, if first is used then ARGB
     if (context == NULL)
     {
         free (bitmapData);
@@ -200,7 +203,15 @@ static ImageLoader* imgLoader;
 				}
 				break;
 			case 4:
-				memcpy(buffer, data, size);
+				//memcpy(buffer, data, size);
+				for (int i = 0; i < h; ++i) {
+					for (int j = 0; j < w; ++j) {
+						buffer[4 * (i * w + j) + 0] = data[4 * ((h - i - 1) * w + j) + 0];
+						buffer[4 * (i * w + j) + 1] = data[4 * ((h - i - 1) * w + j) + 1];
+						buffer[4 * (i * w + j) + 2] = data[4 * ((h - i - 1) * w + j) + 2];
+						buffer[4 * (i * w + j) + 3] = data[4 * ((h - i - 1) * w + j) + 3];
+					}
+				}
 				break;
 			default:
 				break;

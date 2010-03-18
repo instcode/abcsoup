@@ -27,6 +27,8 @@
 /**
  File name to get correspondent texture. Image loader will load the image file from disk if it is not loaded.
  */
-- (GLuint) getJigsawPhoto: (NSString*) file;
+- (GLuint) loadTexture3: (NSString*) file;
+- (GLuint) loadTexture4: (NSString*) file;
+
 
 @end

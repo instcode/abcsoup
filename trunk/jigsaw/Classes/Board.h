@@ -20,9 +20,14 @@
 
 #define CELL_STAT_EMPTY -1
 
-#define SELECTED_COLOR_DELTA 0.05f
-#define SELECTED_COLOR_UPPER 0.7f
-#define SELECTED_COLOR_LOWER 0.4f
+#define SELECTED_COLOR_UPPER_RED		1.0f
+#define SELECTED_COLOR_LOWER_RED		168 / 255.0f
+#define SELECTED_COLOR_UPPER_GREEN		1.0f
+#define SELECTED_COLOR_LOWER_GREEN		255 / 255.0f
+#define SELECTED_COLOR_UPPER_BLUE		1.0f
+#define SELECTED_COLOR_LOWER_BLUE		0 / 255.0f
+#define SELECTED_COLOR_CHANGE_FRAMES	15
+
 
 #define QUEUE_SIZE 128
 
@@ -31,10 +36,12 @@ struct CellCurveTypes {
 };
 
 enum RenderState {
+	rsNull,
 	rsWaitForPlayer,
 	rsTransitionTrayUp,
 	rsTransitionTrayDown,
 	rsTransitionQuestionFadeIn,
+	rsGameOver,
 	nbRenderStates
 };
 
@@ -42,6 +49,7 @@ enum RenderState {
 enum TransitionValue {
 	tvEnd,
 	tvFadeIn,
+	tvAllCorrect,	// changes to rsGameOver
 	nbTransitionValues
 };
 
@@ -53,6 +61,7 @@ enum TransitionValue {
 	int nbPieces;
 	bool genTexCoords;		// one time texture coordinate generation
 	GLuint texPhoto;
+	GLuint texButtons;
 	
 	float top;				// offset from top of screen to render the board
 	struct JPoint center;	// board center, from (0, 0) top left of screen 
@@ -70,7 +79,7 @@ enum TransitionValue {
 	float x0, y0;			// top left coordinates of the top left piece
 	float x1, y1;			// bottom right coordinates of the bottom right piece
 	int selectedIndex;		// selected piece index
-	float selectedColorDelta;
+	struct JPoint selectedColorDelta;
 	struct JPoint selectedColor;
 	struct JPoint* correctPosition;	// correct position of every piece
 	struct JPoint* currentPosition; // current position of every piece
@@ -124,9 +133,10 @@ enum TransitionValue {
 	
 	// start up board information
 	
-	
-	
-	
+	// display button's information
+	struct JPoint buttonBackPos;
+	struct JPoint buttonNextPos;
+	struct JPoint buttonNewPos;
 	
 }
 
@@ -186,4 +196,17 @@ enum TransitionValue {
  State management: switch from current state to a new state according to the input transition value.
  */
 - (void) switchState: (enum TransitionValue) transitionValue;
+
+/**
+ Check game complete
+ */
+- (bool) isComplete;
+
+/**
+ Render function
+ */
+- (void) renderBoard;
+- (void) renderTray;
+- (void) renderTransition;
+
 @end

@@ -48,6 +48,9 @@
 	
 }
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	// randomization
+	srandom(time(NULL));
+	
     // hide application bar (must set before add views to windows)
 	// so that window is placed at a correct position
 	[application setStatusBarHidden:TRUE];

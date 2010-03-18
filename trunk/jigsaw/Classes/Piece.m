@@ -127,7 +127,7 @@ void transformPoint(float m[16], float v[3], float r[3]) {
 
 - (void) renderSelected {
 	glDisable(GL_TEXTURE_2D);
-	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	//glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 	
 	glVertexPointer(2, GL_FLOAT, 0, points); // two components
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -138,7 +138,7 @@ void transformPoint(float m[16], float v[3], float r[3]) {
     glDrawElements(GL_LINE_LOOP, mesh.nbPoints, GL_UNSIGNED_SHORT, lineIndex);
 	
 	
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_TEXTURE_2D);
 }
 
