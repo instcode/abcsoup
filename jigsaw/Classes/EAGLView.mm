@@ -65,7 +65,7 @@
         animationInterval = 1.0 / 60.0;
 		
 		// create a board and register with Jigsaw
-		board = [[Board alloc] initWithSize:5 :5];
+		board = [[Board alloc] initWithSize:7 :7];
 		//[board setTopOffset: 32.0f];
 		Jigsaw* js = [Jigsaw instance];
 		[js addBoard: board];
