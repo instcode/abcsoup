@@ -12,6 +12,8 @@
 #import "Constant.h"
 #include "RenzoUtil.h"
 
+#import "Texture2D.h" // text rendering library, from Apple.
+
 using namespace Renzo;
 
 @implementation Board
@@ -24,19 +26,29 @@ using namespace Renzo;
 		nbPieces = width * height;
 		
 		// screen
-		CGRect screenRect = [[UIScreen mainScreen] bounds];
+		screenRect = [[UIScreen mainScreen] bounds];
 		screenSize = fmin(screenRect.size.width, screenRect.size.height);
 		// origin
 		center.x = screenRect.size.width / 2.0f;
 		center.y = screenRect.size.height / 2.0f;
+		
 		// piece size
 		minNumPieces = fmax(height, width);
 		pieceWidth = screenSize / minNumPieces;
 		pieceHeight = screenSize / minNumPieces; 
+		
 		//float pieceWidth = 128.0f;
 		//float pieceHeight = 128.0f;
 		scaleX = pieceWidth / 128.0f;
 		scaleY = pieceHeight / 128.0f;
+		
+		// generate geometry and obtain maximum dimension of a piece
+		maxPieceWidth	= 0;
+		maxPieceHeight	= 0;
+		[self createPiecesGeometry];
+		// remember to scale
+		maxPieceWidth	*= scaleX;
+		maxPieceHeight	*= scaleY;
 		
 		//scaleX *= 0.7f;
 		//scaleY *= 0.7f;
@@ -85,16 +97,34 @@ using namespace Renzo;
 		//
 		// tray settings
 		//
-		trayTop		= y + 0.25f * pieceHeight;; // let tray top be half piece after the board
-		trayBottom	= y - 1.5f * pieceHeight;
+		// top offset of the entire board
+		//[self setTopOffset: pieceHeight * 1.1f];
+		if (width <= 6) {
+			[self setTopOffset: screenSize - center.y - 4]; // piece is big enough
+		} else {
+			[self setTopOffset: screenSize - center.y - 20]; // piece is too small such that dragging at the status bar should be avoided.
+		}
+		//trayTop		= y + 0.2f * pieceHeight;; // let tray top be half piece after the board
+		trayTop = (y + 0.5f * pieceHeight) - 16;
+		//trayBottom	= y - 1.5f * pieceHeight;
+		//trayTop		= -(screenRect.size.width + top) + (center.y - top);
+		//trayBottom	= -(screenRect.size.height - 16) + (center.y);
+		//trayBottom		= (y0 + 0.5f * pieceHeight) - screenRect.size.height + 16 - top;
+		//trayBottom = -screenRect.size.height + center.y - pieceHeight * 0.25 - 16;
+		trayBottom = -screenRect.size.height + center.y - pieceHeight * 0.25 - 16;
 		
 		lineVerts[0] = -center.x; lineVerts[1] = trayTop; lineVerts[2] = 0.0f;
 		lineVerts[3] = +center.x; lineVerts[4] = trayTop; lineVerts[5] = 0.0f;
 		lineVerts[6] = -center.x; lineVerts[7] = trayBottom; lineVerts[8] = 0.0f;
 		lineVerts[9] = +center.x; lineVerts[10] = trayBottom; lineVerts[11] = 0.0f;
 		
+		/*
+						nbPiecesPerTrayLine		= 3;
+		if (width > 5)	nbPiecesPerTrayLine		= 4;
+		if (width > 7)  nbPiecesPerTrayLine		= 5;
+		*/
+		nbPiecesPerTrayLine = ceil(1.0f * screenSize / maxPieceWidth) - 1;
 		
-		nbPiecesPerTrayLine		= 3;
 		nbTrayLines				= (nbPieces + nbPiecesPerTrayLine - 1) / nbPiecesPerTrayLine;
 		curTrayLine				= 0;
 		nbMaxPiecesInTray		= nbPiecesPerTrayLine * nbTrayLines;
@@ -118,11 +148,15 @@ using namespace Renzo;
 			trayPieces[i] = -1;
 		}
 		
-		trayPieceWidth = pieceWidth * 1.5f;
+		//trayPieceWidth = pieceWidth * 1.5f;
+		trayPieceWidth = maxPieceWidth;
 		float gap = (screenSize - nbPiecesPerTrayLine * trayPieceWidth) / (nbPiecesPerTrayLine + 1.0f);
-		float trayPieceX0 = - (trayPieceWidth + gap);
+		//float trayPieceX0 = - (trayPieceWidth + gap);
+		float trayPieceX0 = - (center.x - gap) + 0.5f * trayPieceWidth;
 		//float trayPieceY0 = 0.5f * (trayTop + -center.y) - pieceHeight * 0.5f;
-		float trayPieceY0 = 0.5f * (trayTop + trayBottom);
+		//float trayPieceY0 = 0.4f * (trayTop) + 0.6f * (trayBottom);
+		//float trayPieceY0 = trayTop - pieceHeight * 2.0f / 2;
+		float trayPieceY0 = trayBottom + 0.3f * maxPieceHeight;
 		float tx = trayPieceX0;
 		float ty = trayPieceY0;
 		trayPieceCorrectPosition = (struct JPoint*) malloc(sizeof(struct JPoint) * nbPiecesPerTrayLine);
@@ -140,9 +174,9 @@ using namespace Renzo;
 		//
 		// start up board information
 		//
-		nbMissingPieces = 8;
+		nbMissingPieces = 0;
 		if (nbMissingPieces == 0)
-			nbMissingPieces = randomInteger(7, 15);
+			nbMissingPieces = randomInteger(width * height * 0.25f, width * height * 0.75f);
 		nbPiecesInTray = nbMissingPieces;
 		nonEmptyTrayLines = ceil(nbPiecesInTray * 1.0f / nbPiecesPerTrayLine);
 		
@@ -205,9 +239,7 @@ using namespace Renzo;
 		renderState = rsWaitForPlayer;
 		[self switchState:tvFadeIn];	// fade in first question mark
 		
-		// default, no top offset
-		[self setTopOffset: pieceHeight];
-		[self createPiecesGeometry];
+		
 		
 		// display button position
 		float xLeft		= x0 - pieceWidth * 0.5f;
@@ -216,14 +248,20 @@ using namespace Renzo;
 		//buttonNextPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
 		//buttonNewPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
 		buttonBackPos.x = xLeft + 16;
-		buttonBackPos.y = trayTop - 4;
+		buttonBackPos.y = trayTop - 4 / scaleY;
 		buttonBackPos.z = 0.0f;
 		buttonNextPos.x = xRight - 16;
-		buttonNextPos.y = trayTop - 4;
+		buttonNextPos.y = trayTop - 4 / scaleY;
 		buttonNextPos.z = 0.0f;
 		buttonNewPos.x = xLeft + 16;
-		buttonNewPos.y = trayBottom;
+		buttonNewPos.y = trayBottom - pieceHeight * 0.5f;
 		buttonNewPos.z = 0.0f;
+		barPos.x = trayPieceCorrectPosition[0].x;
+		barPos.y = trayBottom - pieceHeight * 0.5;
+		barPos.z = 0.0f;
+		
+		// display text information
+		title = [[Texture2D alloc] initWithString:@"Parrot in Japan" dimensions:CGSizeMake(128, 32) alignment:UITextAlignmentCenter fontName:@"Zapfino" fontSize:12.0f];
 	}
 	return self;
 }
@@ -255,6 +293,8 @@ using namespace Renzo;
 	//free(buttonBackPos);
 	//free(buttonNextPos);
 	//free(buttonNewPos);
+	
+	[title release];
 	
 	[super dealloc];
 }
@@ -382,6 +422,10 @@ using namespace Renzo;
 		for (int j = 0; j < width; ++j) {
 			PieceMesh*	pieceMesh = [[PieceMesh alloc] initWithCurveType4: grid[i * width + j].c];
 			
+			// get maximum height and width
+			maxPieceHeight	= fmax(maxPieceHeight, [pieceMesh getMaxHeight]);
+			maxPieceWidth	= fmax(maxPieceWidth, [pieceMesh getMaxWidth]);
+			
 			// attach to piece view
 			int index = i * width + j;
 			pieces[index] = [[Piece alloc] initWithMesh: index: pieceMesh];
@@ -393,6 +437,33 @@ using namespace Renzo;
 }
 
 - (void) renderBoard {
+	//
+	// render panel
+	//
+	const float squareVertices[] = {
+		1.0f, -1.0f,
+		1.0f, 1.0f, 
+		-1.0f, -1.0f,
+		-1.0f, 1.0f
+	};
+	
+	glVertexPointer(2, GL_FLOAT, 0, squareVertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	// background
+	// the whole scene is shift up a distance stored in "top" variable. But we want to draw to the bottom of the screen after shift. So need to compensate the yScale with a "top" amount.
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+	glColor4f(0.05f, 0.05f, 0.05f, 1.0f);
+	glPushMatrix();
+	float yBottom = (-screenRect.size.height * 0.5f) - top;
+	float yCenterBackground = (y1 + pieceHeight * 0.5f + yBottom) * 0.5f;
+	float yScale = 0.5f * abs(yBottom - (y1 + pieceHeight * 0.5f));
+	glTranslatef(0.0f, top, 0.0f);
+	glTranslatef(0.0f, yCenterBackground, 0.0f);
+	glScalef(screenSize * 0.5f, yScale, 1.0f);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glPopMatrix();
+	
 	float x, y;
 	// 
 	// generate texture coordinates 
@@ -486,15 +557,20 @@ using namespace Renzo;
 	// render tray separation lines
 	//
 	/*
-	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-	glLineWidth(1.5f);
+	const float lineVertices[] = {
+		-160, 0.0f,
+		160, 0.0f
+	};
+	glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
+	glLineWidth(1.0f);
 	
 	glDisable(GL_TEXTURE_2D);
 	glPushMatrix();
 	glTranslatef(0.0f, top, 0.0f);
-	glVertexPointer(3, GL_FLOAT, 0, lineVerts);
+	glTranslatef(0.0f, y1 + 0.5 * pieceHeight - 2, 0.0f);
+	glVertexPointer(2, GL_FLOAT, 0, lineVertices);
     glEnableClientState(GL_VERTEX_ARRAY);
-    glDrawArrays(GL_LINES, 0, 4);
+    glDrawArrays(GL_LINES, 0, 2);
 	glPopMatrix();
 	glEnable(GL_TEXTURE_2D);
 	*/
@@ -523,19 +599,14 @@ using namespace Renzo;
 		glPopMatrix();
 	}
 	
-	//
-	// render panel
-	//
-	const float squareVertices[] = {
-		1.0f, -1.0f,
-		1.0f, 1.0f, 
-		-1.0f, -1.0f,
-		-1.0f, 1.0f
-	};
+	
+	
+	// start using textures and blending
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glBindTexture(GL_TEXTURE_2D, texButtons);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA); // alpha in texture already premultiplied.  
-	
 	glVertexPointer(2, GL_FLOAT, 0, squareVertices);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	
@@ -548,16 +619,18 @@ using namespace Renzo;
 		0.0f  / 128, (64 - 50.0f) / 64, 
 		0.0f  / 128, (64 - 28.0f) / 64
 	};
+	
 	glTexCoordPointer(2, GL_FLOAT, 0, barTexCoords);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	for (int i = 0; i < nbPiecesPerTrayLine; ++i) {
 		glPushMatrix();
 		int xc = trayPieceCorrectPosition[i].x;
-		int yc = trayPieceCorrectPosition[i].y;
+		//int yc = trayPieceCorrectPosition[i].y;
 		//glTranslatef(0.0f, top, 0.0f);
-		glTranslatef(xc, yc + top - pieceHeight * 0.95f, 0.0f);
+		//glTranslatef(xc, yc + top - pieceHeight * 0.95f, 0.0f);
+		glTranslatef(xc, barPos.y + top, barPos.z);
 		
-		glScalef(scaleX, scaleY, 1.0f);
+		glScalef(0.5f, 0.5f, 1.0f); // always fixed the size of buttons instead of following scaleX and scaleY
 		glScalef(barWidth2, barHeight2, 1.0f);
 		
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -596,7 +669,7 @@ using namespace Renzo;
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glPushMatrix();
 	glTranslatef(buttonBackPos.x, buttonBackPos.y + top, buttonBackPos.z);
-	glScalef(scaleX, scaleY, 1.0f);
+	glScalef(0.5f, 0.5f, 1.0f);
 	glScalef(buttonWidth2, buttonHeight2, 1.0f);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glPopMatrix();
@@ -610,7 +683,7 @@ using namespace Renzo;
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glPushMatrix();
 	glTranslatef(buttonNextPos.x, buttonNextPos.y + top, buttonNextPos.z);
-	glScalef(scaleX, scaleY, 1.0f);
+	glScalef(0.5f, 0.5f, 1.0f);
 	glScalef(buttonWidth2, buttonHeight2, 1.0f);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glPopMatrix();
@@ -620,7 +693,7 @@ using namespace Renzo;
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glPushMatrix();
 	glTranslatef(buttonNewPos.x, buttonNewPos.y + top, buttonNewPos.z);
-	glScalef(scaleX, scaleY, 1.0f);
+	glScalef(0.5f, 0.5f, 1.0f);
 	glScalef(buttonWidth2, buttonHeight2, 1.0f);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glPopMatrix();
@@ -671,6 +744,17 @@ using namespace Renzo;
 	
 }
 
+- (void) renderTitle {
+	glEnable(GL_BLEND);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
+	glPushMatrix();
+	glTranslatef(0.0f, top, 0.0f);
+	[title drawAtPoint: CGPointMake(0.0f, trayTop)];
+	glPopMatrix();
+}
+
 - (void) render {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -678,6 +762,7 @@ using namespace Renzo;
 	switch (renderState) {
 		case rsWaitForPlayer:
 			[self renderBoard];
+			[self renderTitle];
 			break;
 			
 		case rsTransitionQuestionFadeIn: 

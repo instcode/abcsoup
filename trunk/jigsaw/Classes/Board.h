@@ -13,6 +13,7 @@
 #import "Point.h"
 #import "EventJPoint.h"
 #import "Constant.h"
+#import "Texture2D.h"
 
 #define LOCATION_ON_BOARD 0
 #define LOCATION_ON_TRAY_NOT_VISIBLE 1
@@ -70,9 +71,12 @@ enum TransitionValue {
 	// piece render information
 	//
 	float screenSize;
+	CGRect screenRect;
 	int minNumPieces;		// the number of pieces on a row/column (get the minimum)
 	float pieceWidth;		// piece size after fit to screen
 	float pieceHeight;
+	float maxPieceWidth;
+	float maxPieceHeight;
 	//float pieceSize;		// piece size after scaled for rendering (sometimes we don't want the pieces to fill the whole square)
 	float scaleX;			// piece scale for render
 	float scaleY;
@@ -137,6 +141,10 @@ enum TransitionValue {
 	struct JPoint buttonBackPos;
 	struct JPoint buttonNextPos;
 	struct JPoint buttonNewPos;
+	struct JPoint barPos;
+	
+	// text display
+	Texture2D* title;
 	
 }
 
@@ -206,6 +214,7 @@ enum TransitionValue {
  Render function
  */
 - (void) renderBoard;
+- (void) renderTitle;
 - (void) renderTray;
 - (void) renderTransition;
 

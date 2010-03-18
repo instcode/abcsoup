@@ -47,23 +47,31 @@ PieceMeshFactory* pieceMeshFactory = NULL;
 
 - (void) generateCurveTypes {
 	// create curveTypes array
-	nbCurveTypes = nbCurves;
+	nbCurveTypes = nbCurves * 4 - 3; // flat curve type has only 1 type (scale is the same).
 	curveTypes = [NSMutableArray arrayWithCapacity:nbCurveTypes];
 	
+	int style = CURVE_TYPE_DEFAULT; // default style
+	
+	// add flat curve type
+	Curve* curve = (Curve*)[curves objectAtIndex: 0];
+	CurveType* curveType = [[CurveType alloc] initWithCurve :curve :style];
+	curveType.scaleX = 1;
+	curveType.scaleY = 1;
+	[curveTypes addObject:curveType];
+	
 	// create one curve type as a sample
-	//int randIdx = 0;
-	for (int randIdx = 0; randIdx < nbCurveTypes; ++randIdx) {
-		int style = CURVE_TYPE_DEFAULT; // default style
-		//int style = CURVE_TYPE_FLIP_VERTICAL;
-		//int style = CURVE_TYPE_FLIP_HORIZONTAL;
-		//int style = CURVE_TYPE_FLIP_HORIZONTAL | CURVE_TYPE_FLIP_VERTICAL;
-		
-		Curve* curve = (Curve*)[curves objectAtIndex:randIdx];
-		CurveType* curveType = [[CurveType alloc] initWithCurve :curve :style];
-		curveType.scaleX = 1;
-		curveType.scaleY = 1;
-		
-		[curveTypes addObject:curveType];
+	for (int x = 0; x <= 1; ++x) { // 4 type of scales
+		for (int y = 0; y <= 1; ++y) {
+			for (int randIdx = 1; randIdx < nbCurves; ++randIdx) {
+				Curve* curve = (Curve*)[curves objectAtIndex:randIdx];
+				CurveType* curveType = [[CurveType alloc] initWithCurve :curve :style];
+				//curveType.scaleX = 2 * (random() % 2 - 0.5); // random direction -1 or 1.
+				//curveType.scaleY = 2 * (random() % 2 - 0.5);
+				curveType.scaleX = 2 * (x - 0.5);
+				curveType.scaleY = 2 * (y - 0.5);
+				[curveTypes addObject:curveType];
+			}
+		}
 	}
 }
 

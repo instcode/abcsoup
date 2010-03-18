@@ -54,6 +54,12 @@
 - (void) createMesh;
 
 /**
+ Get mesh dimension
+ */
+- (int) getMaxWidth;
+- (int) getMaxHeight;
+
+/**
  Similarity check with another mesh
  */
 - (bool) isSimilarTo: (PieceMesh*) aMesh;

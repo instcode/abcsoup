@@ -461,4 +461,24 @@
 	*/
 }
 
+- (int) getMaxWidth {
+	int minX = 9999;
+	int maxX = 0;
+	for (int i = 0; i < nbPoints; ++i) {
+		minX = min(minX, points[i].x);
+		maxX = max(maxX, points[i].x);
+	}
+	return maxX - minX;
+}
+
+- (int) getMaxHeight {
+	int minY = 9999;
+	int maxY = 0;
+	for (int i = 0; i < nbPoints; ++i) {
+		minY = min(minY, points[i].y);
+		maxY = max(maxY, points[i].y);
+	}
+	return maxY - minY;
+}
+
 @end

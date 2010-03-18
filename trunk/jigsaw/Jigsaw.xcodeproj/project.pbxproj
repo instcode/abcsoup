@@ -69,6 +69,7 @@
 		25EBBADE10249CA60039D4EE /* GameTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBBADD10249CA60039D4EE /* GameTableController.m */; };
 		25EBBD39102556760039D4EE /* WindowsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EBBD38102556760039D4EE /* WindowsManager.m */; };
 		25F4892111522BC700360695 /* buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F4892011522BC700360695 /* buttons.png */; };
+		25F48B351152636900360695 /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F48B341152636900360695 /* Texture2D.m */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28FD14FE0DC6FC130079059D /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.mm */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
@@ -164,6 +165,8 @@
 		25EBBD37102556760039D4EE /* WindowsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowsManager.h; sourceTree = "<group>"; };
 		25EBBD38102556760039D4EE /* WindowsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowsManager.m; sourceTree = "<group>"; };
 		25F4892011522BC700360695 /* buttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttons.png; path = data/icons/buttons.png; sourceTree = "<group>"; };
+		25F48B331152635B00360695 /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture2D.h; sourceTree = "<group>"; };
+		25F48B341152636900360695 /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture2D.m; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28FD14FC0DC6FC130079059D /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		28FD14FD0DC6FC130079059D /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
@@ -342,6 +345,8 @@
 				25CF85E01089715E00A928C0 /* Piece.m */,
 				25CF8643108974FB00A928C0 /* Board.h */,
 				25CF8644108974FB00A928C0 /* Board.mm */,
+				25F48B331152635B00360695 /* Texture2D.h */,
+				25F48B341152636900360695 /* Texture2D.m */,
 			);
 			name = Render;
 			sourceTree = "<group>";
@@ -558,6 +563,7 @@
 				25CF8645108974FB00A928C0 /* Board.mm in Sources */,
 				258BBF3A1089C1B900069433 /* RenzoTimer.cpp in Sources */,
 				2522726E10CC97B8008BA46D /* RenzoUtil.cpp in Sources */,
+				25F48B351152636900360695 /* Texture2D.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
