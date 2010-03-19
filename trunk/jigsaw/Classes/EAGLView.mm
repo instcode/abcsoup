@@ -66,6 +66,8 @@
 		
 		// create a board and register with Jigsaw
 		board = [[Board alloc] initWithSize:7 :7];
+		// load textures and geometry into GPU
+		[board loadResources];
 		//[board setTopOffset: 32.0f];
 		Jigsaw* js = [Jigsaw instance];
 		[js addBoard: board];
@@ -82,10 +84,6 @@
     
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
     
-	// load textures and geometry into GPU
-	[board loadResources];
-
-	
 }
 
 - (void)drawView {
