@@ -144,8 +144,12 @@ enum TransitionValue {
 	struct JPoint barPos;
 	
 	// text display
-	Texture2D* title;
 	
+	Texture2D* title;
+	NSString* curFileName;
+	NSString* curCaption;
+	NSMutableDictionary*	dictFileCaption;		// map between file name and photo caption
+	NSEnumerator*			enumFile;				// enumerator over file name (key) in dictionary
 }
 
 @property (nonatomic, readonly) int width;
@@ -217,5 +221,10 @@ enum TransitionValue {
 - (void) renderTitle;
 - (void) renderTray;
 - (void) renderTransition;
+
+/**
+ Next photo when completed
+ */
+- (void) nextPhoto;
 
 @end

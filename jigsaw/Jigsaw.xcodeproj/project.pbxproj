@@ -12,6 +12,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2522726E10CC97B8008BA46D /* RenzoUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2522726D10CC97B8008BA46D /* RenzoUtil.cpp */; };
+		252B79CA1153CEBC004ECC30 /* Jigsaw.txt in Resources */ = {isa = PBXBuildFile; fileRef = 252B79C91153CEBC004ECC30 /* Jigsaw.txt */; };
 		2535BA2C103C4A4400323C7A /* CurveType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2535BA2B103C4A4400323C7A /* CurveType.m */; };
 		256781C3106E4AF600BFCE26 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C2106E4AF600BFCE26 /* TextureManager.m */; };
 		256781C6106E5FE300BFCE26 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 256781C5106E5FE300BFCE26 /* ImageLoader.m */; };
@@ -48,7 +49,6 @@
 		25953430111CD2F500DC48A6 /* Jigsaw30.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953413111CD2F500DC48A6 /* Jigsaw30.png */; };
 		25953431111CD2F500DC48A6 /* Jigsaw31.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953414111CD2F500DC48A6 /* Jigsaw31.png */; };
 		25953432111CD2F500DC48A6 /* Jigsaw32.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953415111CD2F500DC48A6 /* Jigsaw32.png */; };
-		25953433111CD2F500DC48A6 /* Jigsaw33.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953416111CD2F500DC48A6 /* Jigsaw33.png */; };
 		25A9C405102B259D00B3FFC0 /* PieceMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C404102B259D00B3FFC0 /* PieceMesh.m */; };
 		25A9C40B102B272A00B3FFC0 /* PieceMeshFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C40A102B272A00B3FFC0 /* PieceMeshFactory.m */; };
 		25A9C45C102D36B600B3FFC0 /* Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C45B102D36B600B3FFC0 /* Geometry.c */; };
@@ -86,6 +86,7 @@
 		2522726810CC9722008BA46D /* RenzoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoUtil.h; sourceTree = "<group>"; };
 		2522726C10CC97B8008BA46D /* RenzoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoUtil.h; sourceTree = "<group>"; };
 		2522726D10CC97B8008BA46D /* RenzoUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenzoUtil.cpp; sourceTree = "<group>"; };
+		252B79C91153CEBC004ECC30 /* Jigsaw.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Jigsaw.txt; path = images/Jigsaw.txt; sourceTree = "<group>"; };
 		2535BA2A103C4A4400323C7A /* CurveType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveType.h; sourceTree = "<group>"; };
 		2535BA2B103C4A4400323C7A /* CurveType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurveType.m; sourceTree = "<group>"; };
 		256781C1106E4AF600BFCE26 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
@@ -127,7 +128,6 @@
 		25953413111CD2F500DC48A6 /* Jigsaw30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw30.png; path = images/Jigsaw30.png; sourceTree = "<group>"; };
 		25953414111CD2F500DC48A6 /* Jigsaw31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw31.png; path = images/Jigsaw31.png; sourceTree = "<group>"; };
 		25953415111CD2F500DC48A6 /* Jigsaw32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw32.png; path = images/Jigsaw32.png; sourceTree = "<group>"; };
-		25953416111CD2F500DC48A6 /* Jigsaw33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw33.png; path = images/Jigsaw33.png; sourceTree = "<group>"; };
 		25A9C403102B259D00B3FFC0 /* PieceMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMesh.h; sourceTree = "<group>"; };
 		25A9C404102B259D00B3FFC0 /* PieceMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceMesh.m; sourceTree = "<group>"; };
 		25A9C409102B272A00B3FFC0 /* PieceMeshFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMeshFactory.h; sourceTree = "<group>"; };
@@ -268,6 +268,7 @@
 		259533F9111CD2E000DC48A6 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				252B79C91153CEBC004ECC30 /* Jigsaw.txt */,
 				259533FA111CD2F500DC48A6 /* Jigsaw01.png */,
 				259533FB111CD2F500DC48A6 /* Jigsaw02.png */,
 				259533FC111CD2F500DC48A6 /* Jigsaw03.png */,
@@ -296,7 +297,6 @@
 				25953413111CD2F500DC48A6 /* Jigsaw30.png */,
 				25953414111CD2F500DC48A6 /* Jigsaw31.png */,
 				25953415111CD2F500DC48A6 /* Jigsaw32.png */,
-				25953416111CD2F500DC48A6 /* Jigsaw33.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -527,11 +527,11 @@
 				25953430111CD2F500DC48A6 /* Jigsaw30.png in Resources */,
 				25953431111CD2F500DC48A6 /* Jigsaw31.png in Resources */,
 				25953432111CD2F500DC48A6 /* Jigsaw32.png in Resources */,
-				25953433111CD2F500DC48A6 /* Jigsaw33.png in Resources */,
 				25D68B5811512B87002552AC /* curve02.crv in Resources */,
 				25D68B8F11512E72002552AC /* curve03.crv in Resources */,
 				25D68BAC1151319E002552AC /* curve04.crv in Resources */,
 				25F4892111522BC700360695 /* buttons.png in Resources */,
+				252B79CA1153CEBC004ECC30 /* Jigsaw.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

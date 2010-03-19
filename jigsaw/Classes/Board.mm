@@ -260,9 +260,36 @@ using namespace Renzo;
 		barPos.y = trayBottom - pieceHeight * 0.5;
 		barPos.z = 0.0f;
 		
-		// display text information
-		title = [[Texture2D alloc] initWithString:@"Parrot in Japan" dimensions:CGSizeMake(128, 32) alignment:UITextAlignmentCenter fontName:@"Zapfino" fontSize:12.0f];
-	}
+		// load file Jigsaw.txt
+		dictFileCaption = [NSMutableDictionary dictionary];
+		
+		NSString* path = [[NSBundle mainBundle] pathForResource: @"Jigsaw.txt" ofType: NULL];
+		const char* cFile = [path cStringUsingEncoding: [NSString defaultCStringEncoding]];
+		
+		FILE* f = fopen(cFile, "r");
+		char fileName[128];
+		char caption[128];
+		if (f) {
+			while ( ! feof(f) && 
+				   fgets(fileName, 128, f) != NULL &&
+				   fgets(caption, 128, f) != NULL &&
+				   fileName[0] != '\n'
+			) {
+				char * c; // remove ending \n, which causes image file not found to load.
+				c = fileName;	while (*c != '\n') ++c; *c = '\0';
+				c = caption;	while (*c != '\n') ++c; *c = '\0';
+				NSString* strFileName = [NSString stringWithCString: fileName];
+				NSString* strCaption  = [NSString stringWithCString: caption]; 
+				[dictFileCaption setObject: strCaption forKey: strFileName];
+			}
+		}
+		fclose(f);
+		
+		// get current file name
+		enumFile		= [dictFileCaption keyEnumerator];
+		[self nextPhoto];
+		
+		}
 	return self;
 }
 
@@ -299,11 +326,23 @@ using namespace Renzo;
 	[super dealloc];
 }
 
+- (void) nextPhoto {
+	curFileName = [enumFile nextObject];
+	if (curFileName == NULL) {
+		enumFile = [dictFileCaption keyEnumerator]; // get new enumerator
+		curFileName = [enumFile nextObject];	
+	}
+	curCaption = [dictFileCaption objectForKey:curFileName];
+	
+}
+
 - (void) loadResources {
 	// try to load a texture
-	
-	texPhoto = [[TextureManager instance] loadTexture3:@"Jigsaw07.png"];
+	texPhoto = [[TextureManager instance] loadTexture3: curFileName];
 	texButtons = [[TextureManager instance] loadTexture4:@"buttons.png"];
+	// display text information
+	title = [[Texture2D alloc] initWithString: curCaption dimensions:CGSizeMake(128, 32) alignment:UITextAlignmentCenter fontName:@"Zapfino" fontSize:12.0f];
+	
 	
 	// generate texture coordinates
 	[self genTexCoords];
