@@ -17,6 +17,7 @@
 
 @interface CurveType : NSObject {
 @private
+	int curveTypeID;
 	Curve* curve;		// the curve object that contains the original curve points
 	int style;			// an integer representing the combination of avaible curve styles (e.g., flip horizontal = 1, flip vertical = 2, flip both = 1 + 2 = 3)
 	float scaleX, scaleY;
@@ -28,6 +29,7 @@
 	 */
 }
 
+@property (nonatomic, readonly) int curveTypeID;
 @property (nonatomic, readonly) Curve* curve;
 @property (nonatomic, readonly) int style;
 @property (nonatomic, assign) float scaleX, scaleY;
@@ -39,16 +41,16 @@
  /**
  Constructor
  */
-- (id) initWithCurve: (Curve*) _curve: (int) _style;
+- (id) initWithCurve: (Curve*) _curve: (int) _style: (int)_id;
 /**
  Clone a new curve type with the same curve but reset all scale values to 1
  */
-- (CurveType*) clone;
+//- (CurveType*) clone;
 
 /**
  Clone a new curve type with the same curve but flip scale X and Y
  */
-- (CurveType*) cloneFlip;
+//- (CurveType*) cloneFlip;
 
 /**
  Compatibility check when two curves (pieces) are placed side by side

@@ -7,6 +7,7 @@
 //
 
 #import "Board.h"
+#import "Jigsaw.h"
 #import "PieceMeshFactory.h"
 #import "TextureManager.h"
 #import "Constant.h"
@@ -19,248 +20,21 @@ using namespace Renzo;
 @implementation Board
 @synthesize width, height;
 
-- (id) initWithSize: (int) _width : (int) _height {
+- (id) init {
 	if ((self = [super init]) != NULL) {
-		width = _width;
-		height = _height;
-		nbPieces = width * height;
-		
-		// screen
-		screenRect = [[UIScreen mainScreen] bounds];
-		screenSize = fmin(screenRect.size.width, screenRect.size.height);
-		// origin
-		center.x = screenRect.size.width / 2.0f;
-		center.y = screenRect.size.height / 2.0f;
-		
-		// piece size
-		minNumPieces = fmax(height, width);
-		pieceWidth = screenSize / minNumPieces;
-		pieceHeight = screenSize / minNumPieces; 
-		
-		//float pieceWidth = 128.0f;
-		//float pieceHeight = 128.0f;
-		scaleX = pieceWidth / 128.0f;
-		scaleY = pieceHeight / 128.0f;
-		
-		// generate geometry and obtain maximum dimension of a piece
-		maxPieceWidth	= 0;
-		maxPieceHeight	= 0;
-		[self createPiecesGeometry];
-		// remember to scale
-		maxPieceWidth	*= scaleX;
-		maxPieceHeight	*= scaleY;
-		
-		//scaleX *= 0.7f;
-		//scaleY *= 0.7f;
-		// top left coordinates of the top left piece
-		if (minNumPieces % 2 == 0) { // even pieces on a row
-			y0 = (minNumPieces / 2 - 0.5) * pieceHeight;
-			x0 = - (minNumPieces / 2 - 0.5) * pieceWidth;
-		} else { // odd pieces on a row
-			y0 = (minNumPieces / 2) * pieceHeight;
-			x0 = - (minNumPieces / 2 ) * pieceWidth;
-		}
-		x1 = x0 + screenSize;
-		y1 = y0 - screenSize;
-		
-		// selected piece info
-		selectedIndex = -1; 
-		selectedColor.x = SELECTED_COLOR_LOWER_RED;
-		selectedColor.y = SELECTED_COLOR_LOWER_GREEN;
-		selectedColor.z = SELECTED_COLOR_LOWER_BLUE;
-		selectedColorDelta.x = (SELECTED_COLOR_UPPER_RED - SELECTED_COLOR_LOWER_RED) / SELECTED_COLOR_CHANGE_FRAMES;
-		selectedColorDelta.y = (SELECTED_COLOR_UPPER_GREEN - SELECTED_COLOR_LOWER_GREEN) / SELECTED_COLOR_CHANGE_FRAMES;
-		selectedColorDelta.z = (SELECTED_COLOR_UPPER_BLUE - SELECTED_COLOR_LOWER_BLUE) / SELECTED_COLOR_CHANGE_FRAMES;
-		
-		// piece position (before scale)
-		correctPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
-		currentPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
-		oldPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
-		
-		float x, y;
-		y = y0;
-		for (int i = 0; i < height; ++i) {
-			x = x0;
-			for (int j = 0; j < width; ++j) {
-				int index = i * width + j;
-				correctPosition[index].x = x;
-				correctPosition[index].y = y;
-				correctPosition[index].z = 0.0f;
-				
-				currentPosition[index] = correctPosition[index];
-				// next
-				x += pieceWidth;
-			}
-			y -= pieceHeight;
-		} 
-		
-		//
-		// tray settings
-		//
-		// top offset of the entire board
-		//[self setTopOffset: pieceHeight * 1.1f];
-		if (width <= 6) {
-			[self setTopOffset: screenSize - center.y - 4]; // piece is big enough
-		} else {
-			[self setTopOffset: screenSize - center.y - 20]; // piece is too small such that dragging at the status bar should be avoided.
-		}
-		//trayTop		= y + 0.2f * pieceHeight;; // let tray top be half piece after the board
-		trayTop = (y + 0.5f * pieceHeight) - 16;
-		//trayBottom	= y - 1.5f * pieceHeight;
-		//trayTop		= -(screenRect.size.width + top) + (center.y - top);
-		//trayBottom	= -(screenRect.size.height - 16) + (center.y);
-		//trayBottom		= (y0 + 0.5f * pieceHeight) - screenRect.size.height + 16 - top;
-		//trayBottom = -screenRect.size.height + center.y - pieceHeight * 0.25 - 16;
-		trayBottom = -screenRect.size.height + center.y - pieceHeight * 0.25 - 16;
-		
-		lineVerts[0] = -center.x; lineVerts[1] = trayTop; lineVerts[2] = 0.0f;
-		lineVerts[3] = +center.x; lineVerts[4] = trayTop; lineVerts[5] = 0.0f;
-		lineVerts[6] = -center.x; lineVerts[7] = trayBottom; lineVerts[8] = 0.0f;
-		lineVerts[9] = +center.x; lineVerts[10] = trayBottom; lineVerts[11] = 0.0f;
-		
-		/*
-						nbPiecesPerTrayLine		= 3;
-		if (width > 5)	nbPiecesPerTrayLine		= 4;
-		if (width > 7)  nbPiecesPerTrayLine		= 5;
-		*/
-		nbPiecesPerTrayLine = ceil(1.0f * screenSize / maxPieceWidth) - 1;
-		
-		nbTrayLines				= (nbPieces + nbPiecesPerTrayLine - 1) / nbPiecesPerTrayLine;
-		curTrayLine				= 0;
-		nbMaxPiecesInTray		= nbPiecesPerTrayLine * nbTrayLines;
-		
-		trayPieces		= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
-		oldTrayPieces	= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
-		
-		pieceLocation		= (int*) malloc(sizeof(int) * nbPieces);
-		oldPieceLocation	= (int*) malloc(sizeof(int) * nbPieces);
-		
-		cellStat		= (int*) malloc(sizeof(int) * nbPieces);
-		oldCellStat		= (int*) malloc(sizeof(int) * nbPieces);
-		
-		nbPiecesInTray			= 0;
-		for (int i = 0; i < nbPieces; ++i) {
-			pieceLocation[i] = LOCATION_ON_BOARD; // each piece is on board. 
-			// Note that a piece on board may not be in its correct location. But at start it does.
-			cellStat[i] = i; // cell is occupied with its correct piece.
-		}
-		for (int i = 0; i < nbMaxPiecesInTray; ++i) {
-			trayPieces[i] = -1;
-		}
-		
-		//trayPieceWidth = pieceWidth * 1.5f;
-		trayPieceWidth = maxPieceWidth;
-		float gap = (screenSize - nbPiecesPerTrayLine * trayPieceWidth) / (nbPiecesPerTrayLine + 1.0f);
-		//float trayPieceX0 = - (trayPieceWidth + gap);
-		float trayPieceX0 = - (center.x - gap) + 0.5f * trayPieceWidth;
-		//float trayPieceY0 = 0.5f * (trayTop + -center.y) - pieceHeight * 0.5f;
-		//float trayPieceY0 = 0.4f * (trayTop) + 0.6f * (trayBottom);
-		//float trayPieceY0 = trayTop - pieceHeight * 2.0f / 2;
-		float trayPieceY0 = trayBottom + 0.3f * maxPieceHeight;
-		float tx = trayPieceX0;
-		float ty = trayPieceY0;
-		trayPieceCorrectPosition = (struct JPoint*) malloc(sizeof(struct JPoint) * nbPiecesPerTrayLine);
-		for (int i = 0; i < nbPiecesPerTrayLine; ++i) {
-			trayPieceCorrectPosition[i].x = tx;
-			trayPieceCorrectPosition[i].y = ty;
-			trayPieceCorrectPosition[i].z = 0.0f;
-			
-			tx += trayPieceWidth + gap;
-		}
-		
-		// * randomization * //
-		//randomSeed(0);
-		srand(time(NULL));
-		//
-		// start up board information
-		//
-		nbMissingPieces = 0;
-		if (nbMissingPieces == 0)
-			nbMissingPieces = randomInteger(width * height * 0.25f, width * height * 0.75f);
-		nbPiecesInTray = nbMissingPieces;
-		nonEmptyTrayLines = ceil(nbPiecesInTray * 1.0f / nbPiecesPerTrayLine);
-		
-		// create the missing pieces' indices
-		missing = (int*) malloc(sizeof(int) * nbPieces);
-		for (int i = 0; i < nbPieces; ++i) 
-			missing[i] = i;
-		
-		for (int i = nbPieces - 1; i >= 0; --i) {
-			int r = randomInteger(0, i);
-			// swap
-			swap(missing[r], missing[i]);
-		}
-		
-		// extract nbMissingPieces consecutive indices
-		missingStart = randomInteger(0, nbPieces - nbMissingPieces);
-		missingEnd = missingStart + nbMissingPieces - 1;
-		
-		int k = 0;
-		printf("Index: ");
-		for (int i = missingStart; i < missingEnd; ++i) {
-			int index = missing[i];
-			cellStat[index] = CELL_STAT_EMPTY; // missing piece makes its correct occupied cell empty
-			
-			printf("%d\t", index);
-			// 3 first pieces are visible
-			if (k < nbPiecesPerTrayLine) {
-				pieceLocation[index] = LOCATION_ON_TRAY_VISIBLE;
-			} else {
-				pieceLocation[index] = LOCATION_ON_TRAY_NOT_VISIBLE;
-			}
-			trayPieces[k] = index;
-			
-			// set position
-			currentPosition[index] = trayPieceCorrectPosition[k % nbPiecesPerTrayLine];
-			
-			++k;
-		}
-		
-		
-		
-		/*
-		int total = width * height;
-		//pieceModels = (PieceModel*) malloc(sizeof(PieceModel) * total);
-		pieces = [NSMutableArray arrayWithCapacity: total]; 
-		for (int i = 0; i < total; ++i) {
-			PieceModel* p = [[PieceModel alloc] initWithUid: self: i];
-			[pieceModels addObject:p];
-		}*/
-		
-		// ask to generate texture coordinates
-		//genTexCoords = false;
+		jigsaw		= [Jigsaw instance];
 		
 		// event queue
 		qTouch = (struct EventJPoint*) malloc (sizeof(struct EventJPoint) * QUEUE_SIZE);
-		head = 0; tail = -1, count = 0;
 		
+		//
 		// render state
+		//
 		[self createAutomata];
-		renderState = rsWaitForPlayer;
-		[self switchState:tvFadeIn];	// fade in first question mark
 		
-		
-		
-		// display button position
-		float xLeft		= x0 - pieceWidth * 0.5f;
-		float xRight	= x1 - pieceWidth * 0.5f;
-		//buttonBackPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
-		//buttonNextPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
-		//buttonNewPos	= (struct JPoint*) malloc(sizeof(struct JPoint));
-		buttonBackPos.x = xLeft + 16;
-		buttonBackPos.y = trayTop - 4 / scaleY;
-		buttonBackPos.z = 0.0f;
-		buttonNextPos.x = xRight - 16;
-		buttonNextPos.y = trayTop - 4 / scaleY;
-		buttonNextPos.z = 0.0f;
-		buttonNewPos.x = xLeft + 16;
-		buttonNewPos.y = trayBottom - pieceHeight * 0.5f;
-		buttonNewPos.z = 0.0f;
-		barPos.x = trayPieceCorrectPosition[0].x;
-		barPos.y = trayBottom - pieceHeight * 0.5;
-		barPos.z = 0.0f;
-		
-		// load file Jigsaw.txt
+		//
+		// load photo list from file Jigsaw.txt
+		//
 		dictFileCaption = [NSMutableDictionary dictionary];
 		
 		NSString* path = [[NSBundle mainBundle] pathForResource: @"Jigsaw.txt" ofType: NULL];
@@ -285,11 +59,33 @@ using namespace Renzo;
 		}
 		fclose(f);
 		
-		// get current file name
-		enumFile		= [dictFileCaption keyEnumerator];
-		[self nextPhoto];
+		// get current photo enumerator
+		enumFile		= [[dictFileCaption keyEnumerator] retain];
 		
-		}
+		// button texture
+		texButtons = [[TextureManager instance] loadTexture4:@"buttons.png"];
+		
+		//
+		// set all necessary memory allocation pointer to NULL
+		//
+		correctPosition		= NULL;
+		currentPosition		= NULL;
+		oldPosition			= NULL;
+		
+		trayPieces			= NULL;
+		oldTrayPieces		= NULL;
+		
+		pieceLocation		= NULL;
+		oldPieceLocation	= NULL;
+		
+		cellStat			= NULL;
+		oldCellStat			= NULL;
+		
+		trayPieceCorrectPosition	= NULL;
+		missing						= NULL;
+		
+		title				= NULL;
+	}
 	return self;
 }
 
@@ -316,39 +112,396 @@ using namespace Renzo;
 	free(oldCellStat);
 	
 	free(qTouch);
-	
-	//free(buttonBackPos);
-	//free(buttonNextPos);
-	//free(buttonNewPos);
+	free(grid);
 	
 	[title release];
 	
 	[super dealloc];
 }
 
-- (void) nextPhoto {
-	curFileName = [enumFile nextObject];
-	if (curFileName == NULL) {
-		enumFile = [dictFileCaption keyEnumerator]; // get new enumerator
-		curFileName = [enumFile nextObject];	
+- (void) loadNextPhoto {
+	// random a size from 5 to 10
+	int w = randomInteger(5, 10);
+	[self loadNextPhoto: w :w];
+}
+
+- (void) loadNextPhoto: (int)_width :(int)_height {
+	//
+	// free all memory and start again
+	//
+	safeFree(correctPosition);
+	if (isFromFile == false)	safeFree(currentPosition);
+	safeFree(oldPosition);
+	if (isFromFile == false)	safeFree(trayPieces);
+	safeFree(oldTrayPieces);
+	if (isFromFile == false)	safeFree(pieceLocation);
+	safeFree(oldPieceLocation);
+	if (isFromFile == false)	safeFree(cellStat);
+	safeFree(oldCellStat);
+	safeFree(trayPieceCorrectPosition);
+	safeFree(missing);
+	safeFree(pieces);
+	//
+	// board size
+	//
+	width		= _width;
+	height		= _height;
+	nbPieces	= width * height;
+	
+	//
+	// screen
+	//
+	screenRect	= jigsaw.screenRect;
+	screenSize	= fmin(screenRect.size.width, screenRect.size.height);
+	
+	//
+	// origin
+	//
+	center.x = screenRect.size.width / 2.0f;
+	center.y = screenRect.size.height / 2.0f;
+	
+	//
+	// piece size
+	//
+	int minNumPieces	= max(height, width);
+	pieceWidth			= screenSize / minNumPieces;
+	pieceHeight			= screenSize / minNumPieces; 
+	scaleX				= pieceWidth / 128.0f;
+	scaleY				= pieceHeight / 128.0f;
+	
+	//
+	// generate geometry and obtain maximum dimension of a piece
+	//
+	if (isFromFile == false)
+		grid = (struct CellCurveTypes*) malloc(sizeof(struct CellCurveTypes) * height * width);
+	pieces = (Piece**) malloc(sizeof(Piece*) * height * width);
+	[self createPiecesGeometry];
+		
+	//
+	// top left coordinates of the top left piece
+	//
+	if (minNumPieces % 2 == 0) { // even pieces on a row
+		y0 =	(minNumPieces / 2 - 0.5) * pieceHeight;
+		x0 = -	(minNumPieces / 2 - 0.5) * pieceWidth;
+	} else { // odd pieces on a row
+		y0 =	(minNumPieces / 2) * pieceHeight;
+		x0 = -	(minNumPieces / 2) * pieceWidth;
+	}
+	x1 = x0 + screenSize;
+	y1 = y0 - screenSize;
+	
+	//
+	// selected piece info
+	//
+	selectedIndex			= -1; 
+	selectedColor.x			= SELECTED_COLOR_LOWER_RED;
+	selectedColor.y			= SELECTED_COLOR_LOWER_GREEN;
+	selectedColor.z			= SELECTED_COLOR_LOWER_BLUE;
+	selectedColorDelta.x	= (SELECTED_COLOR_UPPER_RED - SELECTED_COLOR_LOWER_RED) / SELECTED_COLOR_CHANGE_FRAMES;
+	selectedColorDelta.y	= (SELECTED_COLOR_UPPER_GREEN - SELECTED_COLOR_LOWER_GREEN) / SELECTED_COLOR_CHANGE_FRAMES;
+	selectedColorDelta.z	= (SELECTED_COLOR_UPPER_BLUE - SELECTED_COLOR_LOWER_BLUE) / SELECTED_COLOR_CHANGE_FRAMES;
+	
+	//
+	// piece position (before scale)
+	//
+	if (isFromFile == false)
+		currentPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
+	correctPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
+	oldPosition		= (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
+	
+	float x, y;
+	y = y0;
+	for (int i = 0; i < height; ++i) {
+		x = x0;
+		for (int j = 0; j < width; ++j) {
+			int index = i * width + j;
+			correctPosition[index].x = x;
+			correctPosition[index].y = y;
+			correctPosition[index].z = 0.0f;
+			
+			if (! isFromFile)
+				currentPosition[index] = correctPosition[index];
+			// next
+			x += pieceWidth;
+		}
+		y -= pieceHeight;
+	} 
+	
+	//
+	// tray settings
+	//
+	if (width <= 6) {
+		[self setTopOffset: screenSize - center.y - 4]; // piece is big enough
+	} else {
+		[self setTopOffset: screenSize - center.y - 20]; // piece is too small such that dragging at the status bar should be avoided.
+	}
+	
+	trayTop = (y + 0.5f * pieceHeight) - 16;
+	trayBottom = -screenRect.size.height + center.y - pieceHeight * 0.25 - 16;
+	
+	nbPiecesPerTrayLine		= ceil(1.0f * screenSize / maxPieceWidth) - 1;
+	nbTrayLines				= (nbPieces + nbPiecesPerTrayLine - 1) / nbPiecesPerTrayLine;
+	
+	nbMaxPiecesInTray		= nbPiecesPerTrayLine * nbTrayLines;
+	
+	if (isFromFile == false)
+		trayPieces			= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
+	oldTrayPieces		= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
+	
+	if (isFromFile == false)
+		pieceLocation		= (int*) malloc(sizeof(int) * nbPieces);
+	oldPieceLocation	= (int*) malloc(sizeof(int) * nbPieces);
+	
+	if (isFromFile == false)
+		cellStat			= (int*) malloc(sizeof(int) * nbPieces);
+	oldCellStat			= (int*) malloc(sizeof(int) * nbPieces);
+	
+	if (isFromFile == false) {
+		curTrayLine				= 0;
+		nbPiecesInTray			= 0;
+		for (int i = 0; i < nbPieces; ++i) {
+			pieceLocation[i] = LOCATION_ON_BOARD; // each piece is on board. 
+			// Note that a piece on board may not be in its correct location. But at start it does.
+			cellStat[i] = i; // cell is occupied with its correct piece.
+		}
+		for (int i = 0; i < nbMaxPiecesInTray; ++i) {
+			trayPieces[i] = -1;
+		}
+	}
+	
+	trayPieceWidth = maxPieceWidth;
+	float gap = (screenSize - nbPiecesPerTrayLine * trayPieceWidth) / (nbPiecesPerTrayLine + 1.0f);
+	float trayPieceX0 = - (center.x - gap) + 0.5f * trayPieceWidth;
+	float trayPieceY0 = trayBottom + 0.3f * maxPieceHeight;
+	float tx = trayPieceX0;
+	float ty = trayPieceY0;
+	trayPieceCorrectPosition = (struct JPoint*) malloc(sizeof(struct JPoint) * nbPiecesPerTrayLine);
+	for (int i = 0; i < nbPiecesPerTrayLine; ++i) {
+		trayPieceCorrectPosition[i].x = tx;
+		trayPieceCorrectPosition[i].y = ty;
+		trayPieceCorrectPosition[i].z = 0.0f;
+		
+		tx += trayPieceWidth + gap;
+	}
+	
+	//
+	// missing pieces
+	//
+	if (isFromFile == false) {
+		nbMissingPieces = 0;
+		if (nbMissingPieces == 0)
+			nbMissingPieces = randomInteger(width * height * 0.25f, width * height * 0.75f);
+		nbPiecesInTray = nbMissingPieces;
+	}
+	nonEmptyTrayLines = ceil(nbPiecesInTray * 1.0f / nbPiecesPerTrayLine);
+	
+	// create the missing pieces' indices
+	if (isFromFile == false) {
+		missing = (int*) malloc(sizeof(int) * nbPieces);
+		for (int i = 0; i < nbPieces; ++i) 
+			missing[i] = i;
+		
+		for (int i = nbPieces - 1; i >= 0; --i) {
+			int r = randomInteger(0, i);
+			// swap
+			swap(missing[r], missing[i]);
+		}
+		
+		// extract nbMissingPieces consecutive indices
+		missingStart = randomInteger(0, nbPieces - nbMissingPieces);
+		missingEnd = missingStart + nbMissingPieces - 1;
+		
+		int k = 0;
+		//printf("Index: ");
+		for (int i = missingStart; i < missingEnd; ++i) {
+			int index = missing[i];
+			cellStat[index] = CELL_STAT_EMPTY; // missing piece makes its correct occupied cell empty
+			
+			//printf("%d\t", index);
+			// 3 first pieces are visible
+			if (k < nbPiecesPerTrayLine) {
+				pieceLocation[index] = LOCATION_ON_TRAY_VISIBLE;
+			} else {
+				pieceLocation[index] = LOCATION_ON_TRAY_NOT_VISIBLE;
+			}
+			trayPieces[k] = index;
+			
+			// set position
+			currentPosition[index] = trayPieceCorrectPosition[k % nbPiecesPerTrayLine];
+			
+			++k;
+		}
+	}
+	//
+	// UI
+	//
+	float xLeft		= x0 - pieceWidth * 0.5f;
+	float xRight	= x1 - pieceWidth * 0.5f;
+	buttonBackPos.x = xLeft + 16;
+	buttonBackPos.y = trayTop - 4;
+	buttonBackPos.z = 0.0f;
+	buttonNextPos.x = xRight - 16;
+	buttonNextPos.y = trayTop - 4;
+	buttonNextPos.z = 0.0f;
+	buttonNewPos.x = xLeft + 16;
+	//buttonNewPos.y = trayBottom - pieceHeight * 0.5f;
+	//buttonNewPos.y = trayBottom - 16;
+	buttonNewPos.y = - 0.5f * screenRect.size.height - top + 16;
+	buttonNewPos.z = 0.0f;
+	barPos.x = trayPieceCorrectPosition[0].x;
+	barPos.y = trayBottom - pieceHeight * 0.5;
+	barPos.z = 0.0f;
+	
+	//
+	// new photo file and caption
+	//
+	if (isFromFile == false) {
+		curFileName = [enumFile nextObject];
+		if (curFileName == NULL) {
+			enumFile = [[dictFileCaption keyEnumerator] retain]; // get new enumerator
+			curFileName = [enumFile nextObject];	
+		}
 	}
 	curCaption = [dictFileCaption objectForKey:curFileName];
 	
-}
-
-- (void) loadResources {
 	// try to load a texture
 	texPhoto = [[TextureManager instance] loadTexture3: curFileName];
-	texButtons = [[TextureManager instance] loadTexture4:@"buttons.png"];
-	// display text information
-	title = [[Texture2D alloc] initWithString: curCaption dimensions:CGSizeMake(128, 32) alignment:UITextAlignmentCenter fontName:@"Zapfino" fontSize:12.0f];
 	
+	// display text information
+	if (title) [title release];
+	title = [[Texture2D alloc] initWithString: curCaption dimensions:CGSizeMake(240, 32) alignment:UITextAlignmentCenter fontName:@"Zapfino" fontSize:12.0f];
 	
 	// generate texture coordinates
 	[self genTexCoords];
 	
-	// copy geometry to GPU
-	[self transferGeometry];
+	// reset event queue
+	head = 0; tail = -1, count = 0;
+	
+	// reset render state
+	renderState = rsWaitForPlayer;
+	//[self switchState:tvFadeIn];	// fade in first question mark
+	
+	// isDone
+	isDone = false;
+	
+}
+
+- (void) reset {
+	
+}
+
+
+
+- (void) save: (FILE*) f {
+	// current photo
+	fprintf(f, "%s\n", [curFileName cStringUsingEncoding: NSASCIIStringEncoding]);
+	fprintf(f, "%d %d\n", width, height);
+	// grid of curve types
+	int index = 0;
+	for (int i = 0; i < height; ++i) {
+		for (int j = 0; j < width; ++j) {
+			fprintf(f, "%d %d %d %d\n", 
+				grid[index].c[CELL_LEFT].curveTypeID,
+				grid[index].c[CELL_RIGHT].curveTypeID,
+				grid[index].c[CELL_TOP].curveTypeID,
+				grid[index].c[CELL_BOTTOM].curveTypeID);
+		
+			++index;
+		}
+	}
+	// current position
+	for (int i = 0; i < nbPieces; ++i) {
+		fprintf(f, "%f %f\n", currentPosition[i].x, currentPosition[i].y);
+	}
+	// tray information
+	fprintf(f, "%d %d %d\n", nbMaxPiecesInTray, curTrayLine, nbPiecesInTray);
+	for (int i = 0; i < nbMaxPiecesInTray; ++i) {
+		fprintf(f, "%d ", trayPieces[i]);
+	}
+	fprintf(f, "\n");
+	for (int i = 0; i < nbPieces; ++i) {
+		fprintf(f, "%d ", pieceLocation[i]);
+	}
+	fprintf(f, "\n");
+	for (int i = 0; i < nbPieces; ++i) {
+		fprintf(f, "%d ", cellStat[i]);
+	}
+	fprintf(f, "\n");
+}
+
+- (void) load {
+	[self loadNextPhoto];
+}
+
+- (void) load: (FILE*) f {
+	//
+	// load photo file
+	//
+	char buffer[128];
+	fgets(buffer, 128, f);
+	char* c = buffer; while (*c != '\n') c++; *c = '\0'; // remove ending \n
+	NSString* cFileName = [[NSString stringWithCString: buffer] retain];
+	
+	if (enumFile) [enumFile release];
+	enumFile = [[dictFileCaption keyEnumerator] retain]; // get new enumerator
+	while ([cFileName compare: curFileName] != NSOrderedSame)
+		curFileName = [[enumFile nextObject] retain];	
+	curCaption = [dictFileCaption objectForKey:curFileName];
+	
+	// 
+	// board size
+	//
+	fscanf(f, "%d %d", &width, &height);
+	
+	// 
+	// grid
+	//
+	nbPieces = width * height;
+	grid = (struct CellCurveTypes*) malloc(sizeof(struct CellCurveTypes) * height * width);
+	PieceMeshFactory* factory = [PieceMeshFactory getPieceMeshFactory];
+	int idx;
+	for (int i = 0; i < nbPieces; ++i) {
+		fscanf(f, "%d", &idx);
+		grid[i].c[CELL_LEFT] = [factory getCurveTypeAtIndex:idx];
+		fscanf(f, "%d", &idx);
+		grid[i].c[CELL_RIGHT] = [factory getCurveTypeAtIndex:idx];
+		fscanf(f, "%d", &idx);
+		grid[i].c[CELL_TOP] = [factory getCurveTypeAtIndex:idx];
+		fscanf(f, "%d", &idx);
+		grid[i].c[CELL_BOTTOM] = [factory getCurveTypeAtIndex:idx];
+	}
+	
+	//
+	// current position
+	//
+	currentPosition = (struct JPoint*) malloc(nbPieces * sizeof(struct JPoint));
+	for (int i = 0; i < nbPieces; ++i) {
+		fscanf(f, "%f %f", &currentPosition[i].x, &currentPosition[i].y);
+	}
+	
+	//
+	// tray information
+	//
+	fscanf(f, "%d %d %d", &nbMaxPiecesInTray, &curTrayLine, &nbPiecesInTray);
+	trayPieces			= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
+	for (int i = 0; i < nbMaxPiecesInTray; ++i) {
+		fscanf(f, "%d", &trayPieces[i]);
+	}
+	pieceLocation		= (int*) malloc(sizeof(int) * nbPieces);
+	for (int i = 0; i < nbPieces; ++i) {
+		fscanf(f, "%d", &pieceLocation[i]);
+	}
+	cellStat			= (int*) malloc(sizeof(int) * nbPieces);
+	for (int i = 0; i < nbPieces; ++i) {
+		fscanf(f, "%d", &cellStat[i]);
+	}
+	
+	isFromFile = true;
+	
+	// load the remaining
+	[self loadNextPhoto: width :height];
+	
+	isFromFile = false; // first time only
 }
 
 - (void) genTexCoords {
@@ -395,7 +548,8 @@ using namespace Renzo;
 
 - (void) createPiecesGeometry {
 	// allocate pieces array
-	pieces = (Piece**) malloc(sizeof(Piece*) * height * width);
+	maxPieceWidth	= 0;
+	maxPieceHeight	= 0;
 	
 	// generate piece meshes
 	PieceMeshFactory* factory = [PieceMeshFactory getPieceMeshFactory];
@@ -411,51 +565,71 @@ using namespace Renzo;
 	//NSMutableArray* verCurveTypes = [NSMutableArray arrayWithCapacity:nbVerCurveTypes];
 	
 	// create a grid mesh
-	struct CellCurveTypes* grid = (struct CellCurveTypes*) malloc(sizeof(struct CellCurveTypes) * height * width);
-	
-	// cell edge order (clockwise, from 12: 0, 1, 3, 2) -> edge 0 is opposite to edge 3, edge 1 is opposite to edge 2
-	for (int i = 0; i < height; ++i) {
-		int t = i - 1;
-		int b = i + 1;
-		
-		for (int j = 0; j < width; ++j) {
-			// create a cell with 4 neighbor curve types
-			int l = j - 1;
-			int r = j + 1;
-			int index = i * width + j;
-			int indexLeft = i * width + l;
-			//int indexRight = i * width + r;
-			int indexTop = t * width + j;
-			//int indexBottom = b * width + j;
-			if (l < 0)
-				grid[index].c[CELL_LEFT] = curveTypeFlat; //NULL;
-			else {
+	if (isFromFile == false) {
+		// cell edge order (clockwise, from 12: 0, 1, 3, 2) -> edge 0 is opposite to edge 3, edge 1 is opposite to edge 2
+		for (int i = 0; i < height; ++i) {
+			int t = i - 1;
+			int b = i + 1;
+			
+			for (int j = 0; j < width; ++j) {
+				// create a cell with 4 neighbor curve types
+				int l = j - 1;
+				int r = j + 1;
+				int index = i * width + j;
+				int indexLeft = i * width + l;
+				//int indexRight = i * width + r;
+				int indexTop = t * width + j;
+				//int indexBottom = b * width + j;
+				if (l < 0)
+					grid[index].c[CELL_LEFT] = curveTypeFlat; //NULL;
+				else {
+					int x = (grid[indexLeft].c[CELL_RIGHT].scaleX / 2 + 0.5); // change [-1, 1] to [0, 1]
+					int y = (grid[indexLeft].c[CELL_RIGHT].scaleY / 2 + 0.5);
+					int current = x * 2 + y;
+					//int flip = 3 - x * 2 + y;
+					//int offset = flip - current;
+					
+					int flip = 3 - grid[indexLeft].c[CELL_RIGHT].curveTypeID % 4;
+					int flipIndex = (int)(grid[indexLeft].c[CELL_RIGHT].curveTypeID / 4) * 4 + flip;
+					//grid[index].c[CELL_LEFT] = [grid[indexLeft].c[CELL_RIGHT] cloneFlip];
+					// no need to clone. The flipped version (get current scale and multiply with -1, -1) are stored at index + 3 relative to current index.
+					//grid[index].c[CELL_LEFT] = [factory getCurveTypeAtIndex: grid[indexLeft].c[CELL_RIGHT].curveTypeID + offset];
+					grid[index].c[CELL_LEFT] = [factory getCurveTypeAtIndex: flipIndex];
+				}
+				if (r >= width)
+					grid[index].c[CELL_RIGHT] = curveTypeFlat; //NULL;
+				else
+					grid[index].c[CELL_RIGHT] = [factory getRandomCurveType]; //[verCurveTypes objectAtIndex:0];
 				
-				grid[index].c[CELL_LEFT] = [grid[indexLeft].c[CELL_RIGHT] cloneFlip];
+				if (t < 0)
+					grid[index].c[CELL_TOP] = curveTypeFlat; //NULL;
+				else {
+					//grid[index].c[CELL_TOP] = [grid[indexTop].c[CELL_BOTTOM] cloneFlip];
+					int x = (grid[indexTop].c[CELL_BOTTOM].scaleX / 2 + 0.5); // change [-1, 1] to [0, 1]
+					int y = (grid[indexTop].c[CELL_BOTTOM].scaleY / 2 + 0.5);
+					int current = x * 2 + y;
+					//int flip = 3 - x * 2 + y;
+					//int offset = flip - current;
+					
+					int flip = 3 - grid[indexTop].c[CELL_BOTTOM].curveTypeID % 4;
+					int flipIndex = (int)(grid[indexTop].c[CELL_BOTTOM].curveTypeID / 4) * 4 + flip;
+					//grid[index].c[CELL_TOP] = [factory getCurveTypeAtIndex: grid[indexTop].c[CELL_BOTTOM].curveTypeID + offset];
+					grid[index].c[CELL_TOP] = [factory getCurveTypeAtIndex: flipIndex];
+				}
+				
+				if (b >= height)
+					grid[index].c[CELL_BOTTOM] = curveTypeFlat; //NULL;
+				else
+					grid[index].c[CELL_BOTTOM] = [factory getRandomCurveType]; //[horCurveTypes objectAtIndex:0];
+				/*
+				 grid[index].c[CELL_TOP] = curveType;
+				 grid[index].c[CELL_BOTTOM] = curveType;
+				 grid[index].c[CELL_LEFT] = curveType;
+				 grid[index].c[CELL_RIGHT] = curveType;
+				 */
 			}
-			if (r >= width)
-				grid[index].c[CELL_RIGHT] = curveTypeFlat; //NULL;
-			else
-				grid[index].c[CELL_RIGHT] = [factory getRandomCurveType]; //[verCurveTypes objectAtIndex:0];
-			
-			if (t < 0)
-				grid[index].c[CELL_TOP] = curveTypeFlat; //NULL;
-			else
-				grid[index].c[CELL_TOP] = [grid[indexTop].c[CELL_BOTTOM] cloneFlip];
-			
-			if (b >= height)
-				grid[index].c[CELL_BOTTOM] = curveTypeFlat; //NULL;
-			else
-				grid[index].c[CELL_BOTTOM] = [factory getRandomCurveType]; //[horCurveTypes objectAtIndex:0];
-			/*
-			 grid[index].c[CELL_TOP] = curveType;
-			 grid[index].c[CELL_BOTTOM] = curveType;
-			 grid[index].c[CELL_LEFT] = curveType;
-			 grid[index].c[CELL_RIGHT] = curveType;
-			 */
 		}
 	}
-	
 	// create and attach piece meshes to piece views
 	for (int i = 0; i < height; ++i) {
 		for (int j = 0; j < width; ++j) {
@@ -471,8 +645,9 @@ using namespace Renzo;
 		}
 	}
 	
-	// clean up
-	free(grid);
+	// remember to scale the maxPieceWidth and maxPieceHeight
+	maxPieceWidth	*= scaleX;
+	maxPieceHeight	*= scaleY;
 }
 
 - (void) renderBoard {
@@ -650,7 +825,7 @@ using namespace Renzo;
 	glEnableClientState(GL_VERTEX_ARRAY);
 	
 	// bar info
-	const float barWidth2	= 48.0f;
+	const float barWidth2	= 28.0f;
 	const float barHeight2	= 12.0f;
 	const GLfloat barTexCoords[] = {
 		70.0f / 128, (64 - 50.0f) / 64,
@@ -790,7 +965,7 @@ using namespace Renzo;
 	
 	glPushMatrix();
 	glTranslatef(0.0f, top, 0.0f);
-	[title drawAtPoint: CGPointMake(0.0f, trayTop)];
+	[title drawAtPoint: CGPointMake(0.0f, buttonBackPos.y)];
 	glPopMatrix();
 }
 
@@ -800,6 +975,7 @@ using namespace Renzo;
 	
 	switch (renderState) {
 		case rsWaitForPlayer:
+		case rsGameOver:
 			[self renderBoard];
 			[self renderTitle];
 			break;
@@ -815,7 +991,7 @@ using namespace Renzo;
 
 - (void) update: (int) delta {
 	// flashing selected piece
-	float ratio = delta * 0.1f;
+	float ratio = delta * 0.006;
 	selectedColor.x += selectedColorDelta.x * ratio;
 	selectedColor.y += selectedColorDelta.y * ratio;
 	selectedColor.z += selectedColorDelta.z * ratio;
@@ -1007,6 +1183,33 @@ using namespace Renzo;
 	return false;
 }
 
+- (bool) testHitNew: (struct JPoint) p {
+	float Ox = center.x;
+	float Oy = center.y - top;
+	
+	float X = (p.x - Ox);
+	float Y = -(p.y - Oy); // shift then flip
+	float epsilon = 8.0f;
+	
+	if (buttonNewPos.x - epsilon <= X && X <= buttonNewPos.x + epsilon &&
+		buttonNewPos.y - epsilon <= Y && Y <= buttonNewPos.y + epsilon) {
+		
+		// initiate a new transition
+		[jigsaw addScene: self];
+		
+		// set isDone
+		isDone = true;
+		
+		// fork a thread and load new photo
+		//[self switchState: tvLoad];
+		// load new photo
+		//[NSThread detachNewThreadSelector:@selector(loadNextPhoto) toTarget:self withObject:nil];
+		
+		return true;
+	}
+	return false;	
+}
+
 int snapped;
 - (void) onTouchMoved: (struct JPoint) p {
 	if (selectedIndex == -1) return;
@@ -1134,85 +1337,88 @@ int snapped;
 }
 
 - (void) onTouchBegan: (struct JPoint) p {
+	// record old context of the selected piece
+	oldNbPiecesInTray = nbPiecesInTray;
+	memcpy(oldPosition, currentPosition, sizeof(struct JPoint) * nbPieces);
+	memcpy(oldPieceLocation, pieceLocation, sizeof(int) * nbPieces);
+	memcpy(oldTrayPieces, trayPieces, sizeof(int) * nbMaxPiecesInTray);
+	memcpy(oldCellStat, cellStat, sizeof(int) * nbPieces);
+	
+	[self testHitPiece: p];
+	
+}
+
+- (void) onTouchEnded: (struct JPoint) p {
 	bool hit;
 	hit = [self testHitTrayUp: p];
 	if (! hit)
 		hit = [self testHitTrayDown: p];
+	if (! hit) 
+		hit = [self testHitNew: p];
 	if (! hit) {
-		// record old context of the selected piece
-		oldNbPiecesInTray = nbPiecesInTray;
-		memcpy(oldPosition, currentPosition, sizeof(struct JPoint) * nbPieces);
-		memcpy(oldPieceLocation, pieceLocation, sizeof(int) * nbPieces);
-		memcpy(oldTrayPieces, trayPieces, sizeof(int) * nbMaxPiecesInTray);
-		memcpy(oldCellStat, cellStat, sizeof(int) * nbPieces);
-		
-		[self testHitPiece: p];
-	}
-}
-
-- (void) onTouchEnded: (struct JPoint) p {
-	if (snapped == 0) {
-		// revert to the old position of the selected index
-		if (selectedIndex >= 0) {
-			nbPiecesInTray = oldNbPiecesInTray;
-			memcpy(currentPosition, oldPosition, sizeof(struct JPoint) * nbPieces);
-			memcpy(pieceLocation, oldPieceLocation, sizeof(int) * nbPieces);
-			memcpy(trayPieces, oldTrayPieces, sizeof(int) * nbMaxPiecesInTray);
-			memcpy(cellStat, oldCellStat, sizeof(int) * nbPieces);
-		}
-		
-		snapped = 1;
-	} else {
-		//
-		// remove empty tray lines
-		//
-		int* isOccupiedLine		= (int*) malloc(sizeof(int) * nbTrayLines);
-		int* outTrayLine		= (int*) malloc(sizeof(int) * nbTrayLines);
-		
-		for (int i = 0; i < nbTrayLines; ++i) {
-			int isEmpty = 1;
-			for (int j = 0; j < nbPiecesPerTrayLine; ++j) {
-				int trayIndex = i * nbPiecesPerTrayLine + j;
-				if (trayPieces[trayIndex] != -1) { 
-					isEmpty = 0;
-					break;
+		if (snapped == 0) {
+			// revert to the old position of the selected index
+			if (selectedIndex >= 0) {
+				nbPiecesInTray = oldNbPiecesInTray;
+				memcpy(currentPosition, oldPosition, sizeof(struct JPoint) * nbPieces);
+				memcpy(pieceLocation, oldPieceLocation, sizeof(int) * nbPieces);
+				memcpy(trayPieces, oldTrayPieces, sizeof(int) * nbMaxPiecesInTray);
+				memcpy(cellStat, oldCellStat, sizeof(int) * nbPieces);
+			}
+			
+			snapped = 1;
+		} else {
+			//
+			// remove empty tray lines
+			//
+			int* isOccupiedLine		= (int*) malloc(sizeof(int) * nbTrayLines);
+			int* outTrayLine		= (int*) malloc(sizeof(int) * nbTrayLines);
+			
+			for (int i = 0; i < nbTrayLines; ++i) {
+				int isEmpty = 1;
+				for (int j = 0; j < nbPiecesPerTrayLine; ++j) {
+					int trayIndex = i * nbPiecesPerTrayLine + j;
+					if (trayPieces[trayIndex] != -1) { 
+						isEmpty = 0;
+						break;
+					}
+				}
+				isOccupiedLine[i] = 1 - isEmpty;
+			}
+			// prefix sum to compute the new output tray lines
+			outTrayLine[0] = 0;
+			for (int i = 1; i < nbTrayLines; ++i) {
+				outTrayLine[i] = outTrayLine[i - 1] + isOccupiedLine[i - 1];
+			}
+			nonEmptyTrayLines = outTrayLine[nbTrayLines - 1] + isOccupiedLine[nbTrayLines - 1];
+			
+			// stream compaction
+			for (int i = 0; i < nbTrayLines; ++i) {
+				if (isOccupiedLine[i]) {
+					if (i != outTrayLine[i]) {
+						memcpy(trayPieces + outTrayLine[i] * nbPiecesPerTrayLine, trayPieces + i * nbPiecesPerTrayLine, sizeof(int) * nbPiecesPerTrayLine);
+						memset(trayPieces + i * nbPiecesPerTrayLine, 0xFF, sizeof(int) * nbPiecesPerTrayLine); // -1
+					}
 				}
 			}
-			isOccupiedLine[i] = 1 - isEmpty;
-		}
-		// prefix sum to compute the new output tray lines
-		outTrayLine[0] = 0;
-		for (int i = 1; i < nbTrayLines; ++i) {
-			outTrayLine[i] = outTrayLine[i - 1] + isOccupiedLine[i - 1];
-		}
-		nonEmptyTrayLines = outTrayLine[nbTrayLines - 1] + isOccupiedLine[nbTrayLines - 1];
-		
-		// stream compaction
-		for (int i = 0; i < nbTrayLines; ++i) {
-			if (isOccupiedLine[i]) {
-				if (i != outTrayLine[i]) {
-					memcpy(trayPieces + outTrayLine[i] * nbPiecesPerTrayLine, trayPieces + i * nbPiecesPerTrayLine, sizeof(int) * nbPiecesPerTrayLine);
-					memset(trayPieces + i * nbPiecesPerTrayLine, 0xFF, sizeof(int) * nbPiecesPerTrayLine); // -1
-				}
+			
+			//
+			// if snapped, count the nbPiecesInTray again for consistency
+			//
+			nbPiecesInTray = 0;
+			for (int i = 0; i < nbPieces; ++i) {
+				if (pieceLocation[i] != LOCATION_ON_BOARD)
+					nbPiecesInTray++;
 			}
+			
+			// check if all pieces are in correct position
+			if ([self isComplete]) {
+				[self switchState: tvAllCorrect];
+			}
+			
+			free(isOccupiedLine);
+			free(outTrayLine);
 		}
-		
-		//
-		// if snapped, count the nbPiecesInTray again for consistency
-		//
-		nbPiecesInTray = 0;
-		for (int i = 0; i < nbPieces; ++i) {
-			if (pieceLocation[i] != LOCATION_ON_BOARD)
-				nbPiecesInTray++;
-		}
-		
-		// check if all pieces are in correct position
-		if ([self isComplete]) {
-			[self switchState: tvAllCorrect];
-		}
-		
-		free(isOccupiedLine);
-		free(outTrayLine);
 	}
 }
 
@@ -1232,10 +1438,16 @@ int snapped;
 	
 	// transition
 	automata[rsWaitForPlayer][tvFadeIn] = rsTransitionQuestionFadeIn;
+	automata[rsWaitForPlayer][tvAllCorrect] = rsGameOver;
+	automata[rsWaitForPlayer][tvLoad] = rsLoading;
+	
 	automata[rsTransitionQuestionFadeIn][tvEnd] = rsWaitForPlayer;
 	
 	// game over
-	automata[rsWaitForPlayer][tvAllCorrect] = rsGameOver;
+	automata[rsGameOver][tvLoad] = rsLoading;	
+	
+	// loading
+	automata[rsLoading][tvEnd] = rsWaitForPlayer;
 }
 
 - (void) switchState: (enum TransitionValue) transitionValue {
@@ -1290,6 +1502,20 @@ int snapped;
 			return false;
 	}
 	return true;
+}
+
+- (bool) isDone {
+	return isDone;
+}
+
+- (void) onShowBegan {
+	// load new photo
+	if (isDone)
+		[self loadNextPhoto];
+}
+
+- (void) onShowEnded {
+	isDone = false;
 }
 
 @end

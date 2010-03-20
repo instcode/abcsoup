@@ -38,7 +38,8 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
     NSTimeInterval animationInterval;
 	
 	// Jigsaw puzzle board
-	Board* board;
+	//Board* board;
+	Jigsaw* jigsaw;
 }
 
 @property NSTimeInterval animationInterval;

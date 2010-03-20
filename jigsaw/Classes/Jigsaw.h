@@ -7,20 +7,44 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Board.h"
-#include "RenzoTimer.h"
 
+#import "Renderable.h"
+
+#include "RenzoTimer.h"
 using namespace Renzo;
+
+@class Board; // forward declaration
+@class Blank;
+@class FadeIn;
+@class FadeOut;
+@class Splash;
+
 /*
  @desciption
  Jigsaw is the global interface for iPhone GUI to interact with the Jigsaw game core. This class is designed as a singleton
  */
-@interface Jigsaw : NSObject {
-	NSMutableArray* boards;
+@interface Jigsaw : Renderable {
+	NSMutableArray* scenes;
+	FadeIn*		fadeIn;
+	FadeOut*	fadeOut;
+	Board*		boardScene;
 	
-	Board* activeBoard;
 	Timer* timer;
+	
+	CGRect screenRect;
+	
+	enum JigsawRenderState {
+		rsSceneDefault,
+		rsSceneTransition
+	} renderState;
+	
+	int curSceneIndex, nextSceneIndex;
+	Renderable* curScene, *nextScene;
+	
+	bool firstTimeFadeIn;
 }
+
+@property (nonatomic, readonly) CGRect screenRect;
 
 /**
  @description
@@ -29,19 +53,13 @@ using namespace Renzo;
 + (Jigsaw*) instance;
 
 /**
- Add a new puzzle board. Jigsaw manages all created puzzle boards in an array.
+ Scene management
  */
-- (void) addBoard: (Board*) b;
-
-/**
- Set active board. Board b is added to board array if it is not added.
- */
-- (void) setActiveBoard: (Board*) b;
-
-/**
- Get active board.
- */
-- (Board*) getActiveBoard;
-
+- (void) addScene: (Renderable*) renderable;
+- (void) beginNextScene;
+- (void) endNextScene;
+- (void) changeRenderState: (JigsawRenderState) rs;
 - (Timer*) getTimer;
+
+- (void) save;
 @end

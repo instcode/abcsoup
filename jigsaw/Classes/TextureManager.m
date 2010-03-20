@@ -20,9 +20,14 @@ static TextureManager* texManager;
 
 - (id) init {
 	if ((self = [super init]) != NULL) {
-		dictTexture = [NSMutableDictionary dictionary];
+		dictTexture = [[NSMutableDictionary dictionary] retain];
 	}
 	return self;
+}
+
+- (void) dealloc {
+	[dictTexture release];
+	[super dealloc];
 }
 
 - (GLuint) getJigsawPhoto {

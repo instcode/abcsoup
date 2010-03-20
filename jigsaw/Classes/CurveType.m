@@ -9,7 +9,7 @@
 #import "CurveType.h"
 
 @implementation CurveType
-
+@synthesize curveTypeID;
 /*
 @synthesize nbPoints, points;
 @synthesize width, height;
@@ -18,10 +18,12 @@
 @synthesize style;
 @synthesize scaleX, scaleY;
 
-- (id) initWithCurve: (Curve*) _curve: (int) _style {
+- (id) initWithCurve: (Curve*) _curve: (int) _style: (int)_id {
 	if ((self = [super init]) != NULL) {
 		curve = _curve;
 		style = _style;
+		curveTypeID = _id;
+		
 		//scaleX = 1;
 		//scaleY = 1;
 		/*
@@ -62,7 +64,7 @@
 	//free(points);
 	[super dealloc];
 }
-
+/*
 - (CurveType*) clone {
 	CurveType* newCurveType = [[CurveType alloc] initWithCurve:curve :0];
 	newCurveType.scaleX = 1;
@@ -75,7 +77,7 @@
 	newCurveType.scaleX = -scaleX;
 	newCurveType.scaleY = -scaleY;
 	return newCurveType;
-}
+}*/
 
 - (bool) isCompatibleWith: (CurveType*) aCurve {
 	if (aCurve == NULL) return false;

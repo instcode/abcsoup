@@ -45,6 +45,11 @@
 - (CurveType*) getRandomCurveType;
 
 /**
+ Get curve type based on its index
+ */
+- (CurveType*) getCurveTypeAtIndex: (int) index;
+
+/**
  Get a flat curve type for boundary pieces
  */
 - (CurveType*) getFlatCurveType;

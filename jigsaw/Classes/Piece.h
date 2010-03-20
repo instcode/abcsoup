@@ -14,7 +14,7 @@ struct TexCoord {
 	float s, t;
 };
 
-@interface Piece : NSObject<Renderable> {
+@interface Piece : Renderable {
 	int uid;	// id of the piece
 	int x, y;
 	
