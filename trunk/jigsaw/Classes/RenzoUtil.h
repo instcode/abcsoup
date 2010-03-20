@@ -13,5 +13,7 @@ namespace Renzo
 	int randomInteger(int min, int max);
 	
 	void swap(int& a, int& b);
+	
+	#define safeFree(x) if (x) { free(x); x = NULL; }
 }
 

@@ -24,7 +24,7 @@
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, assign) NSTimer *animationTimer;
 
-- (BOOL) createFramebuffer;
+- (bool) createFramebuffer;
 - (void) destroyFramebuffer;
 
 @end
@@ -65,13 +65,16 @@
         animationInterval = 1.0 / 60.0;
 		
 		// create a board and register with Jigsaw
+		/*
 		board = [[Board alloc] initWithSize:7 :7];
-		// load textures and geometry into GPU
 		[board loadResources];
-		//[board setTopOffset: 32.0f];
+		
 		Jigsaw* js = [Jigsaw instance];
 		[js addBoard: board];
 		[js setActiveBoard: board];
+		*/
+		jigsaw = [Jigsaw instance];
+		[jigsaw load];
 		
 		// one time initialization
 		//[self initView]; // not work when drawView is not called.
@@ -87,43 +90,27 @@
 }
 
 - (void)drawView {
-	[board update:10];
-	
-    [EAGLContext setCurrentContext:context];
-    
+	[EAGLContext setCurrentContext:context];
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-    // Replace the implementation of this method to do your own custom drawing
     
-    	
-	//[EAGLContext setCurrentContext:context];
-	//glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-	
     glViewport(0, 0, backingWidth, backingHeight);
     
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    //glOrthof(-1.0f, 1.0f, -1.5f, 1.5f, -1.0f, 1.0f);
     glOrthof(-160.0f, 160.0f, -240.0f, 240.0f, -1.0f, 1.0f);
-	//glMatrixMode(GL_MODELVIEW);
-    //glRotatef(3.0f, 0.0f, 0.0f, 1.0f);
 	
-	//[board genTexCoords];
-	
-    
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
         
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    
-	// set wireframe mode
 	
+	// update
+	//[board update: 10];
 	// render board
-	[board render];
-	
-	
-    
-	
-	// views drawing here
-	
+	//[board render];
+	[jigsaw update: 0];
+	[jigsaw render];
 	
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
     [context presentRenderbuffer:GL_RENDERBUFFER_OES];
@@ -139,8 +126,7 @@
 }
 
 
-- (BOOL)createFramebuffer {
-    
+- (bool)createFramebuffer {
     glGenFramebuffersOES(1, &viewFramebuffer);
     glGenRenderbuffersOES(1, &viewRenderbuffer);
     
@@ -229,6 +215,8 @@
         [EAGLContext setCurrentContext:nil];
     }
     
+	[jigsaw release];
+	
     [context release];  
     [super dealloc];
 }
@@ -237,7 +225,7 @@
 	// only single-touch at the moment (anyObject)
 	UITouch *touch = [touches anyObject];
 	
-	WindowsManager* manager = [WindowsManager getWindowsManager];
+	//WindowsManager* manager = [WindowsManager getWindowsManager];
 	
 	// get touch point
 	CGPoint touchPoint = [touch locationInView: self];
@@ -251,7 +239,7 @@
 	}*/
 	
 	struct JPoint p = {touchPoint.x, touchPoint.y, 0.0f};
-	[board onTouchEnded: p];
+	[jigsaw onTouchEnded: p];
 }
 
 
@@ -265,7 +253,7 @@
 	struct JPoint p = {touchPoint.x, touchPoint.y, 0.0f};
 	//struct EventJPoint e = {EVENT_TOUCH_BEGAN, p};
 	//[board queueTouchEvent: e];
-	[board onTouchBegan: p];
+	[jigsaw onTouchBegan: p];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -278,7 +266,7 @@
 	
 	//struct EventJPoint e = {EVENT_TOUCH_MOVED, p};
 	//[board queueTouchEvent: e];
-	[board onTouchMoved: p];
+	[jigsaw onTouchMoved: p];
 }
 
 @end

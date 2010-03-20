@@ -7,12 +7,26 @@
 //
 
 #import <UIKit/UIKit.h>
-#include "Float3.h"
+#import <OpenGLES/ES1/gl.h>
+#import "Float3.h"
+#import "Point.h"
 
-//@interface Renderable : NSObject {
-@protocol Renderable
-	- (void) update: (int) delta;
-	- (void) render;
+//@protocol Renderable
+@interface Renderable : NSObject 
+{
+}
+	
+- (void) load;				// load resources
+- (void) update: (int) delta;
+- (void) render;
+- (bool) isDone;			// scene completes its job. Next scene will comes in.
+- (void) reset;				// turn the scene back to beginning state.
+
+- (void) onTouchMoved: (struct JPoint) p;
+- (void) onTouchBegan: (struct JPoint) p;
+- (void) onTouchEnded: (struct JPoint) p;
+- (void) onShowBegan;		// called after transition
+- (void) onShowEnded;
 @end
 
 /*

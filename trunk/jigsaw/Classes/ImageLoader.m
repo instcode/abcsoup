@@ -152,6 +152,11 @@ static ImageLoader* imgLoader;
 	return imgLoader;
 }
 
+- (void) dealloc {
+	[dictImage release];
+	[super dealloc];
+}
+
 - (unsigned char*) getImagePixelData: (CGImageRef) inImage: (int) channels;
 {
     // Create the bitmap context
@@ -250,7 +255,7 @@ static ImageLoader* imgLoader;
 	 
 - (id) init {
 	if ((self = [super init]) != NULL) {
-		dictImage = [NSMutableDictionary dictionary];
+		dictImage = [[NSMutableDictionary dictionary] retain];
 	}
 	return self;
 }

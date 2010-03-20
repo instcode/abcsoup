@@ -39,10 +39,13 @@ struct CellCurveTypes {
 enum RenderState {
 	rsNull,
 	rsWaitForPlayer,
+	rsGameOver,
+	rsLoading,
+	
 	rsTransitionTrayUp,
 	rsTransitionTrayDown,
 	rsTransitionQuestionFadeIn,
-	rsGameOver,
+	
 	nbRenderStates
 };
 
@@ -51,10 +54,13 @@ enum TransitionValue {
 	tvEnd,
 	tvFadeIn,
 	tvAllCorrect,	// changes to rsGameOver
+	tvLoad,			// load new photo
 	nbTransitionValues
 };
 
-@interface Board : NSObject<Renderable> {
+@class Jigsaw;
+@interface Board : Renderable {
+	Jigsaw* jigsaw;			// game manager
 	int width;				// how many cells are there in the board?
 	int height;
 	
@@ -70,14 +76,14 @@ enum TransitionValue {
 	//
 	// piece render information
 	//
-	float screenSize;
-	CGRect screenRect;
-	int minNumPieces;		// the number of pieces on a row/column (get the minimum)
+	float	screenSize;
+	CGRect	screenRect;
+	
 	float pieceWidth;		// piece size after fit to screen
 	float pieceHeight;
-	float maxPieceWidth;
+	float maxPieceWidth;	// bound of piece size when curves are added
 	float maxPieceHeight;
-	//float pieceSize;		// piece size after scaled for rendering (sometimes we don't want the pieces to fill the whole square)
+	
 	float scaleX;			// piece scale for render
 	float scaleY;
 	float x0, y0;			// top left coordinates of the top left piece
@@ -96,7 +102,6 @@ enum TransitionValue {
 	
 	// tray information
 	float trayTop, trayBottom;			// the vertical line separating the board (top) and the tray (bottom) which is used to store unused pieces
-	float lineVerts[12];	// 4 points (x, y, z)
 	
 	int nbPiecesPerTrayLine;
 	int nbTrayLines;
@@ -127,6 +132,9 @@ enum TransitionValue {
 	// nbMissingPieces is also the number of pieces stayed in tray at startup time
 	// nbMissingPieces corresponds to a consecutive section on missing integer array (above).
 	
+	// grid of curve types
+	struct CellCurveTypes* grid;
+	
 	// event queue
 	struct EventJPoint* qTouch;
 	int head, tail, count;
@@ -144,12 +152,15 @@ enum TransitionValue {
 	struct JPoint barPos;
 	
 	// text display
-	
 	Texture2D* title;
 	NSString* curFileName;
 	NSString* curCaption;
 	NSMutableDictionary*	dictFileCaption;		// map between file name and photo caption
 	NSEnumerator*			enumFile;				// enumerator over file name (key) in dictionary
+	
+	// done playing this board; ready to switch to new board
+	bool isDone;
+	bool isFromFile;								// differentiate between loaded data and random generated data at start
 }
 
 @property (nonatomic, readonly) int width;
@@ -158,7 +169,7 @@ enum TransitionValue {
 /**
  Create a new board data with specified size
  */
-- (id) initWithSize: (int) width: (int) height;
+- (id) init;
 
 /**
  Set board render offset from top of the screen
@@ -183,15 +194,15 @@ enum TransitionValue {
 /**
  Load texture objects
  */
-- (void) loadResources;
+//- (void) loadResources;
 
 /**
  See which piece is hit 
  */
-- (Piece*) testHitPiece: (struct JPoint) p;
-- (bool) testHitTrayUp: (struct JPoint) p;
-- (bool) testHitTrayDown: (struct JPoint) p;
-
+- (Piece*) testHitPiece:	(struct JPoint) p;
+- (bool) testHitTrayUp:		(struct JPoint) p;
+- (bool) testHitTrayDown:	(struct JPoint) p;
+- (bool) testHitNew:		(struct JPoint) p;
 /**
  On touch event
  */
@@ -223,8 +234,13 @@ enum TransitionValue {
 - (void) renderTransition;
 
 /**
- Next photo when completed
+ Load a new photo with a specified grid size
  */
-- (void) nextPhoto;
-
+- (void) loadNextPhoto: (int)_width :(int)_height;
+/**
+ Load a new photo with a random grid size
+ */
+- (void) loadNextPhoto;
+- (void) load: (FILE*) f;
+- (void) save: (FILE*) f;
 @end

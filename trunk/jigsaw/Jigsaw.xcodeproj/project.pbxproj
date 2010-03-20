@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* JigsawAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* JigsawAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* JigsawAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* JigsawAppDelegate.mm */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2512F586115479C60088EB80 /* Splash.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2512F585115479C60088EB80 /* Splash.mm */; };
+		2512F58C1154877C0088EB80 /* Blank.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2512F58B1154877C0088EB80 /* Blank.mm */; };
+		2512F58F115489390088EB80 /* FadeIn.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2512F58E115489390088EB80 /* FadeIn.mm */; };
+		2512F67D1154AD6A0088EB80 /* Renderable.m in Resources */ = {isa = PBXBuildFile; fileRef = 2512F67C1154AD6A0088EB80 /* Renderable.m */; };
+		2512F6A01154B1F80088EB80 /* Renderable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512F67C1154AD6A0088EB80 /* Renderable.m */; };
+		2512F7331154B39D0088EB80 /* splashTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 2512F7321154B39D0088EB80 /* splashTexture.png */; };
 		2522726E10CC97B8008BA46D /* RenzoUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2522726D10CC97B8008BA46D /* RenzoUtil.cpp */; };
 		252B79CA1153CEBC004ECC30 /* Jigsaw.txt in Resources */ = {isa = PBXBuildFile; fileRef = 252B79C91153CEBC004ECC30 /* Jigsaw.txt */; };
 		2535BA2C103C4A4400323C7A /* CurveType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2535BA2B103C4A4400323C7A /* CurveType.m */; };
@@ -49,6 +55,7 @@
 		25953430111CD2F500DC48A6 /* Jigsaw30.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953413111CD2F500DC48A6 /* Jigsaw30.png */; };
 		25953431111CD2F500DC48A6 /* Jigsaw31.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953414111CD2F500DC48A6 /* Jigsaw31.png */; };
 		25953432111CD2F500DC48A6 /* Jigsaw32.png in Resources */ = {isa = PBXBuildFile; fileRef = 25953415111CD2F500DC48A6 /* Jigsaw32.png */; };
+		25A1032C1154B83A00E6906E /* FadeOut.mm in Sources */ = {isa = PBXBuildFile; fileRef = 25A1032B1154B83A00E6906E /* FadeOut.mm */; };
 		25A9C405102B259D00B3FFC0 /* PieceMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C404102B259D00B3FFC0 /* PieceMesh.m */; };
 		25A9C40B102B272A00B3FFC0 /* PieceMeshFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C40A102B272A00B3FFC0 /* PieceMeshFactory.m */; };
 		25A9C45C102D36B600B3FFC0 /* Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 25A9C45B102D36B600B3FFC0 /* Geometry.c */; };
@@ -79,9 +86,17 @@
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* JigsawAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JigsawAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* JigsawAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JigsawAppDelegate.m; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* JigsawAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JigsawAppDelegate.mm; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Jigsaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jigsaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2512F584115479C60088EB80 /* Splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Splash.h; sourceTree = "<group>"; };
+		2512F585115479C60088EB80 /* Splash.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Splash.mm; sourceTree = "<group>"; };
+		2512F58A1154877C0088EB80 /* Blank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blank.h; sourceTree = "<group>"; };
+		2512F58B1154877C0088EB80 /* Blank.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Blank.mm; sourceTree = "<group>"; };
+		2512F58D115489390088EB80 /* FadeIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeIn.h; sourceTree = "<group>"; };
+		2512F58E115489390088EB80 /* FadeIn.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FadeIn.mm; sourceTree = "<group>"; };
+		2512F67C1154AD6A0088EB80 /* Renderable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Renderable.m; sourceTree = "<group>"; };
+		2512F7321154B39D0088EB80 /* splashTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splashTexture.png; path = data/icons/splashTexture.png; sourceTree = "<group>"; };
 		25226FC010A328BD008BA46D /* EventJPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventJPoint.h; sourceTree = "<group>"; };
 		2522726810CC9722008BA46D /* RenzoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoUtil.h; sourceTree = "<group>"; };
 		2522726C10CC97B8008BA46D /* RenzoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenzoUtil.h; sourceTree = "<group>"; };
@@ -128,6 +143,8 @@
 		25953413111CD2F500DC48A6 /* Jigsaw30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw30.png; path = images/Jigsaw30.png; sourceTree = "<group>"; };
 		25953414111CD2F500DC48A6 /* Jigsaw31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw31.png; path = images/Jigsaw31.png; sourceTree = "<group>"; };
 		25953415111CD2F500DC48A6 /* Jigsaw32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Jigsaw32.png; path = images/Jigsaw32.png; sourceTree = "<group>"; };
+		25A1032A1154B83A00E6906E /* FadeOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeOut.h; sourceTree = "<group>"; };
+		25A1032B1154B83A00E6906E /* FadeOut.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FadeOut.mm; sourceTree = "<group>"; };
 		25A9C403102B259D00B3FFC0 /* PieceMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMesh.h; sourceTree = "<group>"; };
 		25A9C404102B259D00B3FFC0 /* PieceMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceMesh.m; sourceTree = "<group>"; };
 		25A9C409102B272A00B3FFC0 /* PieceMeshFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceMeshFactory.h; sourceTree = "<group>"; };
@@ -200,7 +217,7 @@
 				25EBB9BC1024577E0039D4EE /* GUI */,
 				2532A56A101F370C00E0B0B5 /* Jigsaw */,
 				1D3623240D0F684500981E51 /* JigsawAppDelegate.h */,
-				1D3623250D0F684500981E51 /* JigsawAppDelegate.m */,
+				1D3623250D0F684500981E51 /* JigsawAppDelegate.mm */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -235,6 +252,7 @@
 		257BB37F10259754004B6DFA /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				2512F7321154B39D0088EB80 /* splashTexture.png */,
 				25F4892011522BC700360695 /* buttons.png */,
 				257BB38810259777004B6DFA /* About.png */,
 				257BB38910259777004B6DFA /* Board.png */,
@@ -335,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				25A9C466102D3A7200B3FFC0 /* Renderable.h */,
+				2512F67C1154AD6A0088EB80 /* Renderable.m */,
 				256781C1106E4AF600BFCE26 /* TextureManager.h */,
 				256781C2106E4AF600BFCE26 /* TextureManager.m */,
 				256781C4106E5FE300BFCE26 /* ImageLoader.h */,
@@ -347,6 +366,14 @@
 				25CF8644108974FB00A928C0 /* Board.mm */,
 				25F48B331152635B00360695 /* Texture2D.h */,
 				25F48B341152636900360695 /* Texture2D.m */,
+				2512F584115479C60088EB80 /* Splash.h */,
+				2512F585115479C60088EB80 /* Splash.mm */,
+				2512F58A1154877C0088EB80 /* Blank.h */,
+				2512F58B1154877C0088EB80 /* Blank.mm */,
+				2512F58D115489390088EB80 /* FadeIn.h */,
+				2512F58E115489390088EB80 /* FadeIn.mm */,
+				25A1032A1154B83A00E6906E /* FadeOut.h */,
+				25A1032B1154B83A00E6906E /* FadeOut.mm */,
 			);
 			name = Render;
 			sourceTree = "<group>";
@@ -532,6 +559,8 @@
 				25D68BAC1151319E002552AC /* curve04.crv in Resources */,
 				25F4892111522BC700360695 /* buttons.png in Resources */,
 				252B79CA1153CEBC004ECC30 /* Jigsaw.txt in Resources */,
+				2512F67D1154AD6A0088EB80 /* Renderable.m in Resources */,
+				2512F7331154B39D0088EB80 /* splashTexture.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,8 +571,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2512F6A01154B1F80088EB80 /* Renderable.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* JigsawAppDelegate.m in Sources */,
+				1D3623260D0F684500981E51 /* JigsawAppDelegate.mm in Sources */,
 				28FD14FE0DC6FC130079059D /* EAGLView.mm in Sources */,
 				25BF6B87102437BD003BFE21 /* Curve.m in Sources */,
 				25EBB9C9102457980039D4EE /* AboutTableController.m in Sources */,
@@ -564,6 +594,10 @@
 				258BBF3A1089C1B900069433 /* RenzoTimer.cpp in Sources */,
 				2522726E10CC97B8008BA46D /* RenzoUtil.cpp in Sources */,
 				25F48B351152636900360695 /* Texture2D.m in Sources */,
+				2512F586115479C60088EB80 /* Splash.mm in Sources */,
+				2512F58C1154877C0088EB80 /* Blank.mm in Sources */,
+				2512F58F115489390088EB80 /* FadeIn.mm in Sources */,
+				25A1032C1154B83A00E6906E /* FadeOut.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,7 +648,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Don't Code Sign";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
