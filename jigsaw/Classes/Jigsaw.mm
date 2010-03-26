@@ -56,7 +56,8 @@ NSString* fileJigsaw = @"Jigsaw.archive";
 	NSString *archivePath = [documentsDirectory stringByAppendingPathComponent: fileJigsaw];
 	FILE* f = fopen([archivePath cStringUsingEncoding:NSASCIIStringEncoding], "r");
 	boardScene = [[Board alloc] init];	
-	if (f) {
+	//if (f) {
+	if (0) {
 		[boardScene load: f];
 		fclose(f);
 	} else {

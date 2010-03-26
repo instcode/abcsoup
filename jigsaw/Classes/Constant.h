@@ -44,3 +44,9 @@
 #define CELL_RIGHT	1
 #define CELL_BOTTOM 2
 #define CELL_LEFT	3
+
+//
+// Velocity of flick
+//
+#define VELOCITY_FLICK_X	32.0f
+#define ACCEL_FLICK_X		0.1f

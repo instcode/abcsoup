@@ -46,6 +46,9 @@ enum RenderState {
 	rsTransitionTrayDown,
 	rsTransitionQuestionFadeIn,
 	
+	rsFlickBack,
+	rsFlickNext,
+	
 	nbRenderStates
 };
 
@@ -114,6 +117,7 @@ enum TransitionValue {
 	int* trayPieces;		// indices of pieces stayed in tray
 	float trayPieceWidth;
 	float trayPieceHeight;
+	float trayPieceGap;
 	struct JPoint* trayPieceCorrectPosition; // expected position per piece to stay in tray
 	
 	int* pieceLocation;		// state where a piece is currently located. E.g., on board, on tray, etc.
@@ -161,6 +165,12 @@ enum TransitionValue {
 	// done playing this board; ready to switch to new board
 	bool isDone;
 	bool isFromFile;								// differentiate between loaded data and random generated data at start
+
+	// flick transition 
+	float velocityX;
+	float accelX;
+	float distance, bounceBackDistance, totalDistance;
+	bool isBouncingBack;
 }
 
 @property (nonatomic, readonly) int width;
@@ -219,6 +229,7 @@ enum TransitionValue {
  State management: switch from current state to a new state according to the input transition value.
  */
 - (void) switchState: (enum TransitionValue) transitionValue;
+- (void) setState: (enum RenderState) renderState;
 
 /**
  Check game complete
@@ -243,4 +254,9 @@ enum TransitionValue {
 - (void) loadNextPhoto;
 - (void) load: (FILE*) f;
 - (void) save: (FILE*) f;
+
+/**
+ Update flick transition
+ */
+- (void) updateFlick: (int) delta;
 @end
