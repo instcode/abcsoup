@@ -242,7 +242,8 @@ using namespace Renzo;
 	nbPiecesPerTrayLine		= ceil(1.0f * screenSize / maxPieceWidth) - 1;
 	nbTrayLines				= (nbPieces + nbPiecesPerTrayLine - 1) / nbPiecesPerTrayLine;
 	
-	nbMaxPiecesInTray		= nbPiecesPerTrayLine * nbTrayLines;
+	//nbMaxPiecesInTray		= nbPiecesPerTrayLine * nbTrayLines;
+	nbMaxPiecesInTray		= nbPieces; // maximum all pieces can be in tray
 	
 	if (isFromFile == false)
 		trayPieces			= (int*) malloc(sizeof(int) * nbMaxPiecesInTray);
@@ -271,6 +272,7 @@ using namespace Renzo;
 	
 	trayPieceWidth = maxPieceWidth;
 	float gap = (screenSize - nbPiecesPerTrayLine * trayPieceWidth) / (nbPiecesPerTrayLine + 1.0f);
+	trayPieceGap = gap;
 	float trayPieceX0 = - (center.x - gap) + 0.5f * trayPieceWidth;
 	float trayPieceY0 = trayBottom + 0.3f * maxPieceHeight;
 	float tx = trayPieceX0;
@@ -312,26 +314,39 @@ using namespace Renzo;
 		missingEnd = missingStart + nbMissingPieces - 1;
 		
 		int k = 0;
-		//printf("Index: ");
-		for (int i = missingStart; i < missingEnd; ++i) {
+		float xx = trayPieceCorrectPosition[0].x;
+		float yy = trayPieceCorrectPosition[0].y;
+		
+		for (int i = missingStart; i <= missingEnd; ++i) {
 			int index = missing[i];
 			cellStat[index] = CELL_STAT_EMPTY; // missing piece makes its correct occupied cell empty
 			
-			//printf("%d\t", index);
+			// now everything is visible
+			/*
 			// 3 first pieces are visible
 			if (k < nbPiecesPerTrayLine) {
 				pieceLocation[index] = LOCATION_ON_TRAY_VISIBLE;
 			} else {
 				pieceLocation[index] = LOCATION_ON_TRAY_NOT_VISIBLE;
 			}
-			trayPieces[k] = index;
 			
 			// set position
-			currentPosition[index] = trayPieceCorrectPosition[k % nbPiecesPerTrayLine];
+			//currentPosition[index] = trayPieceCorrectPosition[k % nbPiecesPerTrayLine];
+			*/
+			
+			trayPieces[k] = index;
+			pieceLocation[index] = LOCATION_ON_TRAY_VISIBLE;
+			currentPosition[index].x = xx;
+			currentPosition[index].y = yy;
+			
+			xx += trayPieceWidth + gap;
 			
 			++k;
 		}
 	}
+	// flick's total travel distance
+	totalDistance = nbPiecesPerTrayLine * (trayPieceWidth + gap);
+	
 	//
 	// UI
 	//
@@ -976,6 +991,8 @@ using namespace Renzo;
 	switch (renderState) {
 		case rsWaitForPlayer:
 		case rsGameOver:
+		case rsFlickBack:
+		case rsFlickNext:
 			[self renderBoard];
 			[self renderTitle];
 			break;
@@ -1047,6 +1064,10 @@ using namespace Renzo;
 			}
 			break;
 		}
+		case rsFlickBack:
+		case rsFlickNext:
+			[self updateFlick: delta];
+			break;
 	}
 }
 
@@ -1126,6 +1147,7 @@ using namespace Renzo;
 }
 
 - (bool) testHitTrayUp: (struct JPoint) p {
+	if (renderState != rsWaitForPlayer) return false;
 	float Ox = center.x;
 	float Oy = center.y - top;
 	
@@ -1135,6 +1157,13 @@ using namespace Renzo;
 	
 	if (buttonBackPos.x - epsilon <= X && X <= buttonBackPos.x + epsilon &&
 		buttonBackPos.y - epsilon <= Y && Y <= buttonBackPos.y + epsilon) {
+		
+		// set flickBack -> move to next page
+		velocityX	= -VELOCITY_FLICK_X;
+		accelX		= ACCEL_FLICK_X;
+		[self setState: rsFlickBack];
+		return true;
+		
 		//trayTop - epsilon <= Y && Y <= trayTop + epsilon) {
 		curTrayLine = max(0, curTrayLine - 1);
 		for (int i = 0; i < nbTrayLines; ++i) {
@@ -1155,6 +1184,7 @@ using namespace Renzo;
 }
 
 - (bool) testHitTrayDown: (struct JPoint) p {
+	if (renderState != rsWaitForPlayer) return false;
 	float Ox = center.x;
 	float Oy = center.y - top;
 	
@@ -1164,6 +1194,13 @@ using namespace Renzo;
 	
 	if (buttonNextPos.x - epsilon <= X && X <= buttonNextPos.x + epsilon &&
 		buttonNextPos.y - epsilon <= Y && Y <= buttonNextPos.y + epsilon) {
+		
+		// flickNext -> move one page back
+		velocityX	= VELOCITY_FLICK_X;
+		accelX		= -ACCEL_FLICK_X;
+		[self setState: rsFlickNext];
+		return true;
+		
 	//if (trayBottom - epsilon <= Y && Y <= trayBottom + epsilon) {
 		curTrayLine = min(nonEmptyTrayLines - 1, curTrayLine + 1);
 		for (int i = 0; i < nbTrayLines; ++i) {
@@ -1305,14 +1342,15 @@ int snapped;
 					for (int j = 0; j < nbMaxPiecesInTray; ++j) {
 						if (trayPieces[j] == -1) {
 							trayPieces[j] = oldIndex;
-							int trayLine = j / nbPiecesPerTrayLine;
-							if (trayLine == curTrayLine)
+							//int trayLine = j / nbPiecesPerTrayLine;
+							//if (trayLine == curTrayLine)
 								pieceLocation[oldIndex] = LOCATION_ON_TRAY_VISIBLE;
-							else
-								pieceLocation[oldIndex] = LOCATION_ON_TRAY_NOT_VISIBLE;
+							//else
+							//	pieceLocation[oldIndex] = LOCATION_ON_TRAY_NOT_VISIBLE;
 							// update this piece to its new location
-							int posInTrayLine = j % nbPiecesPerTrayLine;
-							currentPosition[oldIndex] = trayPieceCorrectPosition[posInTrayLine];
+							//int posInTrayLine = j % nbPiecesPerTrayLine;
+							//currentPosition[oldIndex] = trayPieceCorrectPosition[posInTrayLine];
+							currentPosition[oldIndex].x = trayPieceCorrectPosition[0].x + (j - curTrayLine * nbPiecesPerTrayLine) * (trayPieceWidth + trayPieceGap);
 							break;
 						}
 					}
@@ -1496,6 +1534,18 @@ int snapped;
 	}
 }
 
+- (void) setState: (enum RenderState) rs {
+	renderState = rs;
+	
+	switch (renderState) {
+		case rsFlickBack:
+		case rsFlickNext:
+			distance = 0.0f;
+			isBouncingBack = false;
+			break;
+	}
+}
+
 - (bool) isComplete {
 	for (int i = 0; i < width * height; ++i) {
 		if (cellStat[i] != i) 
@@ -1516,6 +1566,70 @@ int snapped;
 
 - (void) onShowEnded {
 	isDone = false;
+}
+
+- (void) updateFlick: (int) delta {
+	float fDelta = delta * 0.02f;
+	switch (renderState) {
+		case rsFlickBack:
+		case rsFlickNext:
+			if ((renderState == rsFlickNext && curTrayLine == 0) ||
+				(renderState == rsFlickBack && curTrayLine == nonEmptyTrayLines - 1)) {
+				[self setState: rsWaitForPlayer];
+				return;
+			}
+			
+			for (int i = 0; i < nbPiecesInTray; ++i) {
+				currentPosition[trayPieces[i]].x += velocityX * fDelta;
+			}
+			distance	+= fabs(velocityX) * fDelta; // record distance traveled.
+			if (velocityX > 0)
+				velocityX	= fmax(1.0f, velocityX + accelX * fDelta);
+			else
+				velocityX	= fmin(-1.0f, velocityX + accelX * fDelta);
+			
+			if (! isBouncingBack) { 
+				if (distance > totalDistance) {
+					// bound back
+					bounceBackDistance = distance - totalDistance;
+					velocityX = -velocityX * (bounceBackDistance / totalDistance) * 2.0f;
+					distance = 0.0f;
+					isBouncingBack = true;
+				} 
+			} else {
+				if (distance > bounceBackDistance) {
+					// update tray line
+					if (renderState == rsFlickNext) --curTrayLine;
+					if (renderState == rsFlickBack) ++curTrayLine;
+					
+					// fix current position of the first piece of current tray line to its correct position
+					currentPosition[trayPieces[curTrayLine * nbPiecesPerTrayLine]].x = trayPieceCorrectPosition[0].x;
+					// update remaining pieces
+					int x = trayPieceCorrectPosition[0].x - (trayPieceWidth + trayPieceGap);
+					for (int i = curTrayLine * nbPiecesPerTrayLine - 1; i >= 0; --i) {
+						currentPosition[trayPieces[i]].x = x;
+						x -= trayPieceWidth + trayPieceGap;
+					}
+					x = trayPieceCorrectPosition[0].x + (trayPieceWidth + trayPieceGap);
+					for (int i = curTrayLine * nbPiecesPerTrayLine + 1; i < nbPiecesInTray; ++i) {
+						currentPosition[trayPieces[i]].x = x;
+						x += trayPieceWidth + trayPieceGap;
+					}
+					/*
+					float overDistance = distance - bounceBackDistance;
+					for (int i = 0; i < nbPiecesInTray; ++i) {
+						currentPosition[trayPieces[i]].x += (velocityX > 0 ? -1 : 1) * overDistance;
+					}*/
+					isBouncingBack = false;
+					
+					// go back to normal rendering state
+					[self setState: rsWaitForPlayer];
+				}
+			}
+			
+			break;
+		
+	}
 }
 
 @end
